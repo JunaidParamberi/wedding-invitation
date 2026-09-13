@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Junaid Raziq & Rafeeda | You Are Invited</title>
     <meta name="description" content="A story written in the stars. You are cordially invited to the wedding of Junaid Raziq & Rafeeda — December 13, 2026">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,291 +12,229 @@
 </head>
 <body>
 
-    <!-- ========== THE DOOR SCENE ========== -->
-    <div class="door-scene" id="doorScene">
+    <!-- ========== THE DOOR ========== -->
+    <div class="door" id="door">
         <canvas id="doorParticles"></canvas>
 
-        <div class="door-frame">
-            <!-- Left Door -->
-            <div class="door-panel door-left" id="doorLeft">
-                <div class="door-surface">
-                    <div class="door-ornament-top"></div>
-                    <div class="door-pattern">
-                        <div class="geometric-star"></div>
-                        <div class="geometric-star gs-2"></div>
-                        <div class="geometric-star gs-3"></div>
-                        <div class="door-arch"></div>
-                    </div>
-                    <div class="door-handle-left"></div>
+        <!-- Arch Frame -->
+        <div class="door-arch">
+            <div class="arch-inner"></div>
+            <div class="arch-ornament">﷽</div>
+        </div>
+
+        <!-- Door Panels -->
+        <div class="door-panels">
+            <div class="door-panel panel-left" id="panelLeft">
+                <div class="panel-surface">
+                    <div class="p-ornament-top"></div>
+                    <div class="p-star"></div>
+                    <div class="p-star p-star-2"></div>
+                    <div class="p-star p-star-3"></div>
+                    <div class="p-arch"></div>
+                    <div class="p-handle"></div>
                 </div>
             </div>
-            <!-- Right Door -->
-            <div class="door-panel door-right" id="doorRight">
-                <div class="door-surface">
-                    <div class="door-ornament-top"></div>
-                    <div class="door-pattern">
-                        <div class="geometric-star"></div>
-                        <div class="geometric-star gs-2"></div>
-                        <div class="geometric-star gs-3"></div>
-                        <div class="door-arch"></div>
-                    </div>
-                    <div class="door-handle-right"></div>
+            <div class="door-panel panel-right" id="panelRight">
+                <div class="panel-surface">
+                    <div class="p-ornament-top"></div>
+                    <div class="p-star"></div>
+                    <div class="p-star p-star-2"></div>
+                    <div class="p-star p-star-3"></div>
+                    <div class="p-arch"></div>
+                    <div class="p-handle"></div>
                 </div>
             </div>
         </div>
 
-        <!-- Door Frame Arch -->
-        <div class="door-arch-frame">
-            <div class="arch-pattern"></div>
-        </div>
-
-        <div class="door-prompt" id="doorPrompt">
-            <div class="door-prompt-line"></div>
-            <span>Open to discover our story</span>
-            <div class="door-prompt-line"></div>
+        <!-- Prompt -->
+        <div class="door-hint" id="doorHint">
+            <span>Tap to open</span>
         </div>
     </div>
 
-    <!-- ========== BEHIND THE DOOR - THE STORY ========== -->
-    <div class="story-wrapper" id="storyWrapper">
-
-        <!-- Progress Bar -->
-        <div class="story-progress">
-            <div class="progress-fill" id="progressFill"></div>
+    <!-- ========== INSIDE THE DOOR ========== -->
+    <div class="inside" id="inside">
+        <!-- Frame around the experience -->
+        <div class="inside-frame">
+            <div class="if-corner if-tl"></div>
+            <div class="if-corner if-tr"></div>
+            <div class="if-corner if-bl"></div>
+            <div class="if-corner if-br"></div>
         </div>
 
-        <!-- CHAPTER 1: Once Upon a Time -->
-        <section class="story-chapter chapter-stars" id="ch1">
-            <canvas id="starsCanvas"></canvas>
-            <div class="chapter-content">
-                <div class="typewriter-container">
-                    <span class="typewriter" id="tw1"></span>
-                    <span class="tw-cursor">|</span>
-                </div>
-            </div>
-        </section>
+        <!-- Slides Container -->
+        <div class="slides" id="slides">
 
-        <!-- CHAPTER 2: The Groom -->
-        <section class="story-chapter chapter-groom" id="ch2">
-            <div class="chapter-content">
-                <div class="chapter-label">Chapter One</div>
-                <div class="story-reveal groom-reveal">
-                    <div class="name-orbital">
-                        <div class="orbital-ring"></div>
-                        <div class="orbital-ring ring-2"></div>
-                    </div>
-                    <h2 class="story-name groom-story-name">Junaid Raziq</h2>
-                    <div class="story-divider">
-                        <span></span>
-                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M12 2L15 9L22 9L16.5 14L18.5 21L12 17L5.5 21L7.5 14L2 9L9 9Z"/>
-                        </svg>
-                        <span></span>
-                    </div>
-                    <p class="story-detail">Son of <strong>Mohammed Ali</strong></p>
-                    <p class="story-location">Raihanath Paramberi, Kundoor</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- CHAPTER 3: The Bride -->
-        <section class="story-chapter chapter-bride" id="ch3">
-            <div class="chapter-content">
-                <div class="chapter-label">Chapter Two</div>
-                <div class="story-reveal bride-reveal">
-                    <div class="name-orbital">
-                        <div class="orbital-ring"></div>
-                        <div class="orbital-ring ring-2"></div>
-                    </div>
-                    <h2 class="story-name bride-story-name">Rafeeda</h2>
-                    <div class="story-divider">
-                        <span></span>
-                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M12 2L15 9L22 9L16.5 14L18.5 21L12 17L5.5 21L7.5 14L2 9L9 9Z"/>
-                        </svg>
-                        <span></span>
-                    </div>
-                    <p class="story-detail">Daughter of <strong>Abdul Kareem</strong></p>
-                    <p class="story-location">Sameeran Harakat Mattan</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- CHAPTER 4: The Union -->
-        <section class="story-chapter chapter-union" id="ch4">
-            <canvas id="constellationCanvas"></canvas>
-            <div class="chapter-content">
-                <div class="chapter-label">Chapter Three</div>
-                <div class="union-text">
-                    <div class="typewriter-container">
-                        <span class="typewriter" id="tw2"></span>
-                        <span class="tw-cursor">|</span>
-                    </div>
-                </div>
-                <div class="union-names" id="unionNames">
-                    <span class="union-name un-groom">Junaid Raziq</span>
-                    <div class="union-amp">
-                        <div class="amp-glow"></div>
-                        <span>&</span>
-                    </div>
-                    <span class="union-name un-bride">Rafeeda</span>
-                </div>
-                <p class="union-verse" id="unionVerse">"And We created you in pairs."</p>
-                <p class="union-verse-ref" id="unionVerseRef">— Quran 78:6</p>
-                <p class="union-verse-mal" id="unionVerseMal">"നിങ്ങളെ ഇണകളായി സൃഷ്ടിച്ചിരിക്കുന്നു."</p>
-            </div>
-        </section>
-
-        <!-- CHAPTER 5: The Invitation -->
-        <section class="story-chapter chapter-invitation" id="ch5">
-            <div class="chapter-content">
-                <div class="invitation-card" id="invitationCard">
-                    <div class="inv-border">
-                        <div class="inv-corner inv-tl"></div>
-                        <div class="inv-corner inv-tr"></div>
-                        <div class="inv-corner inv-bl"></div>
-                        <div class="inv-corner inv-br"></div>
-                    </div>
-                    <div class="inv-bismillah">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>
-                    <div class="inv-subtitle">In the name of Allah, the Most Gracious, the Most Merciful</div>
-                    <h2 class="inv-title">You Are Cordially Invited</h2>
-                    <p class="inv-title-mal">നിങ്ങൾക്ക് ആദരപൂർവ്വം ക്ഷണം</p>
-                    <div class="inv-divider"></div>
-                    <p class="inv-to">to the wedding celebration of</p>
-                    <div class="inv-names">
-                        <span class="inv-name inv-groom">Junaid Raziq</span>
-                        <span class="inv-and">&</span>
-                        <span class="inv-name inv-bride">Rafeeda</span>
+            <!-- SLIDE 1: Stars / Opening -->
+            <div class="slide slide-stars active" data-slide="0">
+                <canvas class="slide-canvas" id="starsCanvas"></canvas>
+                <div class="slide-content">
+                    <div class="tw-wrap">
+                        <span class="tw-text" id="tw1"></span><span class="tw-cursor">|</span>
                     </div>
                 </div>
             </div>
-        </section>
 
-        <!-- CHAPTER 6: Event Details -->
-        <section class="story-chapter chapter-details" id="ch6">
-            <div class="chapter-content">
-                <div class="details-grid">
-                    <div class="detail-card" id="detailDate">
-                        <div class="dc-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" width="36" height="36">
-                                <rect x="3" y="4" width="18" height="18" rx="2"/>
-                                <line x1="16" y1="2" x2="16" y2="6"/>
-                                <line x1="8" y1="2" x2="8" y2="6"/>
-                                <line x1="3" y1="10" x2="21" y2="10"/>
-                            </svg>
+            <!-- SLIDE 2: The Groom -->
+            <div class="slide slide-groom" data-slide="1">
+                <div class="slide-content">
+                    <div class="slide-label">Chapter One</div>
+                    <div class="orbital">
+                        <div class="orb-ring"></div>
+                        <div class="orb-ring orb-ring-2"></div>
+                    </div>
+                    <h2 class="slide-name groom-name">Junaid Raziq</h2>
+                    <div class="slide-line"></div>
+                    <p class="slide-detail">Son of <strong>Mohammed Ali</strong></p>
+                    <p class="slide-location">Raihanath Paramberi, Kundoor</p>
+                </div>
+            </div>
+
+            <!-- SLIDE 3: The Bride -->
+            <div class="slide slide-bride" data-slide="2">
+                <div class="slide-content">
+                    <div class="slide-label">Chapter Two</div>
+                    <div class="orbital">
+                        <div class="orb-ring"></div>
+                        <div class="orb-ring orb-ring-2"></div>
+                    </div>
+                    <h2 class="slide-name bride-name">Rafeeda</h2>
+                    <div class="slide-line"></div>
+                    <p class="slide-detail">Daughter of <strong>Abdul Kareem</strong></p>
+                    <p class="slide-location">Sameeran Harakat Mattan</p>
+                </div>
+            </div>
+
+            <!-- SLIDE 4: The Union -->
+            <div class="slide slide-union" data-slide="3">
+                <canvas class="slide-canvas" id="unionCanvas"></canvas>
+                <div class="slide-content">
+                    <div class="slide-label">Chapter Three</div>
+                    <div class="union-names">
+                        <span class="u-name u-groom">Junaid Raziq</span>
+                        <div class="u-amp"><span>&</span></div>
+                        <span class="u-name u-bride">Rafeeda</span>
+                    </div>
+                    <div class="slide-line"></div>
+                    <p class="slide-verse">"And We created you in pairs."</p>
+                    <p class="slide-verse-ref">— Quran 78:6</p>
+                    <p class="slide-verse-mal">"നിങ്ങളെ ഇണകളായി സൃഷ്ടിച്ചിരിക്കുന്നു."</p>
+                </div>
+            </div>
+
+            <!-- SLIDE 5: The Invitation -->
+            <div class="slide slide-inv" data-slide="4">
+                <div class="slide-content">
+                    <div class="inv-card">
+                        <div class="inv-corners">
+                            <span></span><span></span><span></span><span></span>
                         </div>
-                        <span class="dc-label">Date</span>
-                        <span class="dc-main">Sunday, 13th December</span>
-                        <span class="dc-sub">2026</span>
-                    </div>
-                    <div class="detail-card" id="detailTime">
-                        <div class="dc-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" width="36" height="36">
-                                <circle cx="12" cy="12" r="10"/>
-                                <polyline points="12,6 12,12 16,14"/>
-                            </svg>
+                        <div class="inv-bismillah">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>
+                        <p class="inv-sub">In the name of Allah, the Most Gracious, the Most Merciful</p>
+                        <h2 class="inv-title">You Are Cordially Invited</h2>
+                        <p class="inv-title-mal">നിങ്ങൾക്ക് ആദരപൂർവ്വം ക്ഷണം</p>
+                        <div class="inv-div"></div>
+                        <p class="inv-to">to the wedding celebration of</p>
+                        <div class="inv-names">
+                            <span class="inv-n inv-groom">Junaid Raziq</span>
+                            <span class="inv-and">&</span>
+                            <span class="inv-n inv-bride">Rafeeda</span>
                         </div>
-                        <span class="dc-label">Time</span>
-                        <span class="dc-main">12:00 PM</span>
-                        <span class="dc-sub">Nikah Ceremony</span>
-                    </div>
-                    <div class="detail-card" id="detailVenue">
-                        <div class="dc-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" width="36" height="36">
-                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                                <circle cx="12" cy="10" r="3"/>
-                            </svg>
-                        </div>
-                        <span class="dc-label">Venue</span>
-                        <span class="dc-main">Zain Auditorium</span>
-                        <span class="dc-sub">Kadakkallu, Kerala</span>
                     </div>
                 </div>
+            </div>
 
-                <!-- Map -->
-                <div class="venue-map" id="venueMap">
-                    <div class="map-frame">
-                        <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3927.5!2d76.0!3d10.5!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTDCsDMwJzAwLjAiTiA3NsKwMDAnMDAuMCJF!5e0!3m2!1sen!2sin!4v1"
-                            width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"
-                            title="Zain Auditorium, Kadakkallu">
-                        </iframe>
+            <!-- SLIDE 6: Details -->
+            <div class="slide slide-details" data-slide="5">
+                <div class="slide-content">
+                    <div class="det-cards">
+                        <div class="det-card">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" width="32" height="32"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                            <span class="dc-lbl">Date</span>
+                            <span class="dc-main">Sunday, 13th December</span>
+                            <span class="dc-sub">2026</span>
+                        </div>
+                        <div class="det-card">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" width="32" height="32"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+                            <span class="dc-lbl">Time</span>
+                            <span class="dc-main">12:00 PM</span>
+                            <span class="dc-sub">Nikah Ceremony</span>
+                        </div>
+                        <div class="det-card">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" width="32" height="32"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <span class="dc-lbl">Venue</span>
+                            <span class="dc-main">Zain Auditorium</span>
+                            <span class="dc-sub">Kadakkallu, Kerala</span>
+                        </div>
                     </div>
-                    <a href="https://www.google.com/maps/search/Zain+Auditorium+Kadakkallu+Kerala" target="_blank" rel="noopener" class="map-directions">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
-                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                            <circle cx="12" cy="10" r="3"/>
-                        </svg>
+                    <a href="https://www.google.com/maps/search/Zain+Auditorium+Kadakkallu+Kerala" target="_blank" class="det-map-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                         Get Directions
                     </a>
                 </div>
             </div>
-        </section>
 
-        <!-- CHAPTER 7: Countdown & Closing -->
-        <section class="story-chapter chapter-closing" id="ch7">
-            <canvas id="closingParticles"></canvas>
-            <div class="chapter-content">
-                <div class="countdown-label-text">Counting down to our special day</div>
-                <div class="final-countdown" id="finalCountdown">
-                    <div class="fc-item">
-                        <span class="fc-num" id="fcDays">000</span>
-                        <span class="fc-label">Days</span>
+            <!-- SLIDE 7: Closing -->
+            <div class="slide slide-closing" data-slide="6">
+                <canvas class="slide-canvas" id="closingCanvas"></canvas>
+                <div class="slide-content">
+                    <div class="countdown-ring" id="countdownRing">
+                        <svg viewBox="0 0 200 200" class="cd-svg">
+                            <circle cx="100" cy="100" r="90" class="cd-bg"/>
+                            <circle cx="100" cy="100" r="90" class="cd-progress" id="cdProgress"/>
+                        </svg>
+                        <div class="cd-inner">
+                            <span class="cd-days" id="cdDays">0</span>
+                            <span class="cd-label">days</span>
+                        </div>
                     </div>
-                    <div class="fc-sep">:</div>
-                    <div class="fc-item">
-                        <span class="fc-num" id="fcHours">00</span>
-                        <span class="fc-label">Hours</span>
-                    </div>
-                    <div class="fc-sep">:</div>
-                    <div class="fc-item">
-                        <span class="fc-num" id="fcMins">00</span>
-                        <span class="fc-label">Minutes</span>
-                    </div>
-                    <div class="fc-sep">:</div>
-                    <div class="fc-item">
-                        <span class="fc-num" id="fcSecs">00</span>
-                        <span class="fc-label">Seconds</span>
-                    </div>
-                </div>
-
-                <div class="closing-dua">
-                    <p>May Allah bless this union</p>
+                    <p class="cd-title">Until Our Special Day</p>
+                    <div class="slide-line"></div>
+                    <p class="closing-dua">May Allah bless this union</p>
                     <p class="closing-dua-mal">അല്ലാഹ് ഈ ഐക്യത്തെ അനുഗ്രഹിക്കട്ടെ</p>
-                </div>
-
-                <div class="closing-footer">
-                    <span>Junaid & Rafeeda</span>
-                    <span class="cf-dot">&bull;</span>
-                    <span>December 13, 2026</span>
+                    <div class="closing-footer">
+                        <span>Junaid & Rafeeda</span>
+                        <span class="cf-dot">&bull;</span>
+                        <span>Dec 13, 2026</span>
+                    </div>
                 </div>
             </div>
-        </section>
 
+        </div>
+
+        <!-- Navigation Arrows -->
+        <button class="nav-arrow nav-prev" id="navPrev" aria-label="Previous">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><polyline points="15,18 9,12 15,6"/></svg>
+        </button>
+        <button class="nav-arrow nav-next" id="navNext" aria-label="Next">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><polyline points="9,6 15,12 9,18"/></svg>
+        </button>
+
+        <!-- Chapter Dots -->
+        <div class="chapter-dots" id="chapterDots">
+            <button class="c-dot active" data-index="0"></button>
+            <button class="c-dot" data-index="1"></button>
+            <button class="c-dot" data-index="2"></button>
+            <button class="c-dot" data-index="3"></button>
+            <button class="c-dot" data-index="4"></button>
+            <button class="c-dot" data-index="5"></button>
+            <button class="c-dot" data-index="6"></button>
+        </div>
+
+        <!-- Music Toggle -->
+        <button class="music-btn" id="musicBtn" aria-label="Toggle Music">
+            <svg class="m-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+            <svg class="m-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" style="display:none"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+        </button>
     </div>
 
     <!-- Audio -->
     <audio id="bgMusic" loop preload="auto">
         <source src="https://cdn.pixabay.com/audio/2022/01/18/audio_d0ef98b5d0.mp3" type="audio/mpeg">
     </audio>
-    <button class="music-toggle" id="musicToggle" aria-label="Toggle Music">
-        <svg class="music-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
-            <path d="M9 18V5l12-2v13"/>
-            <circle cx="6" cy="18" r="3"/>
-            <circle cx="18" cy="16" r="3"/>
-        </svg>
-        <svg class="music-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20" style="display:none">
-            <path d="M9 18V5l12-2v13"/>
-            <circle cx="6" cy="18" r="3"/>
-            <circle cx="18" cy="16" r="3"/>
-            <line x1="1" y1="1" x2="23" y2="23"/>
-        </svg>
-    </button>
 
-    <!-- GSAP & Lenis CDN -->
+    <!-- GSAP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-    <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>

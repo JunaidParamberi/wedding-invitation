@@ -1,7 +1,6 @@
 /* ============================================
-   CINEMATIC WEDDING INVITATION
+   CINEMATIC DOOR - CONTAINED EXPERIENCE
    Junaid Raziq & Rafeeda
-   Dark Theme / Gold Accents / Story-Driven
    ============================================ */
 
 :root {
@@ -9,48 +8,53 @@
     --gold-light: #E0CFA3;
     --gold-deep: #8B6914;
     --gold-glow: rgba(201, 169, 110, 0.4);
-    --blush: #F2D4DC;
     --dark: #0A0A0A;
-    --dark-warm: #111010;
-    --dark-card: #161414;
+    --dark-card: #141212;
     --text: #E8E0D4;
     --text-dim: #9A8E7E;
     --text-muted: #6B5F52;
-
     --font-display: 'Playfair Display', Georgia, serif;
     --font-elegant: 'Cormorant Garamond', Georgia, serif;
     --font-body: 'Montserrat', 'Noto Sans Malayalam', sans-serif;
-    --font-malayalam: 'Noto Sans Malayalam', sans-serif;
+    --font-mal: 'Noto Sans Malayalam', sans-serif;
 }
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-html { background: #000; }
-html.lenis, html.lenis body { height: auto; }
-.lenis.lenis-smooth { scroll-behavior: auto !important; }
-.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+    -webkit-font-smoothing: antialiased;
+}
 
 body {
     font-family: var(--font-body);
     color: var(--text);
-    background: var(--dark);
-    overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
 }
 
 /* ============================================
    THE DOOR
    ============================================ */
-.door-scene {
+.door {
     position: fixed;
     inset: 0;
-    z-index: 1000;
+    z-index: 100;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
     background:
-        radial-gradient(ellipse at 50% 40%, #1a1510 0%, #0a0a0a 70%),
-        #000;
+        radial-gradient(ellipse at 50% 35%, #1a1510 0%, #0a0a0a 70%);
     cursor: pointer;
+    transition: opacity 0.6s ease 1.2s, visibility 0s 1.8s;
+}
+
+.door.opened {
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
 }
 
 #doorParticles {
@@ -61,11 +65,52 @@ body {
     pointer-events: none;
 }
 
-.door-frame {
+/* Arch */
+.door-arch {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(360px, 85vw);
+    height: 50px;
+    z-index: 10;
+}
+
+.arch-inner {
+    width: 100%;
+    height: 100%;
+    border: 2px solid var(--gold-deep);
+    border-bottom: none;
+    border-radius: 180px 180px 0 0;
     position: relative;
-    width: 320px;
-    height: 500px;
-    perspective: 1200px;
+    background: linear-gradient(180deg, rgba(26, 21, 16, 0.9), transparent);
+}
+
+.arch-inner::after {
+    content: '';
+    position: absolute;
+    inset: 5px;
+    border: 1px solid rgba(201, 169, 110, 0.3);
+    border-bottom: none;
+    border-radius: 175px 175px 0 0;
+}
+
+.arch-ornament {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.4rem;
+    color: var(--gold);
+    direction: rtl;
+}
+
+/* Door Panels */
+.door-panels {
+    position: relative;
+    width: min(320px, 78vw);
+    height: min(480px, 70vh);
+    perspective: 1000px;
     z-index: 10;
 }
 
@@ -75,326 +120,238 @@ body {
     width: 50%;
     height: 100%;
     transform-style: preserve-3d;
-    transition: transform 1.4s cubic-bezier(0.23, 1, 0.32, 1);
+    transition: transform 1.2s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.door-left {
-    left: 0;
-    transform-origin: left center;
-}
+.panel-left { left: 0; transform-origin: left center; }
+.panel-right { right: 0; transform-origin: right center; }
 
-.door-right {
-    right: 0;
-    transform-origin: right center;
-}
-
-.door-surface {
+.panel-surface {
     width: 100%;
     height: 100%;
-    background:
-        linear-gradient(135deg, #2a2215 0%, #1a1510 50%, #2a2215 100%);
+    background: linear-gradient(135deg, #2a2215 0%, #1a1510 50%, #2a2215 100%);
     border: 2px solid var(--gold-deep);
     position: relative;
     overflow: hidden;
-    box-shadow: inset 0 0 60px rgba(0,0,0,0.5);
+    box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.5);
 }
 
-.door-left .door-surface {
-    border-right: 1px solid rgba(201, 169, 110, 0.3);
-}
+.panel-left .panel-surface { border-right: 1px solid rgba(201, 169, 110, 0.2); }
+.panel-right .panel-surface { border-left: 1px solid rgba(201, 169, 110, 0.2); }
 
-.door-right .door-surface {
-    border-left: 1px solid rgba(201, 169, 110, 0.3);
-}
-
-.door-ornament-top {
+.p-ornament-top {
     position: absolute;
-    top: 15px;
+    top: 14px;
     left: 50%;
     transform: translateX(-50%);
-    width: 60px;
-    height: 30px;
-    border-bottom: 2px solid var(--gold);
+    width: 50px;
+    height: 25px;
+    border-bottom: 1.5px solid var(--gold);
     border-radius: 0 0 50% 50%;
 }
 
-.door-ornament-top::after {
+.p-ornament-top::after {
     content: '';
     position: absolute;
-    bottom: -8px;
+    bottom: -6px;
     left: 50%;
     transform: translateX(-50%);
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
     background: var(--gold);
     border-radius: 50%;
 }
 
-.door-pattern {
+.p-star {
     position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 44px;
+    height: 44px;
 }
 
-.geometric-star {
-    width: 50px;
-    height: 50px;
-    position: relative;
-}
-
-.geometric-star::before,
-.geometric-star::after {
+.p-star::before, .p-star::after {
     content: '';
     position: absolute;
     inset: 0;
     border: 1.5px solid var(--gold);
 }
 
-.geometric-star::before {
-    transform: rotate(0deg);
-}
+.p-star::before { transform: rotate(0deg); }
+.p-star::after { transform: rotate(45deg); }
 
-.geometric-star::after {
-    transform: rotate(45deg);
-}
+.p-star-2 { width: 30px; height: 30px; top: 30%; opacity: 0.5; }
+.p-star-3 { width: 20px; height: 20px; top: 70%; opacity: 0.3; }
 
-.gs-2 {
-    width: 35px;
-    height: 35px;
-    opacity: 0.6;
-}
-
-.gs-3 {
-    width: 25px;
-    height: 25px;
+.p-arch {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 30px;
+    border: 1.5px solid var(--gold);
+    border-bottom: none;
+    border-radius: 60px 60px 0 0;
     opacity: 0.4;
 }
 
-.door-arch {
-    width: 80px;
-    height: 40px;
-    border: 1.5px solid var(--gold);
-    border-bottom: none;
-    border-radius: 80px 80px 0 0;
-    opacity: 0.5;
-    position: absolute;
-    bottom: 60px;
-}
-
-.door-handle-left,
-.door-handle-right {
+.p-handle {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: 14px;
-    height: 30px;
+    width: 10px;
+    height: 24px;
     border: 2px solid var(--gold);
-    border-radius: 7px;
+    border-radius: 5px;
     background: radial-gradient(circle, var(--gold-light), var(--gold-deep));
 }
 
-.door-handle-left { right: 12px; }
-.door-handle-right { left: 12px; }
+.panel-left .p-handle { right: 10px; }
+.panel-right .p-handle { left: 10px; }
 
-/* Door Arch Frame */
-.door-arch-frame {
+/* Door Open Animation */
+.door.opening .panel-left { transform: rotateY(-105deg); }
+.door.opening .panel-right { transform: rotateY(105deg); }
+.door.opening .door-hint { opacity: 0; }
+
+/* Hint */
+.door-hint {
     position: absolute;
-    top: -20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 340px;
-    height: 60px;
+    bottom: 10%;
     z-index: 11;
+    animation: hintPulse 2.5s ease-in-out infinite;
 }
 
-.arch-pattern {
-    width: 100%;
-    height: 100%;
-    border: 2px solid var(--gold-deep);
-    border-bottom: none;
-    border-radius: 170px 170px 0 0;
-    position: relative;
-    background: linear-gradient(180deg, rgba(26, 21, 16, 0.9), transparent);
-}
-
-.arch-pattern::before {
-    content: '';
-    position: absolute;
-    inset: 6px;
-    border: 1px solid var(--gold);
-    border-bottom: none;
-    border-radius: 164px 164px 0 0;
-    opacity: 0.4;
-}
-
-.arch-pattern::after {
-    content: '﷽';
-    position: absolute;
-    top: 12px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 1.4rem;
-    color: var(--gold);
-    direction: rtl;
-}
-
-/* Door Prompt */
-.door-prompt {
-    position: absolute;
-    bottom: 12%;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    z-index: 12;
-    animation: promptPulse 2.5s ease-in-out infinite;
-}
-
-.door-prompt span {
+.door-hint span {
     font-family: var(--font-elegant);
-    font-size: 1rem;
+    font-size: 0.9rem;
     color: var(--gold-light);
-    letter-spacing: 3px;
+    letter-spacing: 4px;
     text-transform: uppercase;
-    white-space: nowrap;
 }
 
-.door-prompt-line {
-    width: 40px;
-    height: 1px;
-    background: var(--gold);
+@keyframes hintPulse {
+    0%, 100% { opacity: 0.5; transform: translateY(0); }
+    50% { opacity: 1; transform: translateY(-6px); }
+}
+
+/* ============================================
+   INSIDE THE DOOR
+   ============================================ */
+.inside {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    background: var(--dark);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.8s ease 0.8s, visibility 0s 0.8s;
+    overflow: hidden;
+}
+
+.inside.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Frame */
+.inside-frame {
+    position: absolute;
+    inset: 12px;
+    border: 1px solid rgba(201, 169, 110, 0.12);
+    pointer-events: none;
+    z-index: 20;
+}
+
+.if-corner {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-color: var(--gold);
+    border-style: solid;
+    border-width: 0;
     opacity: 0.5;
 }
 
-@keyframes promptPulse {
-    0%, 100% { opacity: 0.6; transform: translateX(-50%) translateY(0); }
-    50% { opacity: 1; transform: translateX(-50%) translateY(-5px); }
-}
-
-/* Door Open State */
-.door-scene.opening .door-left {
-    transform: rotateY(-110deg);
-}
-
-.door-scene.opening .door-right {
-    transform: rotateY(110deg);
-}
-
-.door-scene.opening .door-prompt {
-    opacity: 0;
-    transition: opacity 0.4s ease;
-}
-
-.door-scene.hidden {
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.8s ease 0.6s;
-}
+.if-tl { top: -1px; left: -1px; border-top-width: 1.5px; border-left-width: 1.5px; }
+.if-tr { top: -1px; right: -1px; border-top-width: 1.5px; border-right-width: 1.5px; }
+.if-bl { bottom: -1px; left: -1px; border-bottom-width: 1.5px; border-left-width: 1.5px; }
+.if-br { bottom: -1px; right: -1px; border-bottom-width: 1.5px; border-right-width: 1.5px; }
 
 /* ============================================
-   STORY WRAPPER
+   SLIDES
    ============================================ */
-.story-wrapper {
+.slides {
     position: relative;
-    z-index: 1;
-    opacity: 0;
-    transition: opacity 1s ease;
-}
-
-.story-wrapper.visible {
-    opacity: 1;
-}
-
-/* Progress Bar */
-.story-progress {
-    position: fixed;
-    top: 0;
-    left: 0;
     width: 100%;
-    height: 2px;
-    background: rgba(201, 169, 110, 0.1);
-    z-index: 500;
-}
-
-.progress-fill {
     height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, var(--gold-deep), var(--gold), var(--gold-light));
-    transition: width 0.1s linear;
 }
 
-/* ============================================
-   STORY CHAPTERS
-   ============================================ */
-.story-chapter {
-    min-height: 100vh;
+.slide {
+    position: absolute;
+    inset: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
-    overflow: hidden;
-    padding: 60px 20px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.8s ease, visibility 0s 0.8s;
 }
 
-.chapter-content {
-    position: relative;
-    z-index: 5;
-    text-align: center;
-    max-width: 700px;
-    width: 100%;
+.slide.active {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.8s ease, visibility 0s;
 }
 
-.chapter-label {
-    font-family: var(--font-elegant);
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 6px;
-    color: var(--gold);
-    margin-bottom: 30px;
-    opacity: 0.7;
-}
-
-/* ============================================
-   CHAPTER 1: STARS
-   ============================================ */
-.chapter-stars {
-    background: radial-gradient(ellipse at 50% 50%, #0d0b08 0%, #000 100%);
-}
-
-#starsCanvas {
+.slide-canvas {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
+    pointer-events: none;
 }
 
-.typewriter-container {
-    min-height: 120px;
+.slide-content {
+    position: relative;
+    z-index: 5;
+    text-align: center;
+    padding: 20px;
+    max-width: 600px;
+    width: 100%;
+}
+
+/* ============================================
+   SLIDE STYLES
+   ============================================ */
+
+/* Stars */
+.slide-stars {
+    background: radial-gradient(ellipse at 50% 50%, #0d0b08, #000);
+}
+
+.tw-wrap {
+    min-height: 100px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.typewriter {
+.tw-text {
     font-family: var(--font-elegant);
-    font-size: clamp(1.4rem, 3.5vw, 2.4rem);
+    font-size: clamp(1.3rem, 3.5vw, 2.2rem);
     color: var(--text);
     font-style: italic;
     line-height: 1.8;
-    letter-spacing: 1px;
 }
 
 .tw-cursor {
     font-family: var(--font-elegant);
-    font-size: clamp(1.4rem, 3.5vw, 2.4rem);
+    font-size: clamp(1.3rem, 3.5vw, 2.2rem);
     color: var(--gold);
     animation: blink 0.8s step-end infinite;
-    margin-left: 2px;
 }
 
 @keyframes blink {
@@ -402,44 +359,36 @@ body {
     50% { opacity: 0; }
 }
 
-/* ============================================
-   CHAPTER 2 & 3: GROOM & BRIDE
-   ============================================ */
-.chapter-groom {
-    background: radial-gradient(ellipse at 30% 50%, #141008 0%, var(--dark) 70%);
+/* Groom / Bride */
+.slide-groom { background: radial-gradient(ellipse at 30% 50%, #141008, var(--dark)); }
+.slide-bride { background: radial-gradient(ellipse at 70% 50%, #140d10, var(--dark)); }
+
+.slide-label {
+    font-family: var(--font-elegant);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 6px;
+    color: var(--gold);
+    margin-bottom: 30px;
+    opacity: 0.7;
 }
 
-.chapter-bride {
-    background: radial-gradient(ellipse at 70% 50%, #140d10 0%, var(--dark) 70%);
-}
-
-.story-reveal {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: all 1.2s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.story-reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.name-orbital {
+.orbital {
     position: relative;
-    width: 180px;
-    height: 180px;
-    margin: 0 auto 30px;
+    width: 130px;
+    height: 130px;
+    margin: 0 auto 25px;
 }
 
-.orbital-ring {
+.orb-ring {
     position: absolute;
     inset: 0;
     border: 1px solid rgba(201, 169, 110, 0.15);
     border-radius: 50%;
-    animation: orbitSpin 12s linear infinite;
+    animation: orbit 10s linear infinite;
 }
 
-.orbital-ring::before {
+.orb-ring::before {
     content: '';
     position: absolute;
     top: -3px;
@@ -449,277 +398,200 @@ body {
     height: 6px;
     background: var(--gold);
     border-radius: 50%;
-    box-shadow: 0 0 10px var(--gold-glow);
+    box-shadow: 0 0 8px var(--gold-glow);
 }
 
-.ring-2 {
-    inset: 15px;
-    animation-duration: 8s;
+.orb-ring-2 {
+    inset: 12px;
     animation-direction: reverse;
+    animation-duration: 7s;
     border-color: rgba(201, 169, 110, 0.08);
 }
 
-.ring-2::before {
-    width: 4px;
-    height: 4px;
-    top: auto;
-    bottom: -2px;
-}
+.orb-ring-2::before { width: 4px; height: 4px; top: auto; bottom: -2px; }
 
-@keyframes orbitSpin {
+@keyframes orbit {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
 }
 
-.story-name {
+.slide-name {
     font-family: var(--font-display);
-    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-size: clamp(2rem, 5.5vw, 3.5rem);
     font-weight: 600;
-    letter-spacing: 3px;
-    margin-bottom: 20px;
+    letter-spacing: 2px;
+    margin-bottom: 18px;
 }
 
-.groom-story-name { color: var(--text); }
-.bride-story-name { color: var(--gold); }
+.groom-name { color: var(--text); }
+.bride-name { color: var(--gold); }
 
-.story-divider {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-    margin-bottom: 20px;
-}
-
-.story-divider span {
+.slide-line {
     width: 50px;
     height: 1px;
-    background: linear-gradient(90deg, transparent, var(--gold));
+    background: var(--gold);
+    margin: 0 auto 18px;
 }
 
-.story-divider svg {
-    color: var(--gold);
-    opacity: 0.6;
-}
-
-.story-detail {
+.slide-detail {
     font-family: var(--font-elegant);
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: var(--text-dim);
-    margin-bottom: 6px;
+    margin-bottom: 5px;
 }
 
-.story-detail strong {
-    color: var(--text);
-}
+.slide-detail strong { color: var(--text); }
 
-.story-location {
+.slide-location {
     font-family: var(--font-body);
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     color: var(--text-muted);
     letter-spacing: 2px;
     text-transform: uppercase;
 }
 
-/* ============================================
-   CHAPTER 4: THE UNION
-   ============================================ */
-.chapter-union {
-    background: radial-gradient(ellipse at 50% 50%, #12100a 0%, #000 100%);
-    min-height: 100vh;
-}
-
-#constellationCanvas {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-}
-
-.union-text {
-    margin-bottom: 50px;
-    min-height: 80px;
+/* Union */
+.slide-union {
+    background: radial-gradient(ellipse at 50% 50%, #12100a, #000);
 }
 
 .union-names {
-    margin-bottom: 40px;
-    opacity: 0;
-    transform: scale(0.9);
-    transition: all 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+    margin-bottom: 25px;
 }
 
-.union-names.visible {
-    opacity: 1;
-    transform: scale(1);
-}
-
-.union-name {
+.u-name {
     display: block;
     font-family: var(--font-display);
-    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-size: clamp(1.6rem, 4.5vw, 2.8rem);
     font-weight: 600;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
+    margin: 6px 0;
+}
+
+.u-groom { color: var(--text); }
+.u-bride { color: var(--gold); }
+
+.u-amp {
     margin: 8px 0;
 }
 
-.un-groom { color: var(--text); }
-.un-bride { color: var(--gold); }
-
-.union-amp {
-    position: relative;
-    display: inline-block;
-    margin: 10px 0;
-}
-
-.union-amp span {
+.u-amp span {
     font-family: var(--font-elegant);
-    font-size: 2rem;
+    font-size: 1.8rem;
     color: var(--gold);
     font-style: italic;
 }
 
-.amp-glow {
-    position: absolute;
-    inset: -20px;
-    background: radial-gradient(circle, var(--gold-glow), transparent 70%);
-    border-radius: 50%;
-    opacity: 0;
-    animation: glowPulse 3s ease-in-out infinite;
-}
-
-@keyframes glowPulse {
-    0%, 100% { opacity: 0; transform: scale(0.8); }
-    50% { opacity: 0.5; transform: scale(1.2); }
-}
-
-.union-verse {
+.slide-verse {
     font-family: var(--font-elegant);
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: var(--text-dim);
     font-style: italic;
-    margin-bottom: 8px;
-    opacity: 0;
-    transition: opacity 1s ease 0.3s;
+    margin-bottom: 6px;
 }
 
-.union-verse.visible { opacity: 1; }
-
-.union-verse-ref {
+.slide-verse-ref {
     font-family: var(--font-body);
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: var(--gold);
     letter-spacing: 2px;
-    margin-bottom: 12px;
-    opacity: 0;
-    transition: opacity 1s ease 0.5s;
+    margin-bottom: 10px;
 }
 
-.union-verse-ref.visible { opacity: 1; }
-
-.union-verse-mal {
-    font-family: var(--font-malayalam);
-    font-size: 0.9rem;
+.slide-verse-mal {
+    font-family: var(--font-mal);
+    font-size: 0.85rem;
     color: var(--text-muted);
-    opacity: 0;
-    transition: opacity 1s ease 0.7s;
 }
 
-.union-verse-mal.visible { opacity: 1; }
-
-/* ============================================
-   CHAPTER 5: THE INVITATION
-   ============================================ */
-.chapter-invitation {
+/* Invitation */
+.slide-inv {
     background:
-        radial-gradient(ellipse at 50% 30%, rgba(201, 169, 110, 0.05) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 30%, rgba(201, 169, 110, 0.04), transparent 50%),
         var(--dark);
 }
 
-.invitation-card {
+.inv-card {
     position: relative;
-    padding: 60px 50px;
+    padding: 45px 35px;
     background: var(--dark-card);
-    border: 1px solid rgba(201, 169, 110, 0.15);
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 1s cubic-bezier(0.23, 1, 0.32, 1);
+    border: 1px solid rgba(201, 169, 110, 0.12);
+    max-width: 500px;
+    margin: 0 auto;
 }
 
-.invitation-card.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.inv-border .inv-corner {
+.inv-corners span {
     position: absolute;
-    width: 40px;
-    height: 40px;
+    width: 28px;
+    height: 28px;
     border-color: var(--gold);
     border-style: solid;
     border-width: 0;
+    opacity: 0.6;
 }
 
-.inv-tl { top: 12px; left: 12px; border-top-width: 1.5px; border-left-width: 1.5px; }
-.inv-tr { top: 12px; right: 12px; border-top-width: 1.5px; border-right-width: 1.5px; }
-.inv-bl { bottom: 12px; left: 12px; border-bottom-width: 1.5px; border-left-width: 1.5px; }
-.inv-br { bottom: 12px; right: 12px; border-bottom-width: 1.5px; border-right-width: 1.5px; }
+.inv-corners span:nth-child(1) { top: 10px; left: 10px; border-top-width: 1.5px; border-left-width: 1.5px; }
+.inv-corners span:nth-child(2) { top: 10px; right: 10px; border-top-width: 1.5px; border-right-width: 1.5px; }
+.inv-corners span:nth-child(3) { bottom: 10px; left: 10px; border-bottom-width: 1.5px; border-left-width: 1.5px; }
+.inv-corners span:nth-child(4) { bottom: 10px; right: 10px; border-bottom-width: 1.5px; border-right-width: 1.5px; }
 
 .inv-bismillah {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     color: var(--gold);
     direction: rtl;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     line-height: 1.8;
 }
 
-.inv-subtitle {
+.inv-sub {
     font-family: var(--font-elegant);
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: var(--text-muted);
     font-style: italic;
-    margin-bottom: 30px;
+    margin-bottom: 22px;
 }
 
 .inv-title {
     font-family: var(--font-display);
-    font-size: clamp(1.6rem, 4vw, 2.6rem);
+    font-size: clamp(1.4rem, 3.5vw, 2.2rem);
     font-weight: 500;
     color: var(--text);
-    margin-bottom: 8px;
-    letter-spacing: 2px;
+    margin-bottom: 6px;
+    letter-spacing: 1px;
 }
 
 .inv-title-mal {
-    font-family: var(--font-malayalam);
-    font-size: 0.9rem;
+    font-family: var(--font-mal);
+    font-size: 0.85rem;
     color: var(--text-muted);
-    margin-bottom: 25px;
+    margin-bottom: 18px;
 }
 
-.inv-divider {
-    width: 60px;
+.inv-div {
+    width: 50px;
     height: 1px;
     background: var(--gold);
-    margin: 0 auto 25px;
+    margin: 0 auto 18px;
 }
 
 .inv-to {
     font-family: var(--font-elegant);
-    font-size: 1rem;
+    font-size: 0.95rem;
     color: var(--text-dim);
     font-style: italic;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
 }
 
 .inv-names {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 6px;
+    gap: 4px;
 }
 
-.inv-name {
+.inv-n {
     font-family: var(--font-display);
-    font-size: clamp(1.8rem, 4vw, 2.4rem);
+    font-size: clamp(1.5rem, 3.5vw, 2rem);
     font-weight: 600;
     letter-spacing: 2px;
 }
@@ -729,333 +601,289 @@ body {
 
 .inv-and {
     font-family: var(--font-elegant);
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     color: var(--gold);
     font-style: italic;
     margin: 4px 0;
 }
 
-/* ============================================
-   CHAPTER 6: EVENT DETAILS
-   ============================================ */
-.chapter-details {
+/* Details */
+.slide-details {
     background:
-        radial-gradient(ellipse at 50% 70%, rgba(201, 169, 110, 0.03) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 70%, rgba(201, 169, 110, 0.03), transparent 50%),
         var(--dark);
-    padding-top: 80px;
-    padding-bottom: 80px;
 }
 
-.details-grid {
+.det-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 24px;
-    margin-bottom: 50px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 24px;
 }
 
-.detail-card {
+.det-card {
     background: var(--dark-card);
     border: 1px solid rgba(201, 169, 110, 0.1);
-    padding: 35px 25px;
+    padding: 22px 12px;
     text-align: center;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+    transition: border-color 0.3s;
 }
 
-.detail-card.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
+.det-card:hover { border-color: rgba(201, 169, 110, 0.3); }
 
-.detail-card:hover {
-    border-color: rgba(201, 169, 110, 0.3);
-    transform: translateY(-3px);
-}
+.det-card svg { color: var(--gold); margin-bottom: 10px; }
 
-.dc-icon {
-    color: var(--gold);
-    margin-bottom: 15px;
-}
-
-.dc-label {
+.dc-lbl {
     display: block;
     font-family: var(--font-elegant);
-    font-size: 0.75rem;
+    font-size: 0.65rem;
     text-transform: uppercase;
-    letter-spacing: 4px;
+    letter-spacing: 3px;
     color: var(--gold);
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .dc-main {
     display: block;
     font-family: var(--font-display);
-    font-size: 1.2rem;
+    font-size: 0.95rem;
     color: var(--text);
-    margin-bottom: 4px;
+    margin-bottom: 3px;
 }
 
 .dc-sub {
     display: block;
     font-family: var(--font-body);
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     color: var(--text-muted);
 }
 
-.venue-map {
-    max-width: 700px;
-    margin: 0 auto;
-    border: 1px solid rgba(201, 169, 110, 0.1);
-    overflow: hidden;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.8s ease 0.3s;
-}
-
-.venue-map.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.map-frame iframe {
-    display: block;
-    filter: grayscale(0.3) brightness(0.9);
-}
-
-.map-directions {
-    display: flex;
+.det-map-btn {
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 16px;
-    background: var(--dark-card);
+    gap: 6px;
+    padding: 10px 22px;
+    border: 1px solid rgba(201, 169, 110, 0.3);
     color: var(--gold);
     font-family: var(--font-elegant);
-    font-size: 0.85rem;
-    letter-spacing: 3px;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
     text-transform: uppercase;
     text-decoration: none;
-    border-top: 1px solid rgba(201, 169, 110, 0.1);
-    transition: background 0.3s ease;
+    transition: all 0.3s;
 }
 
-.map-directions:hover {
-    background: rgba(201, 169, 110, 0.1);
+.det-map-btn:hover {
+    background: var(--gold);
+    color: var(--dark);
 }
 
-/* ============================================
-   CHAPTER 7: CLOSING
-   ============================================ */
-.chapter-closing {
+/* Closing */
+.slide-closing {
     background:
-        radial-gradient(ellipse at 50% 40%, rgba(201, 169, 110, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 40%, rgba(201, 169, 110, 0.05), transparent 50%),
         var(--dark);
-    min-height: 100vh;
 }
 
-#closingParticles {
-    position: absolute;
-    inset: 0;
+.countdown-ring {
+    position: relative;
+    width: 160px;
+    height: 160px;
+    margin: 0 auto 20px;
+}
+
+.cd-svg {
     width: 100%;
     height: 100%;
+    transform: rotate(-90deg);
 }
 
-.countdown-label-text {
-    font-family: var(--font-elegant);
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 5px;
-    color: var(--gold);
-    margin-bottom: 40px;
-    opacity: 0.7;
+.cd-bg {
+    fill: none;
+    stroke: rgba(201, 169, 110, 0.1);
+    stroke-width: 2;
 }
 
-.final-countdown {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    margin-bottom: 60px;
-    flex-wrap: wrap;
+.cd-progress {
+    fill: none;
+    stroke: var(--gold);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-dasharray: 565.48;
+    stroke-dashoffset: 565.48;
+    transition: stroke-dashoffset 1s ease;
 }
 
-.fc-item {
+.cd-inner {
+    position: absolute;
+    inset: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-width: 90px;
-    padding: 22px 16px;
-    background: rgba(201, 169, 110, 0.04);
-    border: 1px solid rgba(201, 169, 110, 0.12);
+    justify-content: center;
 }
 
-.fc-num {
+.cd-days {
     font-family: var(--font-display);
-    font-size: 2.6rem;
+    font-size: 2.8rem;
     font-weight: 300;
     color: var(--gold);
     line-height: 1;
 }
 
-.fc-label {
+.cd-label {
     font-family: var(--font-elegant);
     font-size: 0.7rem;
     text-transform: uppercase;
     letter-spacing: 3px;
     color: var(--text-muted);
-    margin-top: 8px;
+    margin-top: 4px;
 }
 
-.fc-sep {
-    font-family: var(--font-display);
-    font-size: 2rem;
+.cd-title {
+    font-family: var(--font-elegant);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 4px;
     color: var(--gold);
-    opacity: 0.4;
+    margin-bottom: 16px;
+    opacity: 0.7;
 }
 
 .closing-dua {
-    margin-bottom: 50px;
-}
-
-.closing-dua p {
     font-family: var(--font-elegant);
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: var(--text-dim);
     font-style: italic;
+    margin-bottom: 6px;
 }
 
 .closing-dua-mal {
-    font-family: var(--font-malayalam);
-    font-size: 0.85rem;
+    font-family: var(--font-mal);
+    font-size: 0.8rem;
     color: var(--text-muted);
-    font-style: normal !important;
-    margin-top: 8px;
+    margin-bottom: 30px;
 }
 
 .closing-footer {
     font-family: var(--font-elegant);
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: var(--text-muted);
     letter-spacing: 2px;
 }
 
 .cf-dot {
-    margin: 0 12px;
+    margin: 0 10px;
     color: var(--gold);
 }
 
 /* ============================================
-   MUSIC TOGGLE
+   NAVIGATION
    ============================================ */
-.music-toggle {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    z-index: 600;
+.nav-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 30;
     width: 44px;
     height: 44px;
     border-radius: 50%;
-    border: 1px solid rgba(201, 169, 110, 0.3);
-    background: rgba(10, 10, 10, 0.8);
+    border: 1px solid rgba(201, 169, 110, 0.2);
+    background: rgba(10, 10, 10, 0.6);
     color: var(--gold);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    backdrop-filter: blur(10px);
-    transition: all 0.3s ease;
+    backdrop-filter: blur(6px);
+    transition: all 0.3s;
     opacity: 0;
 }
 
-.music-toggle.visible {
-    opacity: 1;
-}
+.inside.visible .nav-arrow { opacity: 1; transition: opacity 0.5s ease 1s; }
 
-.music-toggle:hover {
+.nav-prev { left: 16px; }
+.nav-next { right: 16px; }
+
+.nav-arrow:hover {
     border-color: var(--gold);
     background: rgba(201, 169, 110, 0.1);
 }
 
+.nav-arrow:disabled {
+    opacity: 0.2 !important;
+    cursor: default;
+    pointer-events: none;
+}
+
+/* Chapter Dots */
+.chapter-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 30;
+    opacity: 0;
+}
+
+.inside.visible .chapter-dots { opacity: 1; transition: opacity 0.5s ease 1s; }
+
+.c-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1.5px solid var(--gold);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s;
+    padding: 0;
+}
+
+.c-dot.active {
+    background: var(--gold);
+    transform: scale(1.3);
+    box-shadow: 0 0 8px var(--gold-glow);
+}
+
+/* Music */
+.music-btn {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    z-index: 30;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid rgba(201, 169, 110, 0.2);
+    background: rgba(10, 10, 10, 0.6);
+    color: var(--gold);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(6px);
+    transition: all 0.3s;
+    opacity: 0;
+}
+
+.inside.visible .music-btn { opacity: 1; transition: opacity 0.5s ease 1s; }
+.music-btn:hover { border-color: var(--gold); background: rgba(201, 169, 110, 0.1); }
+
 /* ============================================
    RESPONSIVE
    ============================================ */
-@media (max-width: 768px) {
-    .door-frame {
-        width: 240px;
-        height: 380px;
-    }
-
-    .door-arch-frame {
-        width: 260px;
-    }
-
-    .door-prompt span {
-        font-size: 0.8rem;
-        letter-spacing: 2px;
-    }
-
-    .invitation-card {
-        padding: 40px 25px;
-    }
-
-    .details-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .final-countdown {
-        gap: 8px;
-    }
-
-    .fc-item {
-        min-width: 70px;
-        padding: 16px 12px;
-    }
-
-    .fc-num {
-        font-size: 2rem;
-    }
-
-    .name-orbital {
-        width: 140px;
-        height: 140px;
-    }
-}
-
-@media (max-width: 480px) {
-    .door-frame {
-        width: 200px;
-        height: 320px;
-    }
-
-    .door-arch-frame {
-        width: 220px;
-        height: 50px;
-    }
-
-    .geometric-star {
-        width: 35px;
-        height: 35px;
-    }
-
-    .gs-2 { width: 25px; height: 25px; }
-    .gs-3 { width: 18px; height: 18px; }
-
-    .inv-bismillah {
-        font-size: 1.3rem;
-    }
-
-    .fc-item {
-        min-width: 60px;
-        padding: 14px 8px;
-    }
-
-    .fc-num {
-        font-size: 1.6rem;
-    }
-
-    .fc-label {
-        font-size: 0.6rem;
-        letter-spacing: 2px;
-    }
+@media (max-width: 600px) {
+    .door-panels { width: 75vw; height: 65vh; }
+    .door-arch { width: 82vw; }
+    .inv-card { padding: 30px 20px; }
+    .det-cards { grid-template-columns: 1fr; gap: 10px; }
+    .det-card { padding: 16px 10px; }
+    .nav-arrow { width: 36px; height: 36px; }
+    .nav-prev { left: 8px; }
+    .nav-next { right: 8px; }
+    .chapter-dots { gap: 8px; bottom: 14px; }
+    .countdown-ring { width: 130px; height: 130px; }
+    .cd-days { font-size: 2.2rem; }
 }
