@@ -344,7 +344,7 @@ body { background: var(--board); color: var(--board-fg); font-family: var(--ui);
     for (let i = 1; i < 6; i++) el("line", { x1: f(x + i * 3.6 * s - 4 * s), y1: f(y - i * 16 * s), x2: f(x + i * 3.6 * s + 6 * s), y2: f(y - i * 16 * s - 2 * s), "stroke-width": sw * .5 }, G);
   }
   function crescent(G, cx, cy, r) {
-    el("path", { class: "f", d: `M${cx} ${cy - r}A${r} ${r} 0 1 0 ${cx} ${cy + r}A${r * .78} ${r * .78} 0 1 1 ${cx} ${cy - r}Z` }, G);
+    el("path", { class: "f", d: `M${cx} ${cy - r}A${r} ${r} 0 1 0 ${cx} ${cy + r}A${r * 1.25} ${r * 1.25} 0 0 1 ${cx} ${cy - r}Z` }, G);
   }
   function star(G, cx, cy, r) {
     let d = "";

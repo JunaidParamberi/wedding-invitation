@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Junaid &amp; Rafeeda · Mylanchi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,500&family=Pinyon+Script&family=Amiri:wght@400;700&family=Noto+Serif+Malayalam:wght@400;500&family=Jost:wght@400;500&display=swap">
+<style>
+/* Layout: one long palm. Full-height sticky scenes stacked down the page; each scene has far, mid and near henna layers that move at different speeds. Single deliberate warm look. */
+:root {
+  color-scheme: light;
+  --skin-a: #EFCFAE;
+  --skin-b: #D9A57D;
+  --skin-c: #C98C63;
+  --paste: #34221A;
+  --stain: #A3441A;
+  --stain-deep: #6E2711;
+  --ivory: #F8F0E4;
+  --text: #45190C;
+  --text-soft: #7A4A33;
+  --serif: "Cormorant Garamond", "Georgia", serif;
+  --script: "Pinyon Script", "Snell Roundhand", cursive;
+  --arabic: "Amiri", "Traditional Arabic", serif;
+  --mal: "Noto Serif Malayalam", serif;
+  --ui: "Jost", "Helvetica Neue", sans-serif;
+}
+* { box-sizing: border-box; }
+html { background: var(--skin-b); }
+body {
+  margin: 0; color: var(--text); font-family: var(--serif); font-size: 19px; line-height: 1.5;
+  background:
+    radial-gradient(70% 40% at 30% 10%, rgba(255,236,214,.55), transparent 70%),
+    radial-gradient(60% 50% at 80% 60%, rgba(255,230,205,.35), transparent 70%),
+    linear-gradient(180deg, var(--skin-a), var(--skin-b) 45%, var(--skin-a) 75%, var(--skin-b));
+  overflow-x: hidden;
+}
+/* skin texture: fine pores + soft mottling */
+.grain {
+  position: fixed; inset: 0; pointer-events: none; z-index: 50; opacity: .5; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .55 0 0 0 0 .32 0 0 0 0 .2 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.vignette { position: fixed; inset: 0; pointer-events: none; z-index: 49; background: radial-gradient(120% 90% at 50% 50%, transparent 55%, rgba(110,50,25,.22)); }
+
+svg.h { overflow: visible; display: block; }
+.paste { stroke: var(--paste); color: var(--paste); fill: none; stroke-linecap: round; stroke-linejoin: round; filter: url(#paste); }
+.stain { stroke: var(--stain); color: var(--stain); fill: none; stroke-linecap: round; stroke-linejoin: round; filter: url(#stain); }
+.f { fill: currentColor; stroke: none; }
+.layer { position: absolute; will-change: transform; }
+
+/* ---------- hero ---------- */
+.hero { position: relative; min-height: 100svh; display: grid; place-items: center; padding: 72px 16px 96px; text-align: center; overflow: hidden; }
+.hero .over { font: italic 500 clamp(22px, 4vw, 30px)/1.2 var(--serif); margin: 0; }
+.hero .mandala-wrap { width: min(86vw, 640px); aspect-ratio: 1; margin: 28px auto; will-change: transform; }
+.hero .mandala-wrap svg { width: 100%; height: 100%; }
+.hero .under { font: italic 500 clamp(20px, 3.6vw, 26px)/1.3 var(--serif); margin: 0; }
+.hero .who { font: 500 13px var(--ui); letter-spacing: .32em; text-transform: uppercase; color: var(--text-soft); margin-top: 22px; }
+.scroll-cue { position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%); font: 500 11px var(--ui); letter-spacing: .3em; text-transform: uppercase; color: var(--text-soft); display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.scroll-cue i { width: 1px; height: 34px; background: linear-gradient(var(--text-soft), transparent); animation: cue 2s ease-in-out infinite; }
+@keyframes cue { 0%,100% { transform: scaleY(.4); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } }
+.draw-in path, .draw-in circle { stroke-dasharray: var(--l, 2000); stroke-dashoffset: var(--l, 2000); animation: drawin 2.6s cubic-bezier(.5,0,.2,1) forwards; animation-delay: var(--d, 0s); }
+.draw-in .f { animation: fadein .6s forwards; animation-delay: var(--d, 0s); opacity: 0; stroke-dasharray: none; }
+@keyframes drawin { to { stroke-dashoffset: 0; } }
+@keyframes fadein { to { opacity: 1; } }
+
+/* ---------- sticky scenes ---------- */
+.scene { position: relative; height: 230vh; }
+.stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
+.copy { position: absolute; left: 16px; right: 16px; top: 9vh; text-align: center; z-index: 5; will-change: transform, opacity; }
+.copy .cap { font: italic 500 clamp(24px, 4.4vw, 38px)/1.2 var(--serif); margin: 0; text-wrap: balance; }
+.copy .name { font: clamp(54px, 11vw, 104px)/1.05 var(--script); margin: 10px 0 0; color: var(--stain-deep); }
+.copy .sub { font: italic clamp(18px, 2.6vw, 22px) var(--serif); color: var(--text-soft); margin: 2px 0 0; }
+.copy.low { top: auto; bottom: 7vh; }
+.copy p { text-shadow: 0 0 18px var(--skin-a), 0 0 8px var(--skin-a), 0 0 3px var(--skin-a); }
+.copy.low::before { content: ""; position: absolute; inset: -30px -20px; z-index: -1; background: radial-gradient(closest-side, rgba(236,200,168,.92), rgba(236,200,168,.6) 60%, transparent); }
+
+/* ---------- vine ---------- */
+.vine-sec { position: relative; height: 260vh; }
+.vine-sec .stage svg { position: absolute; left: 50%; top: 50%; width: min(130vw, 132vh * .75); height: min(96vh, 173vw); transform: translate(-50%, -50%); }
+.vine-sec .copy.a { top: 7vh; }
+.vine-sec .copy.b { top: auto; bottom: 7vh; }
+
+/* ---------- colour ---------- */
+.colour .stack { position: absolute; left: 50%; top: 54%; width: min(84vw, 62vh); aspect-ratio: 1; transform: translate(-50%, -50%); }
+.colour .stack svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.colour .wet { clip-path: inset(0 0 0 var(--wipe, 0%)); }
+.colour .labels { position: absolute; left: 50%; bottom: 7vh; transform: translateX(-50%); display: flex; gap: 14px; align-items: center; font: 500 11px var(--ui); letter-spacing: .28em; text-transform: uppercase; color: var(--text-soft); white-space: nowrap; }
+.colour .bar { width: 120px; height: 3px; background: linear-gradient(90deg, var(--paste), var(--stain)); border-radius: 2px; position: relative; }
+.colour .bar b { position: absolute; top: -4px; left: var(--wipe, 0%); width: 11px; height: 11px; margin-left: -5px; border-radius: 50%; background: var(--ivory); box-shadow: 0 1px 3px rgba(0,0,0,.3); }
+
+/* ---------- card ---------- */
+.card-sec { position: relative; padding: 14vh 16px 16vh; perspective: 1200px; }
+.card {
+  max-width: 520px; margin: 0 auto; background: var(--ivory); color: #3A180C; text-align: center; position: relative;
+  padding: clamp(64px, 12vw, 92px) clamp(36px, 8vw, 70px); transform-origin: 50% 100%; will-change: transform;
+  box-shadow: 0 2px 4px rgba(90,40,20,.12), 0 30px 60px -20px rgba(90,40,20,.45);
+}
+.card::before { content: ""; position: absolute; inset: 0; pointer-events: none; background:
+  radial-gradient(120% 80% at 50% 0%, rgba(255,255,255,.6), transparent 60%),
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.7' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .4 0 0 0 0 .3 0 0 0 .12 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E"); }
+.card .border { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.card > *:not(.border) { position: relative; }
+.card .bism { font: 26px/1.7 var(--arabic); color: var(--stain); direction: rtl; margin: 0; }
+.card .lead { font: italic 17px/1.4 var(--serif); color: var(--text-soft); margin: 12px 0 0; }
+.card .n { font: clamp(44px, 9vw, 58px)/1.05 var(--script); color: var(--stain-deep); margin: 16px 0 0; }
+.card .p { font: italic 16px var(--serif); color: var(--text-soft); margin: 0; }
+.card .amp { font: 34px/1 var(--script); color: var(--stain); margin: 10px 0 4px; }
+.card .rule { width: 80px; height: 1px; background: var(--stain); margin: 24px auto 18px; opacity: .6; }
+.card .d { font: 500 12px var(--ui); letter-spacing: .28em; margin: 0; }
+.card .big { font: 600 30px/1.2 var(--serif); margin: 6px 0; }
+.card .v { font: italic 15px/1.4 var(--serif); color: var(--text-soft); margin: 22px 0 0; }
+
+/* ---------- finale ---------- */
+.finale { position: relative; padding: 0 16px 90px; text-align: center; overflow: hidden; }
+.tips { width: 100%; height: clamp(120px, 22vw, 200px); display: block; }
+.finale .m { width: min(60vw, 280px); aspect-ratio: 1; margin: -10px auto 0; }
+.finale .m svg { width: 100%; height: 100%; }
+.finale .cap { font: italic 500 clamp(24px, 4.4vw, 36px)/1.2 var(--serif); margin: 26px 0 0; }
+.countdown { margin: 22px 0 0; font: 500 12px var(--ui); letter-spacing: .28em; text-transform: uppercase; color: var(--text-soft); }
+.countdown strong { display: block; font: clamp(52px, 10vw, 76px)/1 var(--script); letter-spacing: 0; color: var(--stain-deep); text-transform: none; margin-bottom: 4px; }
+.actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin: 30px 0 0; }
+.btn { font: 500 14px var(--ui); letter-spacing: .06em; color: var(--text); text-decoration: none; border: 1.5px solid var(--text); border-radius: 999px; padding: 11px 20px; transition: background .2s, color .2s; }
+.btn:hover { background: var(--text); color: var(--ivory); }
+.btn.solid { background: var(--stain-deep); border-color: var(--stain-deep); color: var(--ivory); }
+.btn:focus-visible { outline: 2px solid var(--stain-deep); outline-offset: 3px; }
+.reply { font: italic 17px var(--serif); color: var(--text-soft); margin: 16px 0 0; }
+.dua { font: 500 18px/1.6 var(--mal); margin: 42px 0 0; }
+.sign { font: clamp(32px, 6vw, 44px)/1.2 var(--script); color: var(--stain-deep); margin: 6px 0 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .draw-in path, .draw-in circle { animation: none; stroke-dashoffset: 0; }
+  .draw-in .f { animation: none; opacity: 1; }
+  .scroll-cue i { animation: none; }
+  .scene, .vine-sec { height: auto; }
+  .stage { position: relative; height: 100svh; }
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- wet henna: wobbly line, raised bead, glossy highlight, soft cast shadow -->
+    <filter id="paste" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="1" seed="4" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.4" xChannelSelector="R" yChannelSelector="G" result="line"/>
+      <feGaussianBlur in="line" stdDeviation="1.5" result="height"/>
+      <feSpecularLighting in="height" surfaceScale="3.2" specularConstant=".85" specularExponent="18" lighting-color="#FFEBD6" result="spec">
+        <feDistantLight azimuth="235" elevation="48"/>
+      </feSpecularLighting>
+      <feComposite in="spec" in2="line" operator="in" result="gloss"/>
+      <feOffset in="line" dx=".6" dy="1.8" result="off"/>
+      <feGaussianBlur in="off" stdDeviation="1.6" result="offb"/>
+      <feColorMatrix in="offb" type="matrix" values="0 0 0 0 .25  0 0 0 0 .1  0 0 0 0 .04  0 0 0 .5 0" result="shadow"/>
+      <feMerge><feMergeNode in="shadow"/><feMergeNode in="line"/><feMergeNode in="gloss"/></feMerge>
+    </filter>
+    <!-- stain: same wobble, soaked-in soft edge, uneven depth -->
+    <filter id="stain" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="1" seed="4" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.4" xChannelSelector="R" yChannelSelector="G" result="line"/>
+      <feGaussianBlur in="line" stdDeviation=".55" result="soft"/>
+      <feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="9" result="mottle"/>
+      <feColorMatrix in="mottle" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .7 .45" result="mask"/>
+      <feComposite in="soft" in2="mask" operator="in"/>
+    </filter>
+  </defs>
+</svg>
+<div class="grain"></div>
+<div class="vignette"></div>
+
+<!-- 1 · hero -->
+<header class="hero">
+  <div>
+    <p class="over">Look closely.</p>
+    <div class="mandala-wrap" id="heroWrap"><svg class="h" id="heroMandala" viewBox="-460 -460 920 920" aria-label="Henna mandala with our names hidden inside"></svg></div>
+    <p class="under">Our names are hidden somewhere in here.</p>
+    <p class="who">Sunday · 13 December 2026</p>
+  </div>
+  <div class="scroll-cue">Scroll<i></i></div>
+</header>
+
+<!-- 2 · Kundoor -->
+<section class="scene" id="s-kundoor">
+  <div class="stage">
+    <div class="copy" data-copy>
+      <p class="cap">Once upon a time, in Kundoor…</p>
+    </div>
+    <svg class="h layer" data-speed=".15" style="left:-15%;width:130%;bottom:20%;height:30%" viewBox="0 0 1300 340" preserveAspectRatio="none" id="kHills"></svg>
+    <svg class="h layer" data-speed=".38" style="left:-5%;width:110%;bottom:-6%;height:40%" viewBox="0 0 1100 440" preserveAspectRatio="xMidYMax meet" id="kPalms"></svg>
+    <svg class="h layer" data-speed=".75" style="left:50%;margin-left:calc(min(60vw,52vh) / -2);width:min(60vw,52vh);bottom:26%;height:min(70vw,60vh)" viewBox="-130 -170 260 300" id="kPaisley"></svg>
+    <svg class="h layer" data-speed="1.25" style="inset:0;width:100%;height:100%" viewBox="0 0 1000 1000" preserveAspectRatio="none" id="kLeaves"></svg>
+    <div class="copy low" data-copy>
+      <p class="name">Junaid Raziq</p>
+      <p class="sub">son of Mohammed Ali</p>
+    </div>
+  </div>
+</section>
+
+<!-- 3 · Mattan -->
+<section class="scene" id="s-mattan">
+  <div class="stage">
+    <svg class="h layer" data-speed=".1" style="left:0;width:100%;top:4%;height:40%" viewBox="0 0 1000 400" preserveAspectRatio="xMidYMid slice" id="mSky"></svg>
+    <div class="copy" data-copy>
+      <p class="cap">…and in Mattan,</p>
+    </div>
+    <svg class="h layer" data-speed=".32" style="left:-10%;width:120%;bottom:-4%;height:34%" viewBox="0 0 1200 360" preserveAspectRatio="none" id="mWater"></svg>
+    <svg class="h layer" data-speed=".75" style="left:50%;margin-left:calc(min(60vw,52vh) / -2);width:min(60vw,52vh);bottom:26%;height:min(70vw,60vh)" viewBox="-130 -170 260 300" id="mPaisley"></svg>
+    <svg class="h layer" data-speed="1.25" style="inset:0;width:100%;height:100%" viewBox="0 0 1000 1000" preserveAspectRatio="none" id="mLeaves"></svg>
+    <div class="copy low" data-copy>
+      <p class="name">Rafeeda</p>
+      <p class="sub">daughter of Abdul Kareem</p>
+    </div>
+  </div>
+</section>
+
+<!-- 4 · the vine -->
+<section class="vine-sec" id="s-vine">
+  <div class="stage">
+    <div class="copy a"><p class="cap">Two homes. Two families.</p></div>
+    <svg class="h" id="vineSvg" viewBox="0 0 900 1200" aria-hidden="true"></svg>
+    <div class="copy b"><p class="cap">Slowly, their paths grew toward each other.</p></div>
+  </div>
+</section>
+
+<!-- 5 · two become one -->
+<section class="scene" id="s-heart">
+  <div class="stage">
+    <div class="copy" data-copy><p class="cap">Then both families said yes.</p></div>
+    <svg class="h" id="heartSvg" style="position:absolute;left:50%;top:52%;width:min(92vw,70vh);height:min(110vw,84vh);transform:translate(-50%,-50%)" viewBox="0 0 900 1080" aria-hidden="true"></svg>
+    <div class="copy low" data-copy>
+      <p class="name" style="font:700 clamp(40px,8vw,64px)/1.4 var(--arabic);direction:rtl">ٱلْحَمْدُ لِلَّٰهِ</p>
+      <p class="sub">Alhamdulillah</p>
+    </div>
+  </div>
+</section>
+
+<!-- 6 · the colour deepens -->
+<section class="scene colour" id="s-colour">
+  <div class="stage">
+    <div class="copy"><p class="cap">They say the darker the mylanchi,<br>the deeper the love.</p></div>
+    <div class="stack" id="colourStack">
+      <svg class="h" id="dryMandala" viewBox="-460 -460 920 920" aria-hidden="true"></svg>
+      <svg class="h wet" id="wetMandala" viewBox="-460 -460 920 920" aria-hidden="true"></svg>
+    </div>
+    <div class="labels"><span>Wet paste</span><span class="bar"><b></b></span><span>Next morning</span></div>
+  </div>
+</section>
+
+<!-- 7 · the invitation -->
+<section class="card-sec">
+  <article class="card" id="card">
+    <svg class="border" id="cardBorder" viewBox="0 0 520 820" preserveAspectRatio="none" aria-hidden="true"></svg>
+    <p class="bism">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
+    <p class="lead">With the blessings of Allah,<br>we invite you to the Nikah of</p>
+    <p class="n">Junaid Raziq</p>
+    <p class="p">son of Mohammed Ali</p>
+    <p class="amp">&amp;</p>
+    <p class="n" style="margin-top:0">Rafeeda</p>
+    <p class="p">daughter of Abdul Kareem</p>
+    <div class="rule"></div>
+    <p class="d">Sunday · 13 December 2026</p>
+    <p class="big">12:00 PM</p>
+    <p class="d">Zain Auditorium · Kadakkallu</p>
+    <p class="v">“And We created you in pairs.” · Quran 78:6</p>
+  </article>
+</section>
+
+<!-- 8 · finale -->
+<footer class="finale">
+  <svg class="h tips" id="tips" viewBox="0 0 1000 200" preserveAspectRatio="xMidYMin meet" aria-hidden="true"></svg>
+  <div class="m"><svg class="h" id="smallMandala" viewBox="-460 -460 920 920" aria-hidden="true"></svg></div>
+  <p class="cap">Come and see the colour on the day.</p>
+  <p class="countdown"><strong id="days">71</strong><span id="daysLbl">days to go</span></p>
+  <div class="actions">
+    <a class="btn solid" id="rsvp" href="#" target="_blank" rel="noopener">Reply on WhatsApp</a>
+    <a class="btn" id="cal" href="#" target="_blank" rel="noopener">Add to calendar</a>
+    <a class="btn" href="https://www.google.com/maps/search/?api=1&amp;query=Zain%20Auditorium%20Kadakkallu%20Kerala" target="_blank" rel="noopener">Directions</a>
+  </div>
+  <p class="reply">Kindly reply by 20 November</p>
+  <p class="dua">അല്ലാഹ് ഈ ഐക്യത്തെ അനുഗ്രഹിക്കട്ടെ</p>
+  <p class="sign">Junaid &amp; Rafeeda</p>
+</footer>
+
+<script>
+/* Fill this in to make the WhatsApp button work: country code + number, no + or spaces. */
+const WHATSAPP = "";
+
+(function () {
+  const NS = "http://www.w3.org/2000/svg", TAU = Math.PI * 2;
+  const $ = id => document.getElementById(id);
+  const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+  const P = (cx, cy, r, a) => [cx + r * Math.cos(a), cy + r * Math.sin(a)];
+  const f = n => (+n).toFixed(1);
+  const grp = (svg, cls, tf) => el("g", Object.assign({ class: cls }, tf ? { transform: tf } : {}), svg);
+
+  function petal(cx, cy, a, r1, r2, w) {
+    const b = P(cx, cy, r1, a), t = P(cx, cy, r2, a), rm = (r1 + r2) / 2 * 1.04;
+    const c1 = P(cx, cy, rm, a + w), c2 = P(cx, cy, rm, a - w);
+    return `M${f(b[0])} ${f(b[1])}Q${f(c1[0])} ${f(c1[1])} ${f(t[0])} ${f(t[1])}Q${f(c2[0])} ${f(c2[1])} ${f(b[0])} ${f(b[1])}Z`;
+  }
+  function dotRing(G, cx, cy, r, n, s, off = 0) { for (let i = 0; i < n; i++) { const p = P(cx, cy, r, off + i * TAU / n); el("circle", { cx: f(p[0]), cy: f(p[1]), r: s, class: "f" }, G); } }
+  function scallops(G, cx, cy, r, n, sw) {
+    let d = "";
+    for (let i = 0; i < n; i++) {
+      const p0 = P(cx, cy, r, i * TAU / n), p1 = P(cx, cy, r, (i + 1) * TAU / n), rad = Math.hypot(p1[0] - p0[0], p1[1] - p0[1]) / 2;
+      d += `M${f(p0[0])} ${f(p0[1])}A${f(rad)} ${f(rad)} 0 0 1 ${f(p1[0])} ${f(p1[1])}`;
+    }
+    el("path", { d, "stroke-width": sw }, G);
+  }
+  function hatchRing(G, cx, cy, r1, r2, n, sw) {
+    let d = "";
+    for (let i = 0; i < n; i++) { const a = i * TAU / n, p = P(cx, cy, r1, a), q = P(cx, cy, r2, a + .05); d += `M${f(p[0])} ${f(p[1])}L${f(q[0])} ${f(q[1])}`; }
+    el("path", { d, "stroke-width": sw }, G);
+  }
+  /* A full bridal mandala. Rings are separate groups so they can draw in one after another. */
+  function mandala(svg, cls, R, opts = {}) {
+    const sw = opts.sw || 4, rings = [];
+    const ring = () => { const g = grp(svg, cls); rings.push(g); return g; };
+    let G = ring();
+    el("circle", { cx: 0, cy: 0, r: R * .05, class: "f" }, G);
+    el("circle", { cx: 0, cy: 0, r: R * .1, "stroke-width": sw }, G);
+    let d = ""; for (let i = 0; i < 12; i++) d += petal(0, 0, i * TAU / 12, R * .1, R * .17, .3);
+    el("path", { d, "stroke-width": sw * .7 }, G);
+    G = ring();
+    d = ""; let d2 = "";
+    for (let i = 0; i < 8; i++) { const a = i * TAU / 8 - Math.PI / 2; d += petal(0, 0, a, R * .19, R * .43, .34); d2 += petal(0, 0, a, R * .23, R * .37, .15); }
+    el("path", { d, "stroke-width": sw * 1.1 }, G); el("path", { d: d2, "stroke-width": sw * .6 }, G);
+    for (let i = 0; i < 8; i++) { const p = P(0, 0, R * .32, i * TAU / 8 + TAU / 16 - Math.PI / 2); el("circle", { cx: f(p[0]), cy: f(p[1]), r: R * .02, class: "f" }, G); }
+    G = ring();
+    el("circle", { cx: 0, cy: 0, r: R * .46, "stroke-width": sw }, G);
+    if (opts.names) {
+      const id = "nm" + Math.random().toString(36).slice(2, 7), r = R * .505;
+      el("path", { id, d: `M${-r} 0A${r} ${r} 0 1 1 ${r} 0A${r} ${r} 0 1 1 ${-r} 0`, stroke: "none" }, G);
+      const t = el("text", { "font-family": "Pinyon Script, cursive", "font-size": R * .058, class: "f", "letter-spacing": .5 }, G);
+      const tp = el("textPath", { href: "#" + id }, t);
+      tp.textContent = "Junaid · ❦ · ∘ · ❦ · ∘ · ❦ · ∘ · ❦ · ∘ · ❦ · Rafeeda · ❦ · ∘ · ❦ · ∘ · ❦ · ∘ · ❦ · ∘ · ❦ · ∘ · ❦ · ∘ · ❦";
+    } else hatchRing(G, 0, 0, R * .47, R * .54, 72, sw * .45);
+    el("circle", { cx: 0, cy: 0, r: R * .555, "stroke-width": sw * .8 }, G);
+    G = ring();
+    scallops(G, 0, 0, R * .56, 20, sw);
+    d = ""; for (let i = 0; i < 16; i++) d += petal(0, 0, i * TAU / 16, R * .6, R * .8, .15);
+    el("path", { d, "stroke-width": sw }, G);
+    d = ""; for (let i = 0; i < 16; i++) d += petal(0, 0, i * TAU / 16, R * .64, R * .74, .07);
+    el("path", { d, "stroke-width": sw * .5 }, G);
+    dotRing(G, 0, 0, R * .84, 16, R * .018, TAU / 32);
+    G = ring();
+    el("circle", { cx: 0, cy: 0, r: R * .88, "stroke-width": sw * .8 }, G);
+    d = ""; for (let i = 0; i < 32; i++) d += petal(0, 0, i * TAU / 32, R * .9, R * 1.0, .07);
+    el("path", { d, "stroke-width": sw * .9 }, G);
+    dotRing(G, 0, 0, R * 1.045, 32, R * .011);
+    dotRing(G, 0, 0, R * 1.085, 64, R * .006, TAU / 128);
+    return rings;
+  }
+
+  const PAISLEY = "M0 60C-58 60-66 4-40-28C-20-52 18-66 32-100C44-62 62-22 52 14C44 44 26 60 0 60Z";
+  function paisley(G, tf, sw, inner) {
+    const pg = el("g", { transform: tf }, G);
+    el("path", { d: PAISLEY, "stroke-width": sw }, pg);
+    el("path", { d: "M32 -100C46 -110 60 -100 54 -88C49 -79 38 -82 40 -90C41 -95 47 -95 48 -91", "stroke-width": sw }, pg);
+    el("path", { d: PAISLEY, transform: "translate(1 4) scale(.85)", "stroke-width": sw * .7 }, pg);
+    el("path", { d: PAISLEY, transform: "translate(2 8) scale(.72)", "stroke-width": sw * .45 }, pg);
+    const tmp = el("path", { d: PAISLEY, stroke: "none" }, pg), L = tmp.getTotalLength();
+    for (let s = 0; s < L; s += 9) { const p = tmp.getPointAtLength(s); el("circle", { cx: f(p.x * 1.13), cy: f(p.y * 1.13 - 1), r: sw * .5, class: "f" }, pg); }
+    tmp.remove();
+    if (inner) inner(pg, sw);
+    return pg;
+  }
+  function house(G, x, y, s, sw) {
+    const q = v => f(v);
+    el("path", { d: `M${q(x - 60 * s)} ${q(y - 18 * s)}L${q(x - 34 * s)} ${q(y - 56 * s)}L${q(x + 34 * s)} ${q(y - 56 * s)}L${q(x + 60 * s)} ${q(y - 18 * s)}Z`, "stroke-width": sw }, G);
+    el("path", { d: `M${q(x - 20 * s)} ${q(y - 56 * s)}L${q(x)} ${q(y - 78 * s)}L${q(x + 20 * s)} ${q(y - 56 * s)}`, "stroke-width": sw }, G);
+    let d = ""; for (let i = -3; i <= 3; i++) d += `M${q(x + i * 12 * s)} ${q(y - 22 * s)}L${q(x + i * 9 * s)} ${q(y - 52 * s)}`;
+    el("path", { d, "stroke-width": sw * .45 }, G);
+    el("rect", { x: q(x - 44 * s), y: q(y - 18 * s), width: q(88 * s), height: q(58 * s), "stroke-width": sw }, G);
+    el("path", { d: `M${q(x - 11 * s)} ${q(y + 40 * s)}V${q(y + 10 * s)}A${q(11 * s)} ${q(11 * s)} 0 0 1 ${q(x + 11 * s)} ${q(y + 10 * s)}V${q(y + 40 * s)}`, "stroke-width": sw }, G);
+    [-28, 28].forEach(dx => el("rect", { x: q(x + dx * s - 7 * s), y: q(y - 2 * s), width: q(14 * s), height: q(16 * s), "stroke-width": sw * .7 }, G));
+    for (let i = -5; i <= 5; i++) el("circle", { cx: q(x + i * 8 * s), cy: q(y + 48 * s), r: sw * .5, class: "f" }, G);
+  }
+  function palmTree(G, x, y, s, sw, lean = 1) {
+    const tx = x + 26 * s * lean, ty = y - 150 * s;
+    el("path", { d: `M${f(x)} ${f(y)}C${f(x + 4 * s * lean)} ${f(y - 60 * s)} ${f(x + 16 * s * lean)} ${f(y - 110 * s)} ${f(tx)} ${f(ty)}`, "stroke-width": sw }, G);
+    let d = ""; for (let i = 1; i < 9; i++) { const yy = y - i * 16 * s, xx = x + (i * i * .3) * s * lean; d += `M${f(xx - 5 * s)} ${f(yy)}L${f(xx + 7 * s)} ${f(yy - 3 * s)}`; }
+    el("path", { d, "stroke-width": sw * .5 }, G);
+    [[-70, 30], [-50, -14], [-14, -40], [24, -36], [56, -8], [72, 34]].forEach(([dx, dy]) => {
+      const ex = tx + dx * s, ey = ty + (dy + 18) * s, cx = tx + dx * .5 * s, cy = ty + (dy - 26) * s;
+      el("path", { d: `M${f(tx)} ${f(ty)}Q${f(cx)} ${f(cy)} ${f(ex)} ${f(ey)}`, "stroke-width": sw }, G);
+      for (let k = 1; k < 6; k++) {
+        const t = k / 6, px = (1 - t) * (1 - t) * tx + 2 * (1 - t) * t * cx + t * t * ex, py = (1 - t) * (1 - t) * ty + 2 * (1 - t) * t * cy + t * t * ey;
+        el("path", { d: `M${f(px)} ${f(py)}l${f(4 * s)} ${f(12 * s)}`, "stroke-width": sw * .45 }, G);
+      }
+    });
+    el("circle", { cx: f(tx - 4 * s), cy: f(ty + 8 * s), r: 5 * s, class: "f" }, G);
+    el("circle", { cx: f(tx + 6 * s), cy: f(ty + 10 * s), r: 5 * s, class: "f" }, G);
+  }
+  function crescent(G, cx, cy, r) { el("path", { class: "f", d: `M${cx} ${cy - r}A${r} ${r} 0 1 0 ${cx} ${cy + r}A${r * 1.25} ${r * 1.25} 0 0 1 ${cx} ${cy - r}Z` }, G); }
+  function star(G, cx, cy, r) { let d = ""; for (let i = 0; i < 10; i++) { const p = P(cx, cy, i % 2 ? r * .42 : r, i * TAU / 10 - Math.PI / 2); d += (i ? "L" : "M") + f(p[0]) + " " + f(p[1]); } el("path", { class: "f", d: d + "Z" }, G); }
+  function leaf(G, x, y, ang, s, sw) {
+    const lg = el("g", { transform: `translate(${f(x)} ${f(y)}) rotate(${f(ang)}) scale(${s})` }, G);
+    el("path", { d: "M0 0Q16 -15 40 0Q16 15 0 0Z", "stroke-width": sw / s }, lg);
+    el("path", { d: "M3 0L34 0M12 0l6 -5M20 0l6 -5M12 0l6 5M20 0l6 5", "stroke-width": sw * .45 / s }, lg);
+    return lg;
+  }
+  function wavyBand(G, w, y, amp, len, sw, dots) {
+    let d = `M0 ${y}`; for (let x = 0; x < w; x += len) d += `q${len / 4} ${-amp} ${len / 2} 0t${len / 2} 0`;
+    el("path", { d, "stroke-width": sw }, G);
+    if (dots) for (let x = len / 4; x < w; x += len / 2) el("circle", { cx: f(x), cy: f(y + amp * 1.3), r: sw * .6, class: "f" }, G);
+  }
+  function scatterLeaves(svg, seed) {
+    const G = grp(svg, "paste"); let r = seed;
+    const rnd = () => (r = (r * 9301 + 49297) % 233280) / 233280;
+    for (let i = 0; i < 7; i++) {
+      const x = rnd() < .5 ? rnd() * 140 + 20 : 840 + rnd() * 140, y = rnd() * 900 + 50;
+      leaf(G, x, y, rnd() * 360, 1.3 + rnd(), 3);
+      if (rnd() < .6) for (let k = 0; k < 3; k++) el("circle", { cx: f(x + 50 + k * 14), cy: f(y + 10), r: 3, class: "f" }, G);
+    }
+  }
+
+  /* ---------- 1 · hero ---------- */
+  const heroRings = mandala($("heroMandala"), "paste draw-in", 400, { names: true, sw: 4.2 });
+  heroRings.forEach((g, i) => {
+    g.style.setProperty("--d", (0.25 + i * .45) + "s");
+    g.querySelectorAll("path,circle").forEach(p => { if (!p.classList.contains("f")) { try { p.style.setProperty("--l", Math.ceil(p.getTotalLength())); } catch (e) {} } else p.style.setProperty("--d", (0.6 + i * .45) + "s"); });
+  });
+
+  /* ---------- 2 · Kundoor ---------- */
+  { const G = grp($("kHills"), "paste");
+    el("path", { d: "M0 220C150 120 260 120 380 190S620 90 760 150S1040 220 1300 120", "stroke-width": 3 }, G);
+    el("path", { d: "M0 250C180 170 300 175 420 225S650 140 800 195S1060 250 1300 170", "stroke-width": 2 }, G);
+    wavyBand(G, 1300, 300, 10, 60, 2.6, true);
+    for (let x = 30; x < 1300; x += 26) el("circle", { cx: x, cy: 330, r: 2.4, class: "f" }, G); }
+  { const G = grp($("kPalms"), "paste");
+    palmTree(G, 120, 430, 1.25, 3.4, 1); palmTree(G, 300, 430, .9, 3, -1); palmTree(G, 820, 430, 1.1, 3.2, -1); palmTree(G, 980, 430, 1.4, 3.6, 1);
+    wavyBand(G, 1100, 425, 8, 44, 2.6, false); }
+  paisley(grp($("kPaisley"), "paste"), "rotate(-14) scale(1.55)", 1.6, pg => {
+    const h = el("g", { transform: "translate(-6 20) rotate(14) scale(.34)" }, pg);
+    house(h, -14, 0, 1, 4.4); palmTree(h, 74, 40, .55, 4.4, 1);
+  });
+  scatterLeaves($("kLeaves"), 7);
+
+  /* ---------- 3 · Mattan ---------- */
+  { const G = grp($("mSky"), "paste");
+    crescent(G, 760, 150, 54); star(G, 840, 120, 18);
+    [[140, 90, 9], [260, 210, 6], [420, 70, 7], [560, 180, 5], [920, 260, 7], [650, 60, 5]].forEach(([x, y, r]) => star(G, x, y, r));
+    for (let i = 0; i < 40; i++) el("circle", { cx: (i * 137) % 1000, cy: 30 + (i * 71) % 330, r: 1.8, class: "f" }, G); }
+  { const G = grp($("mWater"), "paste");
+    for (let i = 0; i < 6; i++) wavyBand(G, 1200, 60 + i * 50, 9 - i, 70 + i * 6, 3 - i * .3, i % 2 === 0);
+    const b = el("g", { transform: "translate(860 70)" }, G);
+    el("path", { d: "M-90 0Q0 40 90 0L70 22Q0 44 -70 22Z", "stroke-width": 3 }, b);
+    el("path", { d: "M-40 0Q0 -50 40 0", "stroke-width": 3 }, b);
+    el("path", { d: "M0 -40V0M-20 -10L20 -10", "stroke-width": 2 }, b); }
+  paisley(grp($("mPaisley"), "paste"), "rotate(14) scale(-1.55 1.55)", 1.6, pg => {
+    const h = el("g", { transform: "translate(-6 20) rotate(14) scale(.34)" }, pg);
+    house(h, 0, 0, 1, 4.4); crescent(h, 64, -140, 22); star(h, 102, -142, 9);
+  });
+  scatterLeaves($("mLeaves"), 31);
+
+  /* ---------- 4 · vine ---------- */
+  const vineSvg = $("vineSvg"), VG = grp(vineSvg, "paste");
+  house(VG, 190, 210, 1.05, 4); house(VG, 710, 1010, 1.05, 4);
+  const vinePath = el("path", { d: "M235 280C420 330 720 320 710 480C700 640 220 560 200 730C180 900 560 880 650 950", "stroke-width": 4.4 }, VG);
+  const vineLen = vinePath.getTotalLength();
+  vinePath.style.strokeDasharray = vineLen;
+  const vineLeaves = [];
+  for (let s = 26, side = 1; s < vineLen - 20; s += 42, side *= -1) {
+    const a = vinePath.getPointAtLength(s), b = vinePath.getPointAtLength(s + 1);
+    const ang = Math.atan2(b.y - a.y, b.x - a.x) * 180 / Math.PI + side * 55;
+    const lg = leaf(VG, a.x, a.y, ang, 1, 3.4); lg.style.transition = "opacity .5s"; vineLeaves.push([s, lg]);
+  }
+
+  /* ---------- 5 · heart ---------- */
+  const HG = grp($("heartSvg"), "paste");
+  const leftP = el("g", {}, HG), rightP = el("g", {}, HG);
+  paisley(leftP, "translate(337 640) rotate(140) scale(2.9)", 1.3);
+  paisley(rightP, "translate(563 640) rotate(-140) scale(-2.9 2.9)", 1.3);
+  const moon = el("g", {}, HG); crescent(moon, 440, 260, 46); star(moon, 512, 240, 18); dotRing(moon, 450, 260, 86, 20, 4);
+  const stem = el("g", {}, HG); for (let i = 0; i < 8; i++) el("circle", { cx: 450, cy: 980 + i * 14, r: 4, class: "f" }, stem);
+
+  /* ---------- 6 · colour ---------- */
+  mandala($("dryMandala"), "stain", 400, { sw: 4.6 });
+  mandala($("wetMandala"), "paste", 400, { sw: 4.6 });
+
+  /* ---------- 7 · card border ---------- */
+  { const s = $("cardBorder"), G = grp(s, "stain");
+    el("rect", { x: 14, y: 14, width: 492, height: 792, "stroke-width": 2.4 }, G);
+    el("rect", { x: 24, y: 24, width: 472, height: 772, "stroke-width": 1 }, G);
+    let d = ""; for (let x = 34; x < 490; x += 22) d += `M${x} 34l11 11l11 -11M${x} 786l11 -11l11 11`;
+    for (let y = 56; y < 770; y += 22) d += `M34 ${y}l11 11l-11 11M486 ${y}l-11 11l11 11`;
+    el("path", { d, "stroke-width": 1.4 }, G);
+    [[70, 76, 135], [450, 76, 225], [70, 744, 45], [450, 744, -45]].forEach(([x, y, r]) => paisley(G, `translate(${x} ${y}) rotate(${r}) scale(.36)`, 3.4)); }
+
+  /* ---------- 8 · finale ---------- */
+  { const G = grp($("tips"), "paste");
+    [130, 370, 630, 870].forEach((x, i) => {
+      const y = i === 0 || i === 3 ? 10 : -20, w = 78;
+      el("path", { d: `M${x - w} ${y - 40}V${y + 70}A${w} ${w} 0 0 0 ${x + w} ${y + 70}V${y - 40}`, "stroke-width": 3.6 }, G);
+      let hd = ""; for (let yy = y - 30; yy < y + 70; yy += 11) hd += `M${x - w + 6} ${yy}L${x + w - 6} ${yy}`;
+      el("path", { d: hd, "stroke-width": 2.4 }, G);
+      el("path", { d: `M${x - w + 10} ${y + 80}A${w - 10} ${w - 14} 0 0 0 ${x + w - 10} ${y + 80}`, "stroke-width": 2.4 }, G);
+      el("circle", { cx: x, cy: y + 112, r: 9, class: "f" }, G);
+      el("path", { d: `M${x - w - 12} ${y + 92}A${w + 12} ${w * .8} 0 0 0 ${x + w + 12} ${y + 92}`, "stroke-width": 3.4 }, G);
+      for (let k = -4; k <= 4; k++) el("circle", { cx: x + k * 18, cy: y + 186 - Math.abs(k) * 4, r: 3.4, class: "f" }, G);
+    }); }
+  mandala($("smallMandala"), "paste", 400, { sw: 6 });
+
+  /* ---------- countdown + links ---------- */
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const days = Math.round((new Date(2026, 11, 13) - today) / 864e5);
+  if (days > 1) $("days").textContent = days;
+  else if (days === 1) { $("days").textContent = "1"; $("daysLbl").textContent = "day to go"; }
+  else if (days === 0) { $("days").textContent = "Today"; $("daysLbl").textContent = "is the day"; }
+  else { $("days").textContent = "Married"; $("daysLbl").textContent = "Alhamdulillah"; }
+  $("cal").href = "https://calendar.google.com/calendar/render?action=TEMPLATE&text=" + encodeURIComponent("Nikah of Junaid Raziq & Rafeeda") + "&dates=20261213T120000/20261213T160000&location=" + encodeURIComponent("Zain Auditorium, Kadakkallu, Kerala");
+  $("rsvp").href = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent("Assalamu alaikum! We'll be there for the Nikah on 13 December, inshaAllah. Guests: ");
+
+  /* ---------- scroll engine ---------- */
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+  const ease = t => t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+  const prog = sec => { const r = sec.getBoundingClientRect(), span = r.height - innerHeight; return span > 0 ? clamp(-r.top / span) : clamp(1 - r.bottom / (innerHeight + r.height)); };
+  const scenes = [...document.querySelectorAll(".scene")];
+  const heroWrap = $("heroWrap"), card = $("card"), colourStage = $("s-colour");
+
+  function frame() {
+    const vh = innerHeight;
+    if (reduce) {
+      vinePath.style.strokeDashoffset = 0; vineLeaves.forEach(([, g]) => g.style.opacity = 1);
+      colourStage.style.setProperty("--wipe", "50%");
+      return;
+    }
+    // hero: slow turn and gentle push as you leave
+    const hp = clamp(scrollY / vh);
+    heroWrap.style.transform = `translateY(${hp * vh * .25}px) rotate(${scrollY * .03}deg) scale(${1 + hp * .12})`;
+
+    scenes.forEach(sec => {
+      const p = prog(sec);
+      sec.querySelectorAll("[data-speed]").forEach(l => {
+        const s = +l.dataset.speed;
+        l.style.transform = `translate3d(0, ${(0.5 - p) * s * vh * .9}px, 0)`;
+      });
+      sec.querySelectorAll("[data-copy]").forEach((c, i) => {
+        const fade = i === 0 ? clamp(1 - Math.abs(p - .38) * 2.6 + .35) : clamp((p - .22) * 3.2);
+        c.style.opacity = fade;
+        c.style.transform = `translateY(${(1 - fade) * 24}px)`;
+      });
+    });
+
+    // vine grows
+    const vp = ease(prog($("s-vine")) * 1.15);
+    const drawn = vineLen * clamp(vp);
+    vinePath.style.strokeDashoffset = vineLen - drawn;
+    vineLeaves.forEach(([s, g]) => g.style.opacity = s < drawn ? 1 : 0);
+
+    // paisleys meet
+    const hp2 = ease(clamp(prog($("s-heart")) / .65));
+    leftP.setAttribute("transform", `translate(${f(-(1 - hp2) * 520)} ${f((1 - hp2) * 60)}) rotate(${f(-(1 - hp2) * 30)} 337 640)`);
+    rightP.setAttribute("transform", `translate(${f((1 - hp2) * 520)} ${f((1 - hp2) * 60)}) rotate(${f((1 - hp2) * 30)} 563 640)`);
+    moon.style.opacity = clamp((hp2 - .7) * 3.4); stem.style.opacity = clamp((hp2 - .8) * 5);
+
+    // paste dries into stain
+    const cp = clamp((prog(colourStage) - .15) / .7);
+    colourStage.style.setProperty("--wipe", (ease(cp) * 100).toFixed(1) + "%");
+
+    // card settles from a tilt
+    const r = card.getBoundingClientRect(), t = clamp((vh - r.top) / (vh * .9));
+    card.style.transform = `rotateX(${f((1 - ease(t)) * 28)}deg) translateY(${f((1 - ease(t)) * 80)}px)`;
+  }
+  let ticking = false;
+  addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(() => { frame(); ticking = false; }); } }, { passive: true });
+  addEventListener("resize", frame);
+  frame();
+})();
+</script>
+</body>
+</html>
