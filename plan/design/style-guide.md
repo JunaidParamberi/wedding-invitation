@@ -1,33 +1,36 @@
-# Style guide
+# Style guide: Kathu
 
 ## Canvas
-- 1080 × 1920 px, 72 ppi, RGB
-- One Photoshop artboard per frame, named `01-cover` … `08-you`
-- Safe area: keep text 150 px from the top and 250 px from the bottom (apps put buttons there)
-- Side margins: 96 px
+- 1080 × 1920 px, RGB, one artboard per frame (`01-envelope` … `08-reply`)
+- Safe area: no text within 150 px of the top or 250 px of the bottom
+- Background in every frame: the same teak desk photo, with a soft vignette
 
 ## Color
-| Role | Color | Hex |
-|---|---|---|
-| Paper | Ivory | `#F4EFE6` |
-| Ink | Deep navy | `#1E2638` |
-| Thread | Red | `#B5202B` |
-| Soft text | Warm grey | `#7A7468` |
-
-The red is only for the thread and for very small accents. Keep everything else quiet.
+| Role | Hex |
+|---|---|
+| Envelope paper | `#F2E8D3` |
+| Aerogramme blue | `#D9E3EA` |
+| Airmail red | `#C3332F` |
+| Airmail blue | `#1F4C8A` |
+| Fountain-pen ink | `#1D3459` |
+| Wax | `#8B1A1C` |
+| Card gold | `#A9843A` |
+| Teak desk | `#4A3426` |
 
 ## Type
-- **Names and headings:** Cormorant Garamond or Playfair Display
-- **Story lines:** La Belle Aurore or Homemade Apple (handwritten)
-- **Details (time, venue):** Cormorant Garamond, small caps, wide letter-spacing
-- Use 2 fonts, 3 at most
+| Use | Font |
+|---|---|
+| Handwriting (letter, address, captions) | Homemade Apple, or better, your own handwriting scanned |
+| Typed (telegram, postmarks, desk lines) | Special Elite |
+| Card, names | Cormorant Garamond |
+| Arabic | Amiri |
+| Malayalam | Noto Serif Malayalam |
 
-## Consistency
-- Put story text at the same height on every frame
-- Use the same paper texture and grain on every frame
-- Photos all get one treatment (black and white, torn edge, same shadow)
+## Rules
+- Every paper object gets the same shadow: soft, long, falling down-right
+- Tilt each object slightly (2–4°), never perfectly straight
+- Use the airmail stripes only on the envelope and letter edges
 
 ## Export
-- JPG, quality 10–12, sRGB, under 1 MB per frame
-- File names: `01-cover.jpg` … `08-you.jpg` in `exports/frames/`
-- Video: 3–4 s per frame, soft dissolve, MP4 H.264, in `exports/video/`
+- JPG quality 11, sRGB, under 1 MB each: `01-envelope.jpg` … `08-reply.jpg` in `exports/frames/`
+- Video: 3–4 s per frame, 30 fps, MP4 H.264, with paper and typewriter sound effects

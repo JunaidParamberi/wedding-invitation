@@ -1,0 +1,448 @@
+<title>Kathu Mockup Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Homemade+Apple&family=Special+Elite&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Amiri:wght@400;700&family=Noto+Serif+Malayalam:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<style>
+/* Layout: a dark studio board; eight 9:16 phone frames in a grid, each a still life on a teak desk, with production notes under each. Single deliberate dark look. */
+:root {
+  color-scheme: dark;
+  --board: #16120E;
+  --board-fg: #EDE4D3;
+  --board-muted: #A39783;
+  --board-line: #2E271F;
+  --desk-a: #4A3426;
+  --desk-b: #261A13;
+  --paper: #F2E8D3;
+  --aero: #D9E3EA;
+  --card: #FBF6EA;
+  --air-red: #C3332F;
+  --air-blue: #1F4C8A;
+  --ink: #1D3459;
+  --post: #3A2C48;
+  --wax: #8B1A1C;
+  --gold: #A9843A;
+  --telegram: #E9DDAA;
+  --hand: "Homemade Apple", "Segoe Script", cursive;
+  --type: "Special Elite", "Courier New", monospace;
+  --serif: "Cormorant Garamond", "Georgia", serif;
+  --arabic: "Amiri", "Traditional Arabic", serif;
+  --mal: "Noto Serif Malayalam", serif;
+  --ui: "IBM Plex Sans", system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+body { background: var(--board); color: var(--board-fg); font-family: var(--ui); font-size: 15px; line-height: 1.55; padding-inline: 16px; }
+.board { max-width: 1240px; margin: 0 auto; padding-block: 48px 72px; }
+
+/* ---------- header ---------- */
+.head { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px 48px; align-items: end; border-bottom: 1px solid var(--board-line); padding-bottom: 28px; margin-bottom: 36px; }
+.kicker { font-family: var(--type); color: var(--air-red); letter-spacing: .12em; font-size: 13px; margin: 0 0 8px; text-transform: uppercase; }
+.head h1 { font-family: var(--serif); font-weight: 600; font-size: clamp(40px, 7vw, 68px); line-height: 1; margin: 0; }
+.head h1 em { font-family: var(--mal); font-style: normal; font-weight: 400; font-size: .5em; color: var(--board-muted); margin-left: .3em; }
+.head p.sum { max-width: 60ch; color: var(--board-muted); margin: 14px 0 0; }
+.kit { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.swatches { display: flex; gap: 22px 6px; flex-wrap: wrap; max-width: 300px; }
+.sw { width: 60px; height: 40px; border-radius: 4px; position: relative; border: 1px solid rgba(255,255,255,.08); }
+.sw span { position: absolute; top: 100%; left: 0; font-size: 10px; max-width: 60px; overflow: hidden; text-overflow: ellipsis; color: var(--board-muted); margin-top: 3px; white-space: nowrap; }
+.fonts { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 14px; color: var(--board-muted); font-size: 13px; }
+.fonts b { display: block; color: var(--board-fg); font-weight: 400; font-size: 18px; line-height: 1.2; }
+
+/* ---------- grid ---------- */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 40px 28px; }
+.cell { min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.frame {
+  aspect-ratio: 9 / 16; width: 100%; max-width: 100%; position: relative; overflow: hidden;
+  container-type: inline-size; border-radius: 14px;
+  background:
+    radial-gradient(120% 80% at 50% 40%, transparent 40%, rgba(0,0,0,.45)),
+    repeating-linear-gradient(93deg, rgba(0,0,0,.07) 0 2px, transparent 2px 7px, rgba(255,255,255,.025) 7px 8px, transparent 8px 15px),
+    linear-gradient(165deg, var(--desk-a), var(--desk-b));
+  box-shadow: 0 0 0 1px var(--board-line), 0 20px 40px rgba(0,0,0,.4);
+}
+.meta h3 { font-family: var(--serif); font-weight: 600; font-size: 22px; margin: 0; display: flex; gap: 10px; align-items: baseline; }
+.meta h3 small { font-family: var(--type); font-size: 12px; color: var(--air-red); letter-spacing: .1em; }
+.meta p { margin: 4px 0 0; color: var(--board-muted); font-size: 14px; }
+.meta .motion { color: var(--board-fg); }
+.meta .motion::before { content: "In the video: "; color: var(--gold); }
+
+/* ---------- shared inside-frame pieces (all units relative to frame width) ---------- */
+.desk-line { position: absolute; left: 8cqw; right: 8cqw; font-family: var(--type); color: #EADFC8; font-size: 4.6cqw; line-height: 1.35; text-align: center; text-wrap: balance; text-shadow: 0 1px 2px rgba(0,0,0,.5); }
+.desk-hand { font-family: var(--hand); font-size: 4.4cqw; line-height: 1.6; color: #F0E4CB; }
+.top { top: 9cqw; } .bot { bottom: 9cqw; }
+.swipe { position: absolute; bottom: 5cqw; right: 6cqw; font-family: var(--type); font-size: 3cqw; color: rgba(234,223,200,.55); }
+
+.paper-shadow { box-shadow: 0 1.5cqw 3cqw rgba(0,0,0,.45), 0 .3cqw .6cqw rgba(0,0,0,.3); }
+
+/* airmail envelope */
+.env {
+  position: absolute; left: 7cqw; top: 46cqw; width: 86cqw; height: 58cqw; transform: rotate(-4deg);
+  padding: 2.4cqw;
+  background: repeating-linear-gradient(-45deg, var(--air-red) 0 3cqw, var(--paper) 3cqw 4.6cqw, var(--air-blue) 4.6cqw 7.6cqw, var(--paper) 7.6cqw 9.2cqw);
+}
+.env-in { position: relative; width: 100%; height: 100%; background: var(--paper); }
+.par-avion { position: absolute; left: 4cqw; top: 4cqw; border: .5cqw solid var(--air-blue); color: var(--air-blue); font: 2.5cqw/1.25 var(--type); padding: 1cqw 1.6cqw; letter-spacing: .05em; }
+.par-avion b { display: block; font-weight: 400; font-size: 3cqw; }
+.addr { position: absolute; left: 22cqw; top: 22cqw; font-family: var(--hand); color: var(--ink); font-size: 3.6cqw; line-height: 1.85; }
+.addr .u { border-bottom: .25cqw solid rgba(29,52,89,.35); display: block; padding-right: 6cqw; }
+
+/* stamps with perforated edges */
+.stamp {
+  --r: .9cqw; position: absolute; padding: var(--r); background: #FFFDF6;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, radial-gradient(circle, #0000 calc(var(--r) * .9), #000 var(--r)) calc(var(--r) * -1.5) calc(var(--r) * -1.5) / calc(var(--r) * 3) calc(var(--r) * 3);
+          mask: linear-gradient(#000 0 0) content-box, radial-gradient(circle, #0000 calc(var(--r) * .9), #000 var(--r)) calc(var(--r) * -1.5) calc(var(--r) * -1.5) / calc(var(--r) * 3) calc(var(--r) * 3);
+  filter: drop-shadow(0 .6cqw .8cqw rgba(0,0,0,.35));
+}
+.stamp-in { width: 100%; height: 100%; border: .4cqw solid #FFFDF6; position: relative; overflow: hidden; }
+.mini-stamp { right: 4cqw; top: 3.5cqw; width: 15cqw; height: 18cqw; transform: rotate(3deg); }
+.mini-stamp .stamp-in { background: linear-gradient(170deg, #2C6B5F, #17433C); color: #F3E7C9; display: grid; place-items: center; text-align: center; }
+.mini-stamp .cres { font-size: 6.5cqw; line-height: 1; }
+.mini-stamp .val { font: 2cqw var(--type); position: absolute; bottom: 1cqw; left: 0; right: 0; }
+
+.big-stamp { left: 18cqw; top: 30cqw; width: 64cqw; height: 82cqw; --r: 1.6cqw; }
+.big-stamp .stamp-in { background: #7A3B2E; padding: 3cqw; display: flex; flex-direction: column; color: #F5E8CC; }
+.big-stamp.her .stamp-in { background: #2E4E6E; }
+.photo {
+  flex: 1; position: relative; background:
+    radial-gradient(circle at 50% 38%, #CDB48F 0 13cqw, transparent 13.2cqw),
+    radial-gradient(ellipse 22cqw 18cqw at 50% 100%, #CDB48F 98%, transparent 100%),
+    linear-gradient(#E9D9BB, #D9C29C);
+  filter: sepia(.4); outline: .3cqw solid rgba(245,232,204,.5); outline-offset: -1.4cqw;
+}
+.photo span { position: absolute; left: 0; right: 0; top: 2cqw; text-align: center; font: 2.4cqw var(--type); color: rgba(60,40,20,.65); }
+.stamp-name { font-family: var(--serif); font-weight: 600; font-size: 6.4cqw; letter-spacing: .08em; text-align: center; margin-top: 2.4cqw; line-height: 1; }
+.stamp-sub { font-family: var(--serif); font-style: italic; font-size: 3.6cqw; text-align: center; opacity: .85; }
+.stamp-val { position: absolute; top: 4.4cqw; right: 4.6cqw; font: 600 4.4cqw var(--serif); color: #F5E8CC; text-shadow: 0 0 2cqw rgba(0,0,0,.4); }
+.stamp-country { position: absolute; top: 4.6cqw; left: 4.6cqw; font: 2.5cqw var(--type); letter-spacing: .1em; color: #F5E8CC; }
+
+/* postmark */
+.pm { position: absolute; color: var(--post); opacity: .78; mix-blend-mode: multiply; pointer-events: none; }
+.pm svg { width: 100%; height: auto; display: block; overflow: visible; }
+.on-dark .pm, .pm.light { color: #E9DCC1; mix-blend-mode: normal; opacity: .55; }
+
+/* aerogramme letter */
+.letter {
+  position: absolute; left: 8cqw; top: 26cqw; width: 84cqw; height: 124cqw; transform: rotate(1.6deg);
+  background:
+    repeating-linear-gradient(transparent 0 6.6cqw, rgba(31,76,138,.18) 6.6cqw 6.8cqw),
+    var(--aero);
+  background-position: 0 23cqw, 0 0; background-repeat: repeat, no-repeat;
+  padding: 8cqw 7cqw;
+}
+.letter::before { content: ""; position: absolute; inset: 0; border: 1.4cqw solid transparent; border-image: repeating-linear-gradient(-45deg, var(--air-red) 0 2cqw, var(--aero) 2cqw 3cqw, var(--air-blue) 3cqw 5cqw, var(--aero) 5cqw 6cqw) 14; }
+.bism { font-family: var(--arabic); font-size: 5.6cqw; color: var(--ink); text-align: center; direction: rtl; line-height: 1.6; margin-bottom: 4cqw; }
+.letter .hand { font-family: var(--hand); color: var(--ink); font-size: 3.7cqw; line-height: 6.8cqw; }
+.letter .sig { text-align: right; margin-top: 2cqw; }
+.fold { position: absolute; left: 0; right: 0; top: 48%; height: .3cqw; background: linear-gradient(90deg, transparent, rgba(0,0,0,.12), transparent); }
+
+/* telegram */
+.tele { position: absolute; left: 6cqw; top: 40cqw; width: 88cqw; height: 92cqw; background: var(--telegram); transform: rotate(-2deg); padding: 5cqw; font-family: var(--type); color: #4A3A1E; }
+.tele h4 { margin: 0; font: 700 8cqw/1 var(--serif); letter-spacing: .18em; text-align: center; color: #5B2A1A; }
+.tele .rule { border-top: .5cqw double #8A6E3A; margin: 2.4cqw 0; }
+.tele .row { display: flex; justify-content: space-between; font-size: 2.6cqw; color: #7A6236; }
+.strip { display: block; width: fit-content; max-width: 100%; background: #FFFDF7; padding: .9cqw 2cqw; margin: 2.2cqw 0 0; font-size: 4.1cqw; color: #222; letter-spacing: .04em; box-shadow: 0 .2cqw .4cqw rgba(0,0,0,.15); }
+.strip:nth-of-type(2) { transform: rotate(.8deg); margin-left: 1cqw; }
+.strip:nth-of-type(3) { transform: rotate(-.6deg); }
+.strip:nth-of-type(4) { transform: rotate(.5deg); margin-left: 2cqw; }
+
+/* envelope back + wax seal */
+.env-back { position: absolute; left: 7cqw; top: 50cqw; width: 86cqw; height: 60cqw; background: var(--paper); transform: rotate(2deg); overflow: hidden; }
+.env-back::before { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom right, transparent 49.6%, rgba(0,0,0,.08) 50%, transparent 50.6%), linear-gradient(to bottom left, transparent 49.6%, rgba(0,0,0,.08) 50%, transparent 50.6%); }
+.flap { position: absolute; left: 0; right: 0; top: 0; height: 34cqw; background: #EADDC2; clip-path: polygon(0 0, 100% 0, 50% 100%); filter: drop-shadow(0 1cqw 1cqw rgba(0,0,0,.2)); }
+.seal {
+  position: absolute; left: 50%; top: 72cqw; width: 26cqw; height: 26cqw; transform: translateX(-50%) rotate(-8deg);
+  border-radius: 48% 52% 50% 46% / 52% 47% 53% 48%;
+  background: radial-gradient(circle at 38% 32%, #C0392F, var(--wax) 55%, #5E0F12);
+  box-shadow: 0 1cqw 1.6cqw rgba(0,0,0,.45), inset 0 -.8cqw 1.4cqw rgba(0,0,0,.35);
+  display: grid; place-items: center;
+}
+.seal::before { content: ""; position: absolute; inset: 3.4cqw; border-radius: 50%; box-shadow: inset .5cqw .5cqw 1cqw rgba(0,0,0,.45), inset -.4cqw -.4cqw .8cqw rgba(255,150,140,.25); }
+.seal span { font: 600 8.4cqw/1 var(--serif); color: #6A1214; text-shadow: .3cqw .3cqw .3cqw rgba(255,140,130,.3), -.25cqw -.25cqw .3cqw rgba(0,0,0,.45); position: relative; }
+.seal small { position: absolute; top: 5.2cqw; font-size: 3cqw; color: #6A1214; text-shadow: inherit; }
+.tap { position: absolute; left: 0; right: 0; top: 124cqw; text-align: center; font-family: var(--hand); color: #F0E4CB; font-size: 4cqw; }
+.tap::before { content: ""; display: block; width: 0; height: 0; margin: 0 auto 2cqw; border: 2.4cqw solid transparent; border-bottom-color: rgba(240,228,203,.7); border-top: 0; }
+
+/* the card */
+.card {
+  position: absolute; left: 11cqw; top: 12cqw; width: 78cqw; height: 132cqw; background: var(--card); text-align: center;
+  padding: 7cqw 6cqw; color: #2A2418; display: flex; flex-direction: column; align-items: center; gap: 1.2cqw;
+}
+.card::before { content: ""; position: absolute; inset: 2.4cqw; border: .35cqw solid var(--gold); pointer-events: none; }
+.card::after { content: ""; position: absolute; inset: 3.4cqw; border: .15cqw solid var(--gold); pointer-events: none; }
+.card .bism { font-size: 5cqw; color: var(--gold); margin: 0; }
+.c-small { font: italic 3.2cqw/1.3 var(--serif); color: #6B6050; }
+.c-name { font: 600 7.4cqw/1 var(--serif); letter-spacing: .06em; margin-top: 1.6cqw; }
+.c-par { font: italic 3cqw var(--serif); color: #6B6050; }
+.c-amp { font: italic 6cqw/1 var(--serif); color: var(--gold); margin: .6cqw 0; }
+.c-rule { width: 22cqw; height: .3cqw; background: var(--gold); margin: 2.4cqw 0 1.6cqw; }
+.c-date { font: 2.9cqw var(--type); letter-spacing: .14em; }
+.c-big { font: 600 5cqw/1.1 var(--serif); }
+.c-verse { font: italic 2.8cqw/1.35 var(--serif); color: #6B6050; margin-top: 2cqw; }
+.pocket { position: absolute; left: 5cqw; right: 5cqw; bottom: 0; height: 44cqw; background: var(--paper); clip-path: polygon(0 18%, 50% 0, 100% 18%, 100% 100%, 0 100%); box-shadow: 0 -1cqw 2cqw rgba(0,0,0,.3); }
+.pocket::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(-45deg, var(--air-red) 0 3cqw, transparent 3cqw 4.6cqw, var(--air-blue) 4.6cqw 7.6cqw, transparent 7.6cqw 9.2cqw); -webkit-mask: linear-gradient(#000 0 0), linear-gradient(#000 0 0) content-box; mask: linear-gradient(#000 0 0), linear-gradient(#000 0 0) content-box; -webkit-mask-composite: xor; mask-composite: exclude; padding: 0 2.4cqw 2.4cqw; clip-path: inherit; }
+.card-wrap { position: absolute; inset: 0; }
+
+/* reply postcard */
+.post { position: absolute; left: 6cqw; top: 46cqw; width: 88cqw; height: 62cqw; background: #F6EEDC; transform: rotate(-1.5deg); display: grid; grid-template-columns: 1fr 1fr; padding: 4cqw; gap: 4cqw; }
+.post .msg { border-right: .3cqw solid #C9B994; padding-right: 3cqw; font-family: var(--type); color: #4A3F2C; font-size: 2.8cqw; display: flex; flex-direction: column; gap: 2cqw; min-width: 0; }
+.post .msg strong { font: 600 4cqw/1.1 var(--serif); color: var(--ink); font-weight: 600; }
+.box { display: flex; gap: 1.6cqw; align-items: center; font-family: var(--hand); color: var(--ink); font-size: 2.9cqw; line-height: 1.3; }
+.box i { flex: none; width: 3.4cqw; height: 3.4cqw; border: .35cqw solid #4A3F2C; position: relative; }
+.box i.x::after { content: "✓"; position: absolute; left: -.2cqw; top: -2.6cqw; font: 5cqw var(--hand); color: var(--air-red); font-style: normal; }
+.post .to { position: relative; padding-top: 18cqw; font-family: var(--hand); color: var(--ink); font-size: 3cqw; line-height: 2.1; min-width: 0; }
+.post .to span { display: block; border-bottom: .25cqw solid rgba(74,63,44,.3); }
+.reply-paid { position: absolute; top: 0; right: 0; width: 15cqw; height: 15cqw; border: .4cqw dashed #8A7A58; font: 2.1cqw/1.2 var(--type); color: #8A7A58; display: grid; place-items: center; text-align: center; }
+.mal { font-family: var(--mal); }
+.foot-sign { position: absolute; left: 0; right: 0; bottom: 14cqw; text-align: center; color: #EADFC8; }
+.foot-sign .mal { font-size: 3.4cqw; opacity: .85; }
+.foot-sign .n { font: italic 5cqw var(--serif); margin-top: 1.4cqw; }
+
+.note { margin-top: 44px; border-top: 1px solid var(--board-line); padding-top: 24px; color: var(--board-muted); max-width: 70ch; }
+.note b { color: var(--board-fg); font-weight: 500; }
+
+@media (max-width: 640px) {
+  .head { grid-template-columns: 1fr; }
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 14px; }
+  .meta h3 { font-size: 18px; }
+  .meta p { font-size: 13px; }
+}
+@media (max-width: 380px) { .grid { grid-template-columns: 1fr; } }
+</style>
+
+<div class="board">
+  <header class="head">
+    <div>
+      <p class="kicker">Concept 02 · Mockup board</p>
+      <h1>Kathu <em>കത്ത്</em></h1>
+      <p class="sum">The invitation arrives as an airmail letter, the kind Malayali families waited for from the Gulf. Each frame is one thing taken out of the envelope: the letter, two stamps, a telegram, the wax seal, the card and a reply postcard. Eight frames at 1080 × 1920.</p>
+    </div>
+    <div class="kit">
+      <div class="swatches" aria-label="Palette">
+        <div class="sw" style="background:#F2E8D3"><span>Envelope</span></div>
+        <div class="sw" style="background:#D9E3EA"><span>Aerogramme</span></div>
+        <div class="sw" style="background:#C3332F"><span>Air red</span></div>
+        <div class="sw" style="background:#1F4C8A"><span>Air blue</span></div>
+        <div class="sw" style="background:#1D3459"><span>Ink</span></div>
+        <div class="sw" style="background:#8B1A1C"><span>Wax</span></div>
+        <div class="sw" style="background:#4A3426"><span>Teak desk</span></div>
+      </div>
+      <div class="fonts">
+        <div><b style="font-family:var(--hand);font-size:15px">Dear you,</b>Homemade Apple</div>
+        <div><b style="font-family:var(--type)">STOP</b>Special Elite</div>
+        <div><b style="font-family:var(--serif);font-weight:600">Rafeeda</b>Cormorant</div>
+        <div><b style="font-family:var(--arabic)">بِسْمِ ٱللَّٰهِ</b>Amiri</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="grid">
+
+    <!-- 01 -->
+    <div class="cell">
+      <div class="frame">
+        <p class="desk-line top">Something came in the post for you.</p>
+        <div class="env paper-shadow">
+          <div class="env-in">
+            <div class="par-avion"><b>BY AIR MAIL</b>PAR AVION</div>
+            <div class="stamp mini-stamp"><div class="stamp-in"><div><div class="cres">☪</div></div><div class="val">13·XII·26</div></div></div>
+            <div class="pm" data-town="KUNDOOR" data-date="05 NOV 26" style="right:9cqw;top:6cqw;width:34cqw"></div>
+            <div class="addr">
+              <span class="u">To you &amp; your family,</span>
+              <span class="u">with love from</span>
+              <span class="u">Junaid &amp; Rafeeda</span>
+            </div>
+          </div>
+        </div>
+        <span class="swipe">swipe ›</span>
+      </div>
+      <div class="meta">
+        <h3><small>01</small> The envelope</h3>
+        <p>Shoot a real airmail envelope flat on a wooden table, or build the striped border on its own layer.</p>
+        <p class="motion">It slides onto the desk from the top edge and lands with a small bounce.</p>
+      </div>
+    </div>
+
+    <!-- 02 -->
+    <div class="cell">
+      <div class="frame">
+        <div class="letter paper-shadow">
+          <div class="fold"></div>
+          <div class="bism">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>
+          <div class="hand">
+            Dear you,<br>
+            Before we share the news,<br>
+            let us tell you a story.<br>
+            It begins with two people<br>
+            who had never met.<br>
+            Two towns, two families,<br>
+            both praying for the<br>
+            same good thing…
+            <div class="sig">J &amp; R</div>
+          </div>
+        </div>
+      </div>
+      <div class="meta">
+        <h3><small>02</small> The letter</h3>
+        <p>Blue aerogramme paper with a fold line. Write it by hand in real fountain pen and scan it; that beats any font.</p>
+        <p class="motion">The letter unfolds, then the words write themselves in.</p>
+      </div>
+    </div>
+
+    <!-- 03 -->
+    <div class="cell">
+      <div class="frame">
+        <p class="desk-line top desk-hand">Once upon a time, in Kundoor…</p>
+        <div class="stamp big-stamp" style="transform:rotate(-3deg)">
+          <div class="stamp-in">
+            <span class="stamp-country">KERALA</span><span class="stamp-val">1</span>
+            <div class="photo"><span>childhood photo</span></div>
+            <div class="stamp-name">JUNAID RAZIQ</div>
+            <div class="stamp-sub">son of Mohammed Ali</div>
+          </div>
+        </div>
+        <div class="pm light" data-town="KUNDOOR" data-date="1998" style="left:54cqw;top:108cqw;width:40cqw"></div>
+      </div>
+      <div class="meta">
+        <h3><small>03</small> His stamp</h3>
+        <p>A childhood photo turned into a postage stamp. Duotone it in the stamp colour (Gradient Map) and mask the perforated edge.</p>
+        <p class="motion">The postmark thumps down onto the stamp.</p>
+      </div>
+    </div>
+
+    <!-- 04 -->
+    <div class="cell">
+      <div class="frame">
+        <p class="desk-line top desk-hand">…and in Mattan, a girl named Rafeeda.</p>
+        <div class="stamp big-stamp her" style="transform:rotate(3deg)">
+          <div class="stamp-in">
+            <span class="stamp-country">KERALA</span><span class="stamp-val">1</span>
+            <div class="photo"><span>childhood photo</span></div>
+            <div class="stamp-name">RAFEEDA</div>
+            <div class="stamp-sub">daughter of Abdul Kareem</div>
+          </div>
+        </div>
+        <div class="pm light" data-town="MATTAN" data-date="2000" style="left:6cqw;top:108cqw;width:40cqw"></div>
+      </div>
+      <div class="meta">
+        <h3><small>04</small> Her stamp</h3>
+        <p>The same template, mirrored, in a second colour. Put her birth year (or any year) in the postmark.</p>
+        <p class="motion">This stamp slides in from the opposite side.</p>
+      </div>
+    </div>
+
+    <!-- 05 -->
+    <div class="cell">
+      <div class="frame">
+        <p class="desk-line top">Then, one day, news travelled fast.</p>
+        <div class="tele paper-shadow">
+          <h4>TELEGRAM</h4>
+          <div class="rule"></div>
+          <div class="row"><span>FROM: KUNDOOR</span><span>TO: MATTAN</span></div>
+          <div class="rule"></div>
+          <span class="strip">ALHAMDULILLAH STOP</span>
+          <span class="strip">BOTH FAMILIES SAID YES STOP</span>
+          <span class="strip">DATE IS FIXED STOP</span>
+          <span class="strip">MORE NEWS FOLLOWS STOP</span>
+        </div>
+      </div>
+      <div class="meta">
+        <h3><small>05</small> The telegram</h3>
+        <p>An old telegram form with white typed strips pasted on at slight angles. Each strip goes on its own layer.</p>
+        <p class="motion">The strips appear one at a time with a typewriter clack.</p>
+      </div>
+    </div>
+
+    <!-- 06 -->
+    <div class="cell">
+      <div class="frame">
+        <p class="desk-line top">There's one more thing inside.</p>
+        <div class="env-back paper-shadow"><div class="flap"></div></div>
+        <div class="seal"><small>☪</small><span>J R</span></div>
+        <p class="tap">open it with a bismillah</p>
+      </div>
+      <div class="meta">
+        <h3><small>06</small> The wax seal</h3>
+        <p>Order a real J R wax seal stamp (cheap online) and photograph it. That one prop makes the whole set look premium.</p>
+        <p class="motion">The seal cracks and the flap swings open.</p>
+      </div>
+    </div>
+
+    <!-- 07 -->
+    <div class="cell">
+      <div class="frame">
+        <div class="card-wrap">
+          <div class="card paper-shadow">
+            <div class="bism">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>
+            <div class="c-small">With the blessings of Allah,<br>we invite you to the Nikah of</div>
+            <div class="c-name">JUNAID RAZIQ</div>
+            <div class="c-par">son of Mohammed Ali</div>
+            <div class="c-amp">&amp;</div>
+            <div class="c-name" style="margin-top:0">RAFEEDA</div>
+            <div class="c-par">daughter of Abdul Kareem</div>
+            <div class="c-rule"></div>
+            <div class="c-date">SUNDAY · 13 DECEMBER 2026</div>
+            <div class="c-big">12:00 PM</div>
+            <div class="c-date">ZAIN AUDITORIUM · KADAKKALLU</div>
+            <div class="c-verse">“And We created you in pairs.” · Quran 78:6</div>
+          </div>
+          <div class="pocket"></div>
+        </div>
+      </div>
+      <div class="meta">
+        <h3><small>07</small> The card</h3>
+        <p>The real invitation, half out of the envelope. Thick ivory card with a gold double border, and the bottom half hidden behind the envelope pocket.</p>
+        <p class="motion">The card rises out of the envelope and the camera pushes in.</p>
+      </div>
+    </div>
+
+    <!-- 08 -->
+    <div class="cell">
+      <div class="frame">
+        <p class="desk-line top">Your turn to write back.</p>
+        <div class="post paper-shadow">
+          <div class="msg">
+            <strong>Kindly reply by 20 November</strong>
+            <span class="box"><i class="x"></i>We'll be there, inshaAllah</span>
+            <span class="box"><i></i>Sending our duas</span>
+            <span>Guests: ____</span>
+          </div>
+          <div class="to">
+            <div class="reply-paid">REPLY<br>PAID</div>
+            <span>Junaid &amp; Rafeeda</span>
+            <span>WhatsApp: ________</span>
+          </div>
+        </div>
+        <div class="foot-sign">
+          <div class="mal">അല്ലാഹ് ഈ ഐക്യത്തെ അനുഗ്രഹിക്കട്ടെ</div>
+          <div class="n">Junaid &amp; Rafeeda · 13.12.26</div>
+        </div>
+      </div>
+      <div class="meta">
+        <h3><small>08</small> The reply card</h3>
+        <p>A reply-paid postcard showing how to RSVP. On WhatsApp, guests can send a photo of it ticked.</p>
+        <p class="motion">A pen ticks the first box.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="note"><b>These are layout mockups, drawn in code.</b> In Photoshop, swap each piece for real photographed paper, stamps and a real wax seal, and keep the positions and text. The parts you still need to fill in are how you met (it could be a second telegram strip) and the WhatsApp number on the reply card.</p>
+</div>
+
+<script>
+// Draw postmarks: a ring with the town on top, the date in the middle, and wavy cancel lines.
+document.querySelectorAll(".pm").forEach((el, i) => {
+  const town = el.dataset.town, date = el.dataset.date, id = "pmarc" + i;
+  let waves = "";
+  for (let k = 0; k < 4; k++) {
+    const y = 34 + k * 17;
+    waves += `<path d="M118 ${y} q 12 -7 24 0 t 24 0 t 24 0 t 24 0 t 24 0" fill="none" stroke="currentColor" stroke-width="2.4"/>`;
+  }
+  el.innerHTML = `<svg viewBox="0 0 260 120" aria-hidden="true">
+    <defs><path id="${id}" d="M 18 60 A 42 42 0 0 1 102 60"/></defs>
+    <circle cx="60" cy="60" r="54" fill="none" stroke="currentColor" stroke-width="3"/>
+    <circle cx="60" cy="60" r="33" fill="none" stroke="currentColor" stroke-width="1.6"/>
+    <text font-family="Special Elite, monospace" font-size="13" fill="currentColor" letter-spacing="2"><textPath href="#${id}" startOffset="50%" text-anchor="middle">${town}</textPath></text>
+    <text x="60" y="65" text-anchor="middle" font-family="Special Elite, monospace" font-size="11.5" fill="currentColor">${date}</text>
+    <text x="60" y="104" text-anchor="middle" font-family="Special Elite, monospace" font-size="10" fill="currentColor" letter-spacing="2">KERALA</text>
+    ${waves}</svg>`;
+});
+</script>

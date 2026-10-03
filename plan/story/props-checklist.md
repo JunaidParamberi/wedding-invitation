@@ -1,21 +1,29 @@
-# Props & shot list
+# Props & shot list: Kathu
 
-## To shoot
-- [ ] **Red thread**: thin red yarn on white paper, shot top-down in daylight. Shoot a loose coil, a tangle, a straight line and a bow. Cut each out and save it to `assets/props/`.
-- [ ] **Ring close-up**: the ring with the thread looped through it on ivory paper, soft side light
-- [ ] **Paper texture**: one sheet of textured paper, flat and evenly lit. Save to `assets/textures/`.
-- [ ] **Small objects** for Frame 4 (3–4 things that mean something):
-  - [ ]
-  - [ ]
-  - [ ]
+Shoot everything top-down in soft daylight, on the same wooden table.
 
-## To collect
+## Buy
+- [ ] **Wax seal stamp** with "J R" (or J & R) plus red sealing wax. This is the most important prop.
+- [ ] Airmail envelopes with red and blue stripes
+- [ ] Blue aerogramme or thin blue letter paper
+- [ ] A fountain pen with blue-black ink
+- [ ] Ivory card stock (300 gsm) for the invitation card
+
+## Make and shoot
+- [ ] The envelope front, addressed by hand
+- [ ] The envelope back with the flap closed and the wax seal on it
+- [ ] The cracked wax seal, for the video
+- [ ] The handwritten letter, folded once and then flat
+- [ ] Telegram strips: type or print the text, cut it into strips, paste onto yellowish paper
+- [ ] The reply postcard, with one box ticked in red pen
+- [ ] The wooden table on its own (the background plate)
+
+## Collect
 - [ ] Junaid's childhood photo
 - [ ] Rafeeda's childhood photo
-- [ ] 1–2 photos of you together
+- [ ] Old stamps or postmarks for reference (family letters from the Gulf are perfect)
 
-## AI prompts (optional, if you'd rather generate)
-- **Cover:** flat lay of a single loose red thread on textured ivory paper, soft natural light, minimal, top-down, lots of negative space
-- **Tangle:** a tangled red thread across ivory paper with small vintage objects caught in it, ticket stub, map pin, editorial still life
-- **Ring:** macro shot of a gold engagement ring with a red thread looped through it, ivory background, soft shadow
-- **Bow:** red thread tied in a neat bow on ivory paper, centered, elegant, minimal
+## Photoshop resources
+- Postmark and cancel-wave brushes
+- A perforated-edge stamp mask
+- Paper texture overlays (Multiply mode)
