@@ -1,29 +1,24 @@
-# Props & shot list: Kathu
+# Props & shot list: Mylanchi
 
-Shoot everything top-down in soft daylight, on the same wooden table.
+## Best option: a henna artist
+Book a henna artist for one session and show them `plan/mockup/mylanchi-board.html`.
+Ask them to draw each design on a palm (a family member's hand works):
+- [ ] Frame 1: the round mandala, with "Junaid" and "Rafeeda" hidden in the second ring
+- [ ] Frames 2 & 3: the paisley with a house inside, one facing each way
+- [ ] Frame 4: the vine between two small houses
+- [ ] Frame 5: two paisleys forming a heart, crescent and star above
+- [ ] Frame 6: one mandala, photographed **twice**: wet paste, then the stain the next morning
+- [ ] Frame 8: fingertip caps and a small mandala
 
-## Buy
-- [ ] **Wax seal stamp** with "J R" (or J & R) plus red sealing wax. This is the most important prop.
-- [ ] Airmail envelopes with red and blue stripes
-- [ ] Blue aerogramme or thin blue letter paper
-- [ ] A fountain pen with blue-black ink
-- [ ] Ivory card stock (300 gsm) for the invitation card
+## How to photograph
+- Daylight from a window, no flash
+- Hand flat, palm up, on a plain cloth (cream or deep maroon)
+- Camera straight above, same distance every shot
+- Shoot the wet paste right away, then the dried stain after 24–48 hours
 
-## Make and shoot
-- [ ] The envelope front, addressed by hand
-- [ ] The envelope back with the flap closed and the wax seal on it
-- [ ] The cracked wax seal, for the video
-- [ ] The handwritten letter, folded once and then flat
-- [ ] Telegram strips: type or print the text, cut it into strips, paste onto yellowish paper
-- [ ] The reply postcard, with one box ticked in red pen
-- [ ] The wooden table on its own (the background plate)
+## Cheaper option
+Draw the designs with a henna cone on thick ivory paper and scan them. In Photoshop, put them on a palm photo using Multiply blend mode.
 
 ## Collect
-- [ ] Junaid's childhood photo
-- [ ] Rafeeda's childhood photo
-- [ ] Old stamps or postmarks for reference (family letters from the Gulf are perfect)
-
-## Photoshop resources
-- Postmark and cancel-wave brushes
-- A perforated-edge stamp mask
-- Paper texture overlays (Multiply mode)
+- [ ] Henna cones (natural, dark-staining)
+- [ ] Ivory card stock for frame 7

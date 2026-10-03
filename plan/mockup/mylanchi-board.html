@@ -1,0 +1,442 @@
+<title>Mylanchi Mockup Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,500&family=Pinyon+Script&family=Amiri:wght@400;700&family=Noto+Serif+Malayalam:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<style>
+/* Layout: a dark studio board; eight 9:16 frames in a grid, each a henna design drawn on a palm or ivory card, with production notes under each. Single deliberate dark look. */
+:root {
+  color-scheme: dark;
+  --board: #170F0C;
+  --board-fg: #F0E3D4;
+  --board-muted: #A8927F;
+  --board-line: #31231C;
+  --skin-a: #EDCBA8;
+  --skin-b: #D9A47A;
+  --ivory: #F7EFE3;
+  --paste: #3B271B;
+  --stain: #A2451A;
+  --stain-deep: #6F2812;
+  --leaf: #6E7D3F;
+  --text-on-skin: #4A1D0F;
+  --serif: "Cormorant Garamond", "Georgia", serif;
+  --script: "Pinyon Script", "Snell Roundhand", cursive;
+  --arabic: "Amiri", "Traditional Arabic", serif;
+  --mal: "Noto Serif Malayalam", serif;
+  --ui: "IBM Plex Sans", system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+body { background: var(--board); color: var(--board-fg); font-family: var(--ui); font-size: 15px; line-height: 1.55; padding-inline: 16px; }
+.board { max-width: 1240px; margin: 0 auto; padding-block: 48px 72px; }
+
+.head { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px 48px; align-items: end; border-bottom: 1px solid var(--board-line); padding-bottom: 28px; margin-bottom: 36px; }
+.kicker { color: var(--leaf); letter-spacing: .16em; font-size: 12px; margin: 0 0 8px; text-transform: uppercase; font-weight: 500; }
+.head h1 { font-family: var(--serif); font-weight: 600; font-size: clamp(40px, 7vw, 68px); line-height: 1; margin: 0; }
+.head h1 em { font-family: var(--mal); font-style: normal; font-weight: 400; font-size: .45em; color: var(--board-muted); margin-left: .3em; }
+.head p.sum { max-width: 60ch; color: var(--board-muted); margin: 14px 0 0; }
+.kit { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.swatches { display: flex; gap: 22px 6px; flex-wrap: wrap; max-width: 330px; }
+.sw { width: 60px; height: 40px; border-radius: 4px; position: relative; border: 1px solid rgba(255,255,255,.08); }
+.sw span { position: absolute; top: 100%; left: 0; font-size: 10px; color: var(--board-muted); margin-top: 3px; white-space: nowrap; }
+.fonts { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 10px; color: var(--board-muted); font-size: 13px; }
+.fonts b { display: block; color: var(--board-fg); font-weight: 400; font-size: 19px; line-height: 1.25; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 40px 28px; }
+.cell { min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.frame {
+  aspect-ratio: 9 / 16; width: 100%; max-width: 100%; position: relative; overflow: hidden;
+  container-type: inline-size; border-radius: 14px;
+  background:
+    radial-gradient(90% 60% at 50% 45%, rgba(255,240,220,.35), transparent 70%),
+    radial-gradient(130% 90% at 50% 50%, transparent 55%, rgba(90,40,20,.28)),
+    linear-gradient(170deg, var(--skin-a), var(--skin-b));
+  box-shadow: 0 0 0 1px var(--board-line), 0 20px 40px rgba(0,0,0,.45);
+}
+.frame.paper { background: radial-gradient(130% 90% at 50% 50%, transparent 60%, rgba(120,80,40,.15)), var(--ivory); }
+.frame > svg.art { position: absolute; inset: 0; width: 100%; height: 100%; }
+.paste { stroke: var(--paste); fill: none; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 1.2px .6px rgba(40,15,5,.35)); }
+.paste .f, .stainc .f { fill: currentColor; stroke: none; }
+.paste { color: var(--paste); }
+.stainc { stroke: var(--stain); color: var(--stain); fill: none; stroke-linecap: round; stroke-linejoin: round; }
+
+.meta h3 { font-family: var(--serif); font-weight: 600; font-size: 22px; margin: 0; display: flex; gap: 10px; align-items: baseline; }
+.meta h3 small { font-family: var(--ui); font-size: 12px; color: var(--leaf); letter-spacing: .1em; font-weight: 500; }
+.meta p { margin: 4px 0 0; color: var(--board-muted); font-size: 14px; }
+.meta .motion { color: var(--board-fg); }
+.meta .motion::before { content: "In the video: "; color: #C9A46A; }
+
+/* text inside frames, sized to frame width */
+.t { position: absolute; left: 8cqw; right: 8cqw; text-align: center; color: var(--text-on-skin); text-wrap: balance; }
+.t.top { top: 8cqw; } .t.bot { bottom: 9cqw; }
+.cap { font: italic 500 5.6cqw/1.3 var(--serif); }
+.name { font: 11cqw/1.1 var(--script); }
+.sub { font: italic 4.2cqw/1.3 var(--serif); opacity: .85; }
+.small { font: 3.6cqw/1.4 var(--serif); letter-spacing: .04em; }
+.ar { font: 700 8cqw/1.5 var(--arabic); direction: rtl; }
+.mal { font-family: var(--mal); }
+.swipe { position: absolute; bottom: 4.5cqw; right: 6cqw; font: italic 3.4cqw var(--serif); color: rgba(74,29,15,.6); }
+.lbl { position: absolute; top: 140cqw; font: 3.2cqw var(--ui); letter-spacing: .14em; text-transform: uppercase; color: var(--text-on-skin); opacity: .7; }
+
+/* card frame */
+.card { position: absolute; inset: 13cqw 12cqw; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.2cqw; text-align: center; color: #3B1A0E; }
+.card .bism { font: 5.4cqw/1.6 var(--arabic); color: var(--stain); direction: rtl; }
+.card .lead { font: italic 3.4cqw/1.35 var(--serif); color: #6E4A36; }
+.card .n { font: 10cqw/1.05 var(--script); color: var(--stain-deep); margin-top: 1.4cqw; }
+.card .p { font: italic 3.2cqw var(--serif); color: #6E4A36; }
+.card .amp { font: 7cqw/1 var(--script); color: var(--stain); }
+.card .rule { width: 18cqw; height: .3cqw; background: var(--stain); margin: 2cqw 0 1cqw; opacity: .7; }
+.card .d { font: 3cqw var(--ui); letter-spacing: .16em; }
+.card .big { font: 600 5.6cqw/1.1 var(--serif); }
+.card .v { font: italic 3cqw/1.35 var(--serif); color: #6E4A36; margin-top: 2cqw; }
+
+.note { margin-top: 44px; border-top: 1px solid var(--board-line); padding-top: 24px; color: var(--board-muted); max-width: 70ch; }
+.note b { color: var(--board-fg); font-weight: 500; }
+
+@media (max-width: 640px) {
+  .head { grid-template-columns: 1fr; }
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 14px; }
+  .meta h3 { font-size: 18px; } .meta p { font-size: 13px; }
+}
+@media (max-width: 380px) { .grid { grid-template-columns: 1fr; } }
+</style>
+
+<div class="board">
+  <header class="head">
+    <div>
+      <p class="kicker">Concept 01 · Mockup board</p>
+      <h1>Mylanchi <em>മൈലാഞ്ചി</em></h1>
+      <p class="sum">The whole invitation is drawn in henna. Each frame is a design on a palm, and the patterns are scenes from your story: two homes, a winding vine, two paisleys becoming one. Your names are hidden in the first design, the way a bride hides the groom's name in her mylanchi. Eight frames at 1080 × 1920.</p>
+    </div>
+    <div class="kit">
+      <div class="swatches" aria-label="Palette">
+        <div class="sw" style="background:#EDCBA8"><span>Palm light</span></div>
+        <div class="sw" style="background:#D9A47A"><span>Palm deep</span></div>
+        <div class="sw" style="background:#3B271B"><span>Wet paste</span></div>
+        <div class="sw" style="background:#A2451A"><span>Stain</span></div>
+        <div class="sw" style="background:#6F2812"><span>Deep stain</span></div>
+        <div class="sw" style="background:#F7EFE3"><span>Ivory</span></div>
+        <div class="sw" style="background:#6E7D3F"><span>Leaf</span></div>
+      </div>
+      <div class="fonts">
+        <div><b style="font-family:var(--script)">Rafeeda</b>Pinyon Script</div>
+        <div><b style="font-family:var(--serif);font-style:italic">Once upon a time</b>Cormorant</div>
+        <div><b style="font-family:var(--arabic)">بِسْمِ ٱللَّٰهِ</b>Amiri</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="grid">
+
+    <div class="cell">
+      <div class="frame">
+        <svg class="art" id="f1" viewBox="0 0 900 1600" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
+        <p class="t top cap">Look closely.</p>
+        <p class="t bot cap">Our names are hidden<br>somewhere in here.</p>
+        <span class="swipe">swipe ›</span>
+      </div>
+      <div class="meta">
+        <h3><small>01</small> The hidden names</h3>
+        <p>A full mandala on a palm. "Junaid" and "Rafeeda" are woven into the second ring in tiny script. Guests zoom in to find them.</p>
+        <p class="motion">The mandala draws itself outward from the centre, ring by ring.</p>
+      </div>
+    </div>
+
+    <div class="cell">
+      <div class="frame">
+        <svg class="art" id="f2" viewBox="0 0 900 1600" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
+        <p class="t top cap">Once upon a time, in Kundoor…</p>
+        <div class="t bot"><div class="name">Junaid Raziq</div><div class="sub">son of Mohammed Ali</div></div>
+      </div>
+      <div class="meta">
+        <h3><small>02</small> His home</h3>
+        <p>A big paisley with a Kerala house and a coconut palm drawn inside it. A vine trails out to the right, towards the next frame.</p>
+        <p class="motion">The paisley outline draws first, then the house appears inside it.</p>
+      </div>
+    </div>
+
+    <div class="cell">
+      <div class="frame">
+        <svg class="art" id="f3" viewBox="0 0 900 1600" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
+        <p class="t top cap">…and in Mattan,</p>
+        <div class="t bot"><div class="name">Rafeeda</div><div class="sub">daughter of Abdul Kareem</div></div>
+      </div>
+      <div class="meta">
+        <h3><small>03</small> Her home</h3>
+        <p>The mirror of frame 2: the paisley faces the other way, with her house and a crescent moon inside. The vine enters from the left.</p>
+        <p class="motion">This one draws in mirrored, from the other side.</p>
+      </div>
+    </div>
+
+    <div class="cell">
+      <div class="frame">
+        <svg class="art" id="f4" viewBox="0 0 900 1600" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
+        <p class="t top cap" style="top:20cqw;left:44cqw;right:6cqw;text-align:right">Two homes.<br>Two families.</p>
+        <p class="t bot cap" style="left:6cqw;right:34cqw;text-align:left">Slowly, their paths grew toward each other.</p>
+      </div>
+      <div class="meta">
+        <h3><small>04</small> The vine</h3>
+        <p>A henna vine with leaves winds down the palm from one small house to the other. This is where your how-we-met line goes.</p>
+        <p class="motion">The vine grows along its path, and the leaves unfurl as it passes.</p>
+      </div>
+    </div>
+
+    <div class="cell">
+      <div class="frame">
+        <svg class="art" id="f5" viewBox="0 0 900 1600" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
+        <p class="t top cap">Then both families said yes.</p>
+        <div class="t bot"><div class="ar">ٱلْحَمْدُ لِلَّٰهِ</div><div class="sub">Alhamdulillah</div></div>
+      </div>
+      <div class="meta">
+        <h3><small>05</small> Two become one</h3>
+        <p>The two paisleys from frames 2 and 3 meet and curve into a heart, under a crescent and star.</p>
+        <p class="motion">The two paisleys slide in from each side and lock together.</p>
+      </div>
+    </div>
+
+    <div class="cell">
+      <div class="frame">
+        <svg class="art" id="f6" viewBox="0 0 900 1600" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
+        <p class="t top cap">They say the darker the mylanchi, the deeper the love.</p>
+        <span class="lbl" style="left:12cqw">Wet paste</span>
+        <span class="lbl" style="right:12cqw">Next morning</span>
+        <p class="t bot small">Sunday · 13 December 2026</p>
+      </div>
+      <div class="meta">
+        <h3><small>06</small> The colour deepens</h3>
+        <p>One mandala, half in dark wet paste and half in the deep orange stain it leaves behind. Photograph real henna before and after.</p>
+        <p class="motion">A wipe sweeps across and the paste turns into stain. This is the big moment.</p>
+      </div>
+    </div>
+
+    <div class="cell">
+      <div class="frame paper">
+        <svg class="art" id="f7" viewBox="0 0 900 1600" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
+        <div class="card">
+          <div class="bism">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>
+          <div class="lead">With the blessings of Allah,<br>we invite you to the Nikah of</div>
+          <div class="n">Junaid Raziq</div>
+          <div class="p">son of Mohammed Ali</div>
+          <div class="amp">&amp;</div>
+          <div class="n" style="margin-top:0">Rafeeda</div>
+          <div class="p">daughter of Abdul Kareem</div>
+          <div class="rule"></div>
+          <div class="d">SUNDAY · 13 DECEMBER 2026</div>
+          <div class="big">12:00 PM</div>
+          <div class="d">ZAIN AUDITORIUM · KADAKKALLU</div>
+          <div class="v">“And We created you in pairs.” · Quran 78:6</div>
+        </div>
+      </div>
+      <div class="meta">
+        <h3><small>07</small> The invitation</h3>
+        <p>Ivory card with a henna lattice border and paisleys in the corners, all in stain colour. The details sit calmly in the middle.</p>
+        <p class="motion">The border draws itself around the edge, then the text fades in.</p>
+      </div>
+    </div>
+
+    <div class="cell">
+      <div class="frame">
+        <svg class="art" id="f8" viewBox="0 0 900 1600" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
+        <p class="t top cap" style="top:auto;bottom:62cqw">Come and see the colour<br>on the day.</p>
+        <div class="t bot">
+          <div class="small">Kindly reply by 20 November · WhatsApp ________</div>
+          <div class="small mal" style="margin-top:3cqw">അല്ലാഹ് ഈ ഐക്യത്തെ അനുഗ്രഹിക്കട്ടെ</div>
+          <div class="sub" style="margin-top:1cqw">Junaid &amp; Rafeeda · 13.12.26</div>
+        </div>
+      </div>
+      <div class="meta">
+        <h3><small>08</small> Your turn</h3>
+        <p>Fingertip caps and a small mandala at the top of the palm, with the reply details and the dua below.</p>
+        <p class="motion">The fingertips fill in one by one, like the last strokes of a henna session.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="note"><b>These are layout mockups, drawn in code.</b> In Photoshop, use real photos: ask a henna artist to draw these designs on a hand (or on paper with a henna cone) and photograph them in daylight. Keep the positions and text from here. The parts still open are your how-we-met line for frame 4 and the WhatsApp number in frame 8.</p>
+</div>
+
+<script>
+(function () {
+  const NS = "http://www.w3.org/2000/svg";
+  const TAU = Math.PI * 2;
+  const el = (tag, attrs, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+  const P = (cx, cy, r, a) => [cx + r * Math.cos(a), cy + r * Math.sin(a)];
+  const f = n => n.toFixed(1);
+  const g = (svg, cls, tf) => el("g", tf ? { class: cls, transform: tf } : { class: cls }, svg);
+
+  function petal(cx, cy, a, r1, r2, w) {
+    const b = P(cx, cy, r1, a), t = P(cx, cy, r2, a), rm = (r1 + r2) / 2 * 1.04;
+    const c1 = P(cx, cy, rm, a + w), c2 = P(cx, cy, rm, a - w);
+    return `M${f(b[0])} ${f(b[1])}Q${f(c1[0])} ${f(c1[1])} ${f(t[0])} ${f(t[1])}Q${f(c2[0])} ${f(c2[1])} ${f(b[0])} ${f(b[1])}Z`;
+  }
+  function dotRing(G, cx, cy, r, n, s, off = 0) { for (let i = 0; i < n; i++) { const p = P(cx, cy, r, off + i * TAU / n); el("circle", { cx: f(p[0]), cy: f(p[1]), r: s, class: "f" }, G); } }
+  function scallops(G, cx, cy, r, n, sw) {
+    let d = "";
+    for (let i = 0; i < n; i++) {
+      const a0 = i * TAU / n, a1 = (i + 1) * TAU / n, p0 = P(cx, cy, r, a0), p1 = P(cx, cy, r, a1);
+      const rad = Math.hypot(p1[0] - p0[0], p1[1] - p0[1]) / 2;
+      d += `M${f(p0[0])} ${f(p0[1])}A${f(rad)} ${f(rad)} 0 0 1 ${f(p1[0])} ${f(p1[1])}`;
+    }
+    el("path", { d, "stroke-width": sw }, G);
+  }
+  function mandala(G, cx, cy, R, opts = {}) {
+    const sw = opts.sw || R * 0.012;
+    el("circle", { cx, cy, r: R * .055, class: "f" }, G);
+    el("circle", { cx, cy, r: R * .11, "stroke-width": sw }, G);
+    dotRing(G, cx, cy, R * .155, 14, R * .012);
+    let d = "", d2 = "";
+    for (let i = 0; i < 8; i++) { const a = i * TAU / 8 - Math.PI / 2; d += petal(cx, cy, a, R * .19, R * .43, .34); d2 += petal(cx, cy, a, R * .23, R * .37, .16); }
+    el("path", { d, "stroke-width": sw * 1.1 }, G); el("path", { d: d2, "stroke-width": sw * .7 }, G);
+    for (let i = 0; i < 8; i++) { const p = P(cx, cy, R * .3, i * TAU / 8 + TAU / 16 - Math.PI / 2); el("circle", { cx: f(p[0]), cy: f(p[1]), r: R * .018, class: "f" }, G); }
+    el("circle", { cx, cy, r: R * .47, "stroke-width": sw }, G);
+    if (opts.names) {
+      const id = "nm" + Math.random().toString(36).slice(2, 7);
+      el("path", { id, d: `M${cx - R * .52} ${cy}A${R * .52} ${R * .52} 0 1 1 ${cx + R * .52} ${cy}A${R * .52} ${R * .52} 0 1 1 ${cx - R * .52} ${cy}`, stroke: "none" }, G);
+      const t = el("text", { "font-family": "Pinyon Script, cursive", "font-size": R * .062, class: "f", "letter-spacing": 1 }, G);
+      const tp = el("textPath", { href: "#" + id }, t);
+      tp.textContent = "Junaid  ·  ✦  ·  ·  ✦  ·  ·  ✦  ·  ·  ✦  ·  Rafeeda  ·  ✦  ·  ·  ✦  ·  ·  ✦  ·  ·  ✦  ·  ·  ✦  ·  ·  ✦  ·";
+    } else {
+      scallops(G, cx, cy, R * .5, 18, sw);
+    }
+    el("circle", { cx, cy, r: R * .56, "stroke-width": sw * .8 }, G);
+    let d3 = "";
+    for (let i = 0; i < 16; i++) d3 += petal(cx, cy, i * TAU / 16, R * .58, R * .8, .15);
+    el("path", { d: d3, "stroke-width": sw }, G);
+    for (let i = 0; i < 16; i++) { const p = P(cx, cy, R * .7, i * TAU / 16); el("circle", { cx: f(p[0]), cy: f(p[1]), r: R * .012, class: "f" }, G); }
+    dotRing(G, cx, cy, R * .845, 16, R * .02, TAU / 32);
+    el("circle", { cx, cy, r: R * .88, "stroke-width": sw * .8 }, G);
+    let d4 = "";
+    for (let i = 0; i < 32; i++) d4 += petal(cx, cy, i * TAU / 32, R * .9, R * 1.0, .07);
+    el("path", { d: d4, "stroke-width": sw * .9 }, G);
+    dotRing(G, cx, cy, R * 1.05, 32, R * .011);
+  }
+
+  // paisley in local coords (approx -60..60 x, -100..60 y), body centre near (0,15)
+  const PAISLEY = "M0 60C-58 60-66 4-40-28C-20-52 18-66 32-100C44-62 62-22 52 14C44 44 26 60 0 60Z";
+  function paisley(G, tf, sw, inner) {
+    const pg = el("g", { transform: tf }, G);
+    el("path", { d: PAISLEY, "stroke-width": sw }, pg);
+    el("path", { d: "M32 -100C46 -110 60 -100 54 -88C49 -79 38 -82 40 -90C41 -95 47 -95 48 -91", "stroke-width": sw }, pg);
+    el("path", { d: PAISLEY, transform: "translate(1 4) scale(.84)", "stroke-width": sw * .7 }, pg);
+    el("path", { d: PAISLEY, transform: "translate(2 8) scale(.7)", "stroke-width": sw * .5, "stroke-dasharray": `${sw * .2} ${sw * 2.2}` }, pg);
+    // outer dots
+    const tmp = el("path", { d: PAISLEY, transform: "scale(1.12) translate(0 -2)", stroke: "none" }, pg);
+    const L = tmp.getTotalLength();
+    for (let s = 0; s < L; s += 11) { const p = tmp.getPointAtLength(s); el("circle", { cx: f(p.x * 1.12), cy: f((p.y - 2) * 1.12), r: sw * .55, class: "f" }, pg); }
+    tmp.remove();
+    if (inner) inner(pg, sw);
+    return pg;
+  }
+  function house(G, x, y, s, sw) {
+    const q = v => f(v);
+    el("path", { d: `M${q(x - 60 * s)} ${q(y - 18 * s)}L${q(x - 34 * s)} ${q(y - 56 * s)}L${q(x + 34 * s)} ${q(y - 56 * s)}L${q(x + 60 * s)} ${q(y - 18 * s)}Z`, "stroke-width": sw }, G);
+    el("path", { d: `M${q(x - 20 * s)} ${q(y - 56 * s)}L${q(x)} ${q(y - 78 * s)}L${q(x + 20 * s)} ${q(y - 56 * s)}`, "stroke-width": sw }, G);
+    for (let i = -3; i <= 3; i++) el("line", { x1: q(x + i * 12 * s), y1: q(y - 22 * s), x2: q(x + i * 9 * s), y2: q(y - 52 * s), "stroke-width": sw * .45 }, G);
+    el("rect", { x: q(x - 44 * s), y: q(y - 18 * s), width: q(88 * s), height: q(58 * s), "stroke-width": sw }, G);
+    el("path", { d: `M${q(x - 11 * s)} ${q(y + 40 * s)}V${q(y + 10 * s)}A${q(11 * s)} ${q(11 * s)} 0 0 1 ${q(x + 11 * s)} ${q(y + 10 * s)}V${q(y + 40 * s)}`, "stroke-width": sw }, G);
+    [[-28, 6], [28, 6]].forEach(([dx, dy]) => el("rect", { x: q(x + dx * s - 7 * s), y: q(y + dy * s - 8 * s), width: q(14 * s), height: q(16 * s), "stroke-width": sw * .7 }, G));
+    for (let i = -5; i <= 5; i++) el("circle", { cx: q(x + i * 8 * s), cy: q(y + 48 * s), r: sw * .5, class: "f" }, G);
+  }
+  function palm(G, x, y, s, sw) {
+    el("path", { d: `M${x} ${y}C${x + 4 * s} ${y - 40 * s} ${x + 14 * s} ${y - 70 * s} ${x + 22 * s} ${y - 96 * s}`, "stroke-width": sw }, G);
+    const tx = x + 22 * s, ty = y - 96 * s;
+    [[-50, 10], [-32, -18], [0, -30], [30, -16], [48, 12]].forEach(([dx, dy]) =>
+      el("path", { d: `M${tx} ${ty}Q${tx + dx * .5 * s} ${ty + (dy - 22) * s} ${tx + dx * s} ${ty + (dy + 10) * s}`, "stroke-width": sw }, G));
+    for (let i = 1; i < 6; i++) el("line", { x1: f(x + i * 3.6 * s - 4 * s), y1: f(y - i * 16 * s), x2: f(x + i * 3.6 * s + 6 * s), y2: f(y - i * 16 * s - 2 * s), "stroke-width": sw * .5 }, G);
+  }
+  function crescent(G, cx, cy, r) {
+    el("path", { class: "f", d: `M${cx} ${cy - r}A${r} ${r} 0 1 0 ${cx} ${cy + r}A${r * .78} ${r * .78} 0 1 1 ${cx} ${cy - r}Z` }, G);
+  }
+  function star(G, cx, cy, r) {
+    let d = "";
+    for (let i = 0; i < 10; i++) { const rr = i % 2 ? r * .45 : r, p = P(cx, cy, rr, i * TAU / 10 - Math.PI / 2); d += (i ? "L" : "M") + f(p[0]) + " " + f(p[1]); }
+    el("path", { class: "f", d: d + "Z" }, G);
+  }
+  function vine(G, d, sw, gap = 46) {
+    const p = el("path", { d, "stroke-width": sw }, G);
+    const L = p.getTotalLength();
+    let side = 1;
+    for (let s = gap / 2; s < L - 10; s += gap) {
+      const a = p.getPointAtLength(s), b = p.getPointAtLength(Math.min(L, s + 1));
+      const ang = Math.atan2(b.y - a.y, b.x - a.x) * 180 / Math.PI + side * 55;
+      const lg = el("g", { transform: `translate(${f(a.x)} ${f(a.y)}) rotate(${f(ang)})` }, G);
+      el("path", { d: "M0 0Q14 -13 36 0Q14 13 0 0Z", "stroke-width": sw * .8 }, lg);
+      el("path", { d: "M3 0L30 0", "stroke-width": sw * .45 }, lg);
+      if (side > 0) el("circle", { cx: 46, cy: 0, r: sw * .7, class: "f" }, lg);
+      side *= -1;
+    }
+    return p;
+  }
+  function dotsLine(G, x1, y1, x2, y2, n, r) { for (let i = 0; i <= n; i++) el("circle", { cx: f(x1 + (x2 - x1) * i / n), cy: f(y1 + (y2 - y1) * i / n), r, class: "f" }, G); }
+
+  // 01 hidden names
+  { const s = document.getElementById("f1"), G = g(s, "paste"); mandala(G, 450, 790, 400, { names: true, sw: 4 }); }
+
+  // 02 his home
+  { const s = document.getElementById("f2"), G = g(s, "paste");
+    paisley(G, "translate(430 760) rotate(-18) scale(4.2)", 1.05, (pg, sw) => {
+      const h = el("g", { transform: "translate(-4 22) rotate(18) scale(.26)" }, pg);
+      house(h, -10, 0, 1, 4); palm(h, 72, 40, 1, 4);
+    });
+    vine(G, "M650 1080C760 1000 800 900 900 860", 4); dotsLine(G, 120, 1150, 300, 1220, 6, 3.5);
+  }
+
+  // 03 her home
+  { const s = document.getElementById("f3"), G = g(s, "paste");
+    paisley(G, "translate(470 760) rotate(18) scale(-4.2 4.2)", 1.05, (pg) => {
+      const h = el("g", { transform: "translate(-4 22) rotate(18) scale(.26)" }, pg);
+      house(h, 0, 0, 1, 4); crescent(h, 60, -150, 26); star(h, 104, -150, 10);
+    });
+    vine(G, "M0 860C100 900 140 1000 250 1080", 4); dotsLine(G, 600, 1220, 780, 1150, 6, 3.5);
+  }
+
+  // 04 the vine
+  { const s = document.getElementById("f4"), G = g(s, "paste");
+    house(G, 220, 330, 1.1, 4); house(G, 680, 1300, 1.1, 4);
+    vine(G, "M260 400C420 470 720 470 700 640C680 800 250 720 220 900C190 1060 560 1050 640 1210", 4.2, 44);
+    dotsLine(G, 120, 420, 320, 420, 10, 3); dotsLine(G, 580, 1390, 780, 1390, 10, 3);
+  }
+
+  // 05 two become one
+  { const s = document.getElementById("f5"), G = g(s, "paste");
+    paisley(G, "translate(337 718) rotate(140) scale(2.9)", 1.3);
+    paisley(G, "translate(563 718) rotate(-140) scale(-2.9 2.9)", 1.3);
+    crescent(G, 440, 400, 46); star(G, 512, 380, 18);
+    dotRing(G, 450, 400, 84, 18, 4);
+    dotsLine(G, 450, 1040, 450, 1180, 8, 4);
+  }
+
+  // 06 colour deepens
+  { const s = document.getElementById("f6");
+    const defs = el("defs", {}, s);
+    const cl = el("clipPath", { id: "half-l" }, defs); el("rect", { x: 0, y: 0, width: 450, height: 1600 }, cl);
+    const cr = el("clipPath", { id: "half-r" }, defs); el("rect", { x: 450, y: 0, width: 450, height: 1600 }, cr);
+    const L = el("g", { "clip-path": "url(#half-l)" }, s), R = el("g", { "clip-path": "url(#half-r)" }, s);
+    mandala(g(L, "paste"), 450, 820, 360, { sw: 4.4 });
+    const st = g(R, "stainc"); st.style.filter = "none"; mandala(st, 450, 820, 360, { sw: 4.4 });
+    el("line", { x1: 450, y1: 400, x2: 450, y2: 1240, stroke: "rgba(74,29,15,.35)", "stroke-width": 2, "stroke-dasharray": "6 10" }, s);
+  }
+
+  // 07 card border
+  { const s = document.getElementById("f7"), G = g(s, "stainc");
+    const defs = el("defs", {}, s), pat = el("pattern", { id: "jaal", width: 36, height: 36, patternUnits: "userSpaceOnUse" }, defs);
+    el("path", { d: "M18 2L34 18L18 34L2 18Z", fill: "none", stroke: "#A2451A", "stroke-width": 1.6 }, pat);
+    el("circle", { cx: 18, cy: 18, r: 3, fill: "#A2451A" }, pat);
+    el("path", { "fill-rule": "evenodd", fill: "url(#jaal)", d: "M40 40H860V1560H40Z M90 90V1510H810V90Z" }, s);
+    el("rect", { x: 40, y: 40, width: 820, height: 1520, "stroke-width": 3 }, G);
+    el("rect", { x: 90, y: 90, width: 720, height: 1420, "stroke-width": 3 }, G);
+    el("rect", { x: 104, y: 104, width: 692, height: 1392, "stroke-width": 1.4 }, G);
+    [[150, 160, 135], [750, 160, 225], [150, 1440, 45], [750, 1440, -45]].forEach(([x, y, r]) => paisley(G, `translate(${x} ${y}) rotate(${r}) scale(.75)`, 2));
+  }
+
+  // 08 fingertips + mandala
+  { const s = document.getElementById("f8"), G = g(s, "paste");
+    [120, 330, 570, 780].forEach((x, i) => {
+      const y = i === 0 || i === 3 ? 30 : -10;
+      el("path", { class: "f", d: `M${x - 70} ${y}V${y + 90}A70 70 0 0 0 ${x + 70} ${y + 90}V${y}Z` }, G);
+      el("path", { d: `M${x - 80} ${y + 110}A80 60 0 0 0 ${x + 80} ${y + 110}`, "stroke-width": 4 }, G);
+      dotsLine(G, x - 70, y + 196, x + 70, y + 196, 6, 3.5);
+    });
+    mandala(G, 450, 560, 230, { sw: 3.6 });
+  }
+})();
+</script>

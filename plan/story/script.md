@@ -1,84 +1,69 @@
-# Script: Kathu (കത്ത്)
+# Script: Mylanchi (മൈലാഞ്ചി)
 
-The invitation arrives as an airmail letter. Each frame is one thing taken out of the envelope.
-The mockup is in `plan/mockup/kathu-board.html`.
+The whole invitation is drawn in henna. Each frame is a design on a palm, and the patterns
+tell your story. The mockup is in `plan/mockup/mylanchi-board.html`.
 
-8 frames · 1080 × 1920 · teak desk background in every frame
+8 frames · 1080 × 1920 · henna on a palm (frame 7 is on an ivory card)
 
 ---
 
-## 01 · The envelope
-**Desk text:** *Something came in the post for you.*
-**Object:** an airmail envelope with red and blue stripes and a BY AIR MAIL / PAR AVION label.
-Custom stamp: a crescent and 13·XII·26. Postmark: **KUNDOOR · 05 NOV 26**.
-**Address, handwritten:** *To you & your family, with love from Junaid & Rafeeda*
-**Video:** it slides onto the desk and lands with a small bounce.
+## 01 · The hidden names
+**Top:** *Look closely.*
+**Design:** a full round mandala. "Junaid" and "Rafeeda" are written in tiny script inside the second ring, the way a bride hides the groom's name in her mylanchi.
+**Bottom:** *Our names are hidden somewhere in here.*
+**Video:** the mandala draws itself outward from the centre, ring by ring.
 
-## 02 · The letter
-**Object:** a blue aerogramme with a fold line.
-**Handwritten:**
-> بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
-> Dear you,
-> Before we share the news, let us tell you a story.
-> It begins with two people who had never met.
-> Two towns, two families, both praying for the same good thing…
-> J & R
+## 02 · His home
+**Top:** *Once upon a time, in Kundoor…*
+**Design:** a large paisley with a Kerala house (sloping tiled roof) and a coconut palm inside. A leafy vine trails out to the right edge.
+**Bottom:** **Junaid Raziq** · *son of Mohammed Ali*
+**Video:** the paisley outline draws first, then the house appears.
 
-**Video:** the letter unfolds, then the words write themselves in.
+## 03 · Her home
+**Top:** *…and in Mattan,*
+**Design:** the mirror of frame 2. The paisley faces left, with her house and a crescent moon and star inside. The vine enters from the left edge.
+**Bottom:** **Rafeeda** · *daughter of Abdul Kareem*
+**Video:** draws in mirrored.
 
-## 03 · His stamp
-**Desk text:** *Once upon a time, in Kundoor…*
-**Object:** a large postage stamp made from Junaid's childhood photo, duotone in brick red.
-**On the stamp:** JUNAID RAZIQ · son of Mohammed Ali · KERALA · 1
-**Postmark:** KUNDOOR · [ year ]
-**Video:** the postmark thumps down.
+## 04 · The vine
+**Top right:** *Two homes. Two families.*
+**Design:** a small house at the top left, another at the bottom right, and a henna vine with leaves winding between them.
+**Bottom left:** *Slowly, their paths grew toward each other.*
+**How you met (optional extra line):** [ ]
+**Video:** the vine grows along its path and the leaves unfurl.
 
-## 04 · Her stamp
-**Desk text:** *…and in Mattan, a girl named Rafeeda.*
-**Object:** the same stamp template, mirrored, duotone in deep blue.
-**On the stamp:** RAFEEDA · daughter of Abdul Kareem · KERALA · 1
-**Postmark:** MATTAN · [ year ]
-**Video:** this stamp slides in from the other side.
+## 05 · Two become one
+**Top:** *Then both families said yes.*
+**Design:** the two paisleys from frames 2 and 3 meet and form a heart, under a crescent and star.
+**Bottom:** ٱلْحَمْدُ لِلَّٰهِ · *Alhamdulillah*
+**Video:** the paisleys slide in from each side and lock together.
 
-## 05 · The telegram
-**Desk text:** *Then, one day, news travelled fast.*
-**Object:** a telegram form, FROM: KUNDOOR, TO: MATTAN, with typed strips pasted on:
-> ALHAMDULILLAH STOP
-> BOTH FAMILIES SAID YES STOP
-> DATE IS FIXED STOP
-> MORE NEWS FOLLOWS STOP
+## 06 · The colour deepens (the big moment)
+**Top:** *They say the darker the mylanchi, the deeper the love.*
+**Design:** one mandala, left half in dark wet paste, right half in the deep orange stain it leaves. Labels: WET PASTE · NEXT MORNING
+**Bottom:** *Sunday · 13 December 2026*
+**Video:** a wipe sweeps across and the paste turns into stain.
 
-Optional extra strip about how you met: [ ]
-**Video:** the strips appear one at a time with a typewriter clack.
-
-## 06 · The wax seal
-**Desk text:** *There's one more thing inside.*
-**Object:** the back of the envelope, with a red wax seal stamped **J R** and a small crescent.
-**Handwritten under it:** *open it with a bismillah*
-**Video:** the seal cracks and the flap opens.
-
-## 07 · The card
-**Object:** the invitation card, half out of the envelope pocket. Ivory with a gold double border.
+## 07 · The invitation
+**Design:** ivory card with a henna lattice (jaal) border and a paisley in each corner, all in stain colour.
 > بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
 > With the blessings of Allah, we invite you to the Nikah of
-> **JUNAID RAZIQ**, son of Mohammed Ali
+> **Junaid Raziq**, son of Mohammed Ali
 > &
-> **RAFEEDA**, daughter of Abdul Kareem
+> **Rafeeda**, daughter of Abdul Kareem
 > SUNDAY · 13 DECEMBER 2026
 > **12:00 PM**
 > ZAIN AUDITORIUM · KADAKKALLU
 > "And We created you in pairs." · Quran 78:6
 
-**Video:** the card rises out of the envelope and the camera pushes in.
+**Video:** the border draws itself around the edge, then the text fades in.
 
-## 08 · The reply card
-**Desk text:** *Your turn to write back.*
-**Object:** a reply-paid postcard.
-> Kindly reply by 20 November
-> ☑ We'll be there, inshaAllah
-> ☐ Sending our duas
-> Guests: ____
-> To: Junaid & Rafeeda · WhatsApp: [ ]
+## 08 · Your turn
+**Design:** filled henna fingertip caps along the top, with a small mandala below them.
+**Middle:** *Come and see the colour on the day.*
+**Bottom:**
+> Kindly reply by 20 November · WhatsApp [ ]
+> അല്ലാഹ് ഈ ഐക്യത്തെ അനുഗ്രഹിക്കട്ടെ
+> Junaid & Rafeeda · 13.12.26
 
-**Under the postcard:** അല്ലാഹ് ഈ ഐക്യത്തെ അനുഗ്രഹിക്കട്ടെ · Junaid & Rafeeda · 13.12.26
-**Video:** a pen ticks the first box.
+**Video:** the fingertips fill in one by one.
