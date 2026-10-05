@@ -93,7 +93,7 @@ svg.h { overflow: visible; display: block; }
 .card-sec { position: relative; padding: 14vh 16px 16vh; perspective: 1200px; }
 .card {
   max-width: 520px; margin: 0 auto; background: var(--ivory); color: #3A180C; text-align: center; position: relative;
-  padding: clamp(64px, 12vw, 92px) clamp(36px, 8vw, 70px); transform-origin: 50% 100%; will-change: transform;
+  padding: clamp(110px, 22vw, 150px) clamp(40px, 9vw, 74px) clamp(70px, 13vw, 96px); transform-origin: 50% 100%; will-change: transform;
   box-shadow: 0 2px 4px rgba(90,40,20,.12), 0 30px 60px -20px rgba(90,40,20,.45);
 }
 .card::before { content: ""; position: absolute; inset: 0; pointer-events: none; background:
@@ -113,7 +113,8 @@ svg.h { overflow: visible; display: block; }
 
 /* ---------- finale ---------- */
 .finale { position: relative; padding: 0 16px 90px; text-align: center; overflow: hidden; }
-.tips { width: 100%; height: clamp(120px, 22vw, 200px); display: block; }
+.tips { width: 100%; height: clamp(170px, 30vw, 260px); display: block; }
+.bism-top { font: 400 clamp(22px, 4.4vw, 30px)/1.6 var(--arabic); direction: rtl; color: var(--stain-deep); margin: 0 0 18px; }
 .finale .m { width: min(60vw, 280px); aspect-ratio: 1; margin: -10px auto 0; }
 .finale .m svg { width: 100%; height: 100%; }
 .finale .cap { font: italic 500 clamp(24px, 4.4vw, 36px)/1.2 var(--serif); margin: 26px 0 0; }
@@ -172,8 +173,9 @@ svg.h { overflow: visible; display: block; }
 <!-- 1 · hero -->
 <header class="hero">
   <div>
+    <p class="bism-top">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</p>
     <p class="over">Look closely.</p>
-    <div class="mandala-wrap" id="heroWrap"><svg class="h" id="heroMandala" viewBox="-460 -460 920 920" aria-label="Henna mandala with our names hidden inside"></svg></div>
+    <div class="mandala-wrap" id="heroWrap"><svg class="h" id="heroMandala" viewBox="-460 -460 920 920" aria-label="Henna star rosette with our names hidden inside"></svg></div>
     <p class="under">Our names are hidden somewhere in here.</p>
     <p class="who">Sunday · 13 December 2026</p>
   </div>
@@ -187,6 +189,7 @@ svg.h { overflow: visible; display: block; }
       <p class="cap">Once upon a time, in Kundoor…</p>
     </div>
     <svg class="h layer" data-speed=".15" style="left:-15%;width:130%;bottom:20%;height:30%" viewBox="0 0 1300 340" preserveAspectRatio="none" id="kHills"></svg>
+    <svg class="h layer" data-speed=".24" style="left:0;width:100%;bottom:27%;height:30%" viewBox="0 0 1000 300" preserveAspectRatio="xMidYMax meet" id="kMosque"></svg>
     <svg class="h layer" data-speed=".38" style="left:-5%;width:110%;bottom:-6%;height:40%" viewBox="0 0 1100 440" preserveAspectRatio="xMidYMax meet" id="kPalms"></svg>
     <svg class="h layer" data-speed=".75" style="left:50%;margin-left:calc(min(60vw,52vh) / -2);width:min(60vw,52vh);bottom:26%;height:min(70vw,60vh)" viewBox="-130 -170 260 300" id="kPaisley"></svg>
     <svg class="h layer" data-speed="1.25" style="inset:0;width:100%;height:100%" viewBox="0 0 1000 1000" preserveAspectRatio="none" id="kLeaves"></svg>
@@ -204,6 +207,7 @@ svg.h { overflow: visible; display: block; }
     <div class="copy" data-copy>
       <p class="cap">…and in Mattan,</p>
     </div>
+    <svg class="h layer" data-speed=".22" style="left:0;width:100%;bottom:26%;height:30%" viewBox="0 0 1000 300" preserveAspectRatio="xMidYMax meet" id="mMosque"></svg>
     <svg class="h layer" data-speed=".32" style="left:-10%;width:120%;bottom:-4%;height:34%" viewBox="0 0 1200 360" preserveAspectRatio="none" id="mWater"></svg>
     <svg class="h layer" data-speed=".75" style="left:50%;margin-left:calc(min(60vw,52vh) / -2);width:min(60vw,52vh);bottom:26%;height:min(70vw,60vh)" viewBox="-130 -170 260 300" id="mPaisley"></svg>
     <svg class="h layer" data-speed="1.25" style="inset:0;width:100%;height:100%" viewBox="0 0 1000 1000" preserveAspectRatio="none" id="mLeaves"></svg>
@@ -268,7 +272,7 @@ svg.h { overflow: visible; display: block; }
 
 <!-- 8 · finale -->
 <footer class="finale">
-  <svg class="h tips" id="tips" viewBox="0 0 1000 200" preserveAspectRatio="xMidYMin meet" aria-hidden="true"></svg>
+  <svg class="h tips" id="tips" viewBox="0 0 1000 260" preserveAspectRatio="xMidYMin meet" aria-hidden="true"></svg>
   <div class="m"><svg class="h" id="smallMandala" viewBox="-460 -460 920 920" aria-hidden="true"></svg></div>
   <p class="cap">Come and see the colour on the day.</p>
   <p class="countdown"><strong id="days">71</strong><span id="daysLbl">days to go</span></p>
@@ -416,8 +420,119 @@ const WHATSAPP = "";
     }
   }
 
+  /* ---------- Islamic geometry ---------- */
+  const poly = pts => "M" + pts.map(p => f(p[0]) + " " + f(p[1])).join("L") + "Z";
+  function khatam(G, cx, cy, r, sw, rot = 0, fill) {          // 8-point star: two squares
+    const sq = o => poly([0, 1, 2, 3].map(k => P(cx, cy, r, rot + o + k * TAU / 4)));
+    el("path", Object.assign({ d: sq(0) + sq(TAU / 8), "stroke-width": sw }, fill ? { class: "f" } : {}), G);
+  }
+  function starPoly(cx, cy, n, r1, r2, rot = 0) { const pts = []; for (let i = 0; i < n * 2; i++) pts.push(P(cx, cy, i % 2 ? r1 : r2, rot + i * Math.PI / n)); return poly(pts); }
+  function kite(cx, cy, a, r1, rm, r2, w) { return poly([P(cx, cy, r1, a), P(cx, cy, rm, a - w), P(cx, cy, r2, a), P(cx, cy, rm, a + w)]); }
+  /* An Islamic star rosette in henna. Rings are separate groups so they can draw in one after another. */
+  function rosette(parent, cls, R, opts = {}) {
+    const sw = opts.sw || 4, rings = [], ring = () => { const g = grp(parent, cls); rings.push(g); return g; };
+    let G = ring();
+    el("circle", { cx: 0, cy: 0, r: R * .035, class: "f" }, G);
+    khatam(G, 0, 0, R * .075, sw * .7, TAU / 16);
+    khatam(G, 0, 0, R * .14, sw);
+    el("circle", { cx: 0, cy: 0, r: R * .165, "stroke-width": sw * .6 }, G);
+    G = ring();
+    el("path", { d: starPoly(0, 0, 16, R * .2, R * .4, -Math.PI / 2), "stroke-width": sw * 1.1 }, G);
+    let d = ""; for (let i = 0; i < 16; i++) d += kite(0, 0, i * TAU / 16 - Math.PI / 2, R * .23, R * .29, R * .35, .1);
+    el("path", { d, "stroke-width": sw * .55 }, G);
+    dotRing(G, 0, 0, R * .2, 16, R * .012, TAU / 32 - Math.PI / 2);
+    G = ring();
+    el("circle", { cx: 0, cy: 0, r: R * .44, "stroke-width": sw }, G);
+    if (opts.names) {
+      const id = "nm" + Math.random().toString(36).slice(2, 7), r = R * .475;
+      el("path", { id, d: `M${-r} 0A${r} ${r} 0 1 1 ${r} 0A${r} ${r} 0 1 1 ${-r} 0`, stroke: "none" }, G);
+      const t = el("text", { "font-family": "Pinyon Script, cursive", "font-size": R * .052, class: "f", "letter-spacing": .5 }, G);
+      const tp = el("textPath", { href: "#" + id }, t);
+      tp.textContent = "Junaid · ✦ · ∘ · ✦ · ∘ · ✦ · ∘ · ✦ · ∘ · ✦ · ∘ · Rafeeda · ✦ · ∘ · ✦ · ∘ · ✦ · ∘ · ✦ · ∘ · ✦ · ∘ · ✦ · ∘ · ✦ · ∘ · ✦";
+    } else hatchRing(G, 0, 0, R * .45, R * .51, 64, sw * .45);
+    el("circle", { cx: 0, cy: 0, r: R * .53, "stroke-width": sw * .8 }, G);
+    G = ring();
+    d = ""; for (let i = 0; i < 16; i++) d += kite(0, 0, i * TAU / 16, R * .55, R * .64, R * .76, .12);
+    el("path", { d, "stroke-width": sw }, G);
+    for (let i = 0; i < 16; i++) { const p = P(0, 0, R * .69, i * TAU / 16 + TAU / 32); khatam(G, p[0], p[1], R * .035, sw * .5, i * TAU / 16); }
+    el("circle", { cx: 0, cy: 0, r: R * .79, "stroke-width": sw * .8 }, G);
+    G = ring();
+    d = "";
+    for (let i = 0; i < 24; i++) {                               // ring of pointed arches
+      const a = i * TAU / 24, w = TAU / 48 * .92, b1 = P(0, 0, R * .8, a - w), b2 = P(0, 0, R * .8, a + w);
+      const c1 = P(0, 0, R * .9, a - w * .95), c2 = P(0, 0, R * .9, a + w * .95), t = P(0, 0, R * .97, a);
+      d += `M${f(b1[0])} ${f(b1[1])}Q${f(c1[0])} ${f(c1[1])} ${f(t[0])} ${f(t[1])}Q${f(c2[0])} ${f(c2[1])} ${f(b2[0])} ${f(b2[1])}`;
+    }
+    el("path", { d, "stroke-width": sw * .9 }, G);
+    dotRing(G, 0, 0, R * .865, 24, R * .014);
+    dotRing(G, 0, 0, R * 1.02, 48, R * .011, TAU / 96);
+    for (let i = 0; i < 8; i++) { const p = P(0, 0, R * 1.08, i * TAU / 8); khatam(G, p[0], p[1], R * .03, sw * .5, 0, true); }
+    return rings;
+  }
+  /* A pointed mihrab arch (local coords: base y 120, width 200) */
+  function arch(cx, base, w, wall, r) {
+    const h = w / 2, rise = Math.sqrt(r * r - (r - h) * (r - h)), spring = base - wall;
+    return { d: `M${f(cx - h)} ${f(base)}V${f(spring)}A${r} ${r} 0 0 1 ${f(cx)} ${f(spring - rise)}A${r} ${r} 0 0 1 ${f(cx + h)} ${f(spring)}V${f(base)}`, apex: spring - rise };
+  }
+  function lantern(G, x, top, s, sw, chain = 0) {
+    const q = v => f(v);
+    if (chain) el("path", { d: `M${q(x)} ${q(top - chain)}V${q(top)}`, "stroke-width": sw * .6, "stroke-dasharray": `${sw * .4} ${sw * 1.6}` }, G);
+    el("circle", { cx: q(x), cy: q(top + 4 * s), r: q(4 * s), "stroke-width": sw * .7 }, G);
+    el("path", { d: `M${q(x - 16 * s)} ${q(top + 22 * s)}Q${q(x)} ${q(top - 4 * s)} ${q(x + 16 * s)} ${q(top + 22 * s)}Z`, "stroke-width": sw }, G);
+    const body = [[-22, 22], [22, 22], [30, 50], [22, 82], [-22, 82], [-30, 50]].map(([dx, dy]) => [x + dx * s, top + dy * s]);
+    el("path", { d: poly(body), "stroke-width": sw }, G);
+    [-11, 11].forEach(dx => el("path", { d: `M${q(x + dx * s - 6 * s)} ${q(top + 72 * s)}V${q(top + 46 * s)}Q${q(x + dx * s)} ${q(top + 32 * s)} ${q(x + dx * s + 6 * s)} ${q(top + 46 * s)}V${q(top + 72 * s)}`, "stroke-width": sw * .6 }, G));
+    el("path", { d: `M${q(x - 22 * s)} ${q(top + 82 * s)}L${q(x)} ${q(top + 104 * s)}L${q(x + 22 * s)} ${q(top + 82 * s)}`, "stroke-width": sw }, G);
+    el("circle", { cx: q(x), cy: q(top + 110 * s), r: q(3.2 * s), class: "f" }, G);
+  }
+  function archScene(svg, inner, apexMark) {
+    const G = grp(svg, "paste");
+    const A = arch(0, 120, 200, 130, 150), B = arch(0, 120, 176, 128, 134), C = arch(0, 120, 154, 126, 118);
+    el("path", { d: A.d, "stroke-width": 3.2 }, G);
+    el("path", { d: B.d, "stroke-width": 1.8 }, G);
+    el("path", { d: C.d, "stroke-width": 1.2, "stroke-dasharray": "1 6" }, G);
+    const tmp = el("path", { d: A.d, stroke: "none" }, G), L = tmp.getTotalLength();
+    for (let s = 6; s < L; s += 10) { const p = tmp.getPointAtLength(s); const n = tmp.getPointAtLength(Math.min(L, s + 1)); const a = Math.atan2(n.y - p.y, n.x - p.x) - Math.PI / 2; el("circle", { cx: f(p.x + Math.cos(a) * 7), cy: f(p.y + Math.sin(a) * 7), r: 1.5, class: "f" }, G); }
+    tmp.remove();
+    el("path", { d: "M-112 120H112", "stroke-width": 3 }, G);
+    for (let x = -104; x <= 104; x += 13) el("circle", { cx: x, cy: 130, r: 1.8, class: "f" }, G);
+    lantern(G, 0, C.apex + 14, .62, 2.6, 0);
+    apexMark(G, A.apex);
+    inner(G);
+    return G;
+  }
+  function keralaMosque(G, x, y, s, sw) {
+    const q = v => f(v), T = (w, top, bot) => `M${q(x - w * s)} ${q(y - bot * s)}L${q(x - w * .62 * s)} ${q(y - top * s)}L${q(x + w * .62 * s)} ${q(y - top * s)}L${q(x + w * s)} ${q(y - bot * s)}Z`;
+    el("rect", { x: q(x - 80 * s), y: q(y - 52 * s), width: q(160 * s), height: q(52 * s), "stroke-width": sw }, G);
+    for (let i = -2; i <= 2; i++) el("path", { d: `M${q(x + i * 30 * s - 9 * s)} ${q(y)}V${q(y - 26 * s)}Q${q(x + i * 30 * s)} ${q(y - 40 * s)} ${q(x + i * 30 * s + 9 * s)} ${q(y - 26 * s)}V${q(y)}`, "stroke-width": sw * .7 }, G);
+    el("path", { d: T(110, 92, 52), "stroke-width": sw }, G);
+    el("rect", { x: q(x - 56 * s), y: q(y - 108 * s), width: q(112 * s), height: q(16 * s), "stroke-width": sw * .7 }, G);
+    el("path", { d: T(76, 140, 108), "stroke-width": sw }, G);
+    el("rect", { x: q(x - 34 * s), y: q(y - 152 * s), width: q(68 * s), height: q(12 * s), "stroke-width": sw * .7 }, G);
+    el("path", { d: T(46, 180, 152), "stroke-width": sw }, G);
+    el("path", { d: `M${q(x)} ${q(y - 180 * s)}V${q(y - 204 * s)}`, "stroke-width": sw }, G);
+    crescent(G, x + 2 * s, y - 214 * s, 8 * s);
+    let d = ""; for (let i = -6; i <= 6; i++) d += `M${q(x + i * 14 * s)} ${q(y - 56 * s)}L${q(x + i * 9 * s)} ${q(y - 88 * s)}`;
+    el("path", { d, "stroke-width": sw * .45 }, G);
+  }
+  function domeMosque(G, x, y, s, sw) {
+    const q = v => f(v);
+    el("rect", { x: q(x - 70 * s), y: q(y - 60 * s), width: q(140 * s), height: q(60 * s), "stroke-width": sw }, G);
+    el("path", { d: `M${q(x - 14 * s)} ${q(y)}V${q(y - 30 * s)}Q${q(x)} ${q(y - 50 * s)} ${q(x + 14 * s)} ${q(y - 30 * s)}V${q(y)}`, "stroke-width": sw }, G);
+    el("path", { d: `M${q(x - 48 * s)} ${q(y - 60 * s)}C${q(x - 56 * s)} ${q(y - 120 * s)} ${q(x - 12 * s)} ${q(y - 128 * s)} ${q(x)} ${q(y - 156 * s)}C${q(x + 12 * s)} ${q(y - 128 * s)} ${q(x + 56 * s)} ${q(y - 120 * s)} ${q(x + 48 * s)} ${q(y - 60 * s)}`, "stroke-width": sw }, G);
+    crescent(G, x + 2 * s, y - 168 * s, 8 * s);
+    [-1, 1].forEach(side => {
+      const mx = x + side * 108 * s;
+      el("rect", { x: q(mx - 9 * s), y: q(y - 190 * s), width: q(18 * s), height: q(190 * s), "stroke-width": sw }, G);
+      el("path", { d: `M${q(mx - 15 * s)} ${q(y - 140 * s)}H${q(mx + 15 * s)}M${q(mx - 15 * s)} ${q(y - 132 * s)}H${q(mx + 15 * s)}`, "stroke-width": sw * .7 }, G);
+      el("path", { d: `M${q(mx - 9 * s)} ${q(y - 190 * s)}Q${q(mx)} ${q(y - 216 * s)} ${q(mx + 9 * s)} ${q(y - 190 * s)}`, "stroke-width": sw }, G);
+      el("path", { d: `M${q(mx)} ${q(y - 210 * s)}V${q(y - 222 * s)}`, "stroke-width": sw * .7 }, G);
+    });
+    for (let i = -3; i <= 3; i++) el("circle", { cx: q(x + i * 16 * s), cy: q(y - 66 * s), r: sw * .5, class: "f" }, G);
+  }
+
   /* ---------- 1 · hero ---------- */
-  const heroRings = mandala($("heroMandala"), "paste draw-in", 400, { names: true, sw: 4.2 });
+  const heroRings = rosette($("heroMandala"), "paste draw-in", 400, { names: true, sw: 4.2 });
   heroRings.forEach((g, i) => {
     g.style.setProperty("--d", (0.25 + i * .45) + "s");
     g.querySelectorAll("path,circle").forEach(p => { if (!p.classList.contains("f")) { try { p.style.setProperty("--l", Math.ceil(p.getTotalLength())); } catch (e) {} } else p.style.setProperty("--d", (0.6 + i * .45) + "s"); });
@@ -432,10 +547,9 @@ const WHATSAPP = "";
   { const G = grp($("kPalms"), "paste");
     palmTree(G, 120, 430, 1.25, 3.4, 1); palmTree(G, 300, 430, .9, 3, -1); palmTree(G, 820, 430, 1.1, 3.2, -1); palmTree(G, 980, 430, 1.4, 3.6, 1);
     wavyBand(G, 1100, 425, 8, 44, 2.6, false); }
-  paisley(grp($("kPaisley"), "paste"), "rotate(-14) scale(1.55)", 1.6, pg => {
-    const h = el("g", { transform: "translate(-6 20) rotate(14) scale(.34)" }, pg);
-    house(h, -14, 0, 1, 4.4); palmTree(h, 74, 40, .55, 4.4, 1);
-  });
+  { const G = grp($("kMosque"), "paste"); keralaMosque(G, 790, 292, 1.05, 3); el("path", { d: "M560 296H1000", "stroke-width": 2.4 }, G); }
+  archScene($("kPaisley"), G => { const h = el("g", { transform: "translate(-8 72) scale(.66)" }, G); house(h, 0, 0, 1, 3.6); palmTree(h, 92, 40, .5, 3.6, 1); },
+    (G, apex) => khatam(G, 0, apex - 14, 10, 2.2));
   scatterLeaves($("kLeaves"), 7);
 
   /* ---------- 3 · Mattan ---------- */
@@ -443,16 +557,15 @@ const WHATSAPP = "";
     crescent(G, 760, 150, 54); star(G, 840, 120, 18);
     [[140, 90, 9], [260, 210, 6], [420, 70, 7], [560, 180, 5], [920, 260, 7], [650, 60, 5]].forEach(([x, y, r]) => star(G, x, y, r));
     for (let i = 0; i < 40; i++) el("circle", { cx: (i * 137) % 1000, cy: 30 + (i * 71) % 330, r: 1.8, class: "f" }, G); }
+  { const G = grp($("mMosque"), "paste"); domeMosque(G, 250, 292, 1, 3); el("path", { d: "M0 296H1000", "stroke-width": 2.4 }, G); }
   { const G = grp($("mWater"), "paste");
     for (let i = 0; i < 6; i++) wavyBand(G, 1200, 60 + i * 50, 9 - i, 70 + i * 6, 3 - i * .3, i % 2 === 0);
     const b = el("g", { transform: "translate(860 70)" }, G);
     el("path", { d: "M-90 0Q0 40 90 0L70 22Q0 44 -70 22Z", "stroke-width": 3 }, b);
     el("path", { d: "M-40 0Q0 -50 40 0", "stroke-width": 3 }, b);
     el("path", { d: "M0 -40V0M-20 -10L20 -10", "stroke-width": 2 }, b); }
-  paisley(grp($("mPaisley"), "paste"), "rotate(14) scale(-1.55 1.55)", 1.6, pg => {
-    const h = el("g", { transform: "translate(-6 20) rotate(14) scale(.34)" }, pg);
-    house(h, 0, 0, 1, 4.4); crescent(h, 64, -140, 22); star(h, 102, -142, 9);
-  });
+  archScene($("mPaisley"), G => { const h = el("g", { transform: "translate(0 72) scale(.66)" }, G); house(h, 0, 0, 1, 3.6); },
+    (G, apex) => { crescent(G, -2, apex - 16, 9); });
   scatterLeaves($("mLeaves"), 31);
 
   /* ---------- 4 · vine ---------- */
@@ -468,40 +581,37 @@ const WHATSAPP = "";
     const lg = leaf(VG, a.x, a.y, ang, 1, 3.4); lg.style.transition = "opacity .5s"; vineLeaves.push([s, lg]);
   }
 
-  /* ---------- 5 · heart ---------- */
-  const HG = grp($("heartSvg"), "paste");
-  const leftP = el("g", {}, HG), rightP = el("g", {}, HG);
-  paisley(leftP, "translate(337 640) rotate(140) scale(2.9)", 1.3);
-  paisley(rightP, "translate(563 640) rotate(-140) scale(-2.9 2.9)", 1.3);
-  const moon = el("g", {}, HG); crescent(moon, 440, 260, 46); star(moon, 512, 240, 18); dotRing(moon, 450, 260, 86, 20, 4);
-  const stem = el("g", {}, HG); for (let i = 0; i < 8; i++) el("circle", { cx: 450, cy: 980 + i * 14, r: 4, class: "f" }, stem);
+  /* ---------- 5 · two halves become one star ---------- */
+  const HS = $("heartSvg"), defs = el("defs", {}, HS);
+  const cl = el("clipPath", { id: "halfL" }, defs); el("rect", { x: -400, y: -400, width: 400, height: 800 }, cl);
+  const cr = el("clipPath", { id: "halfR" }, defs); el("rect", { x: 0, y: -400, width: 400, height: 800 }, cr);
+  const leftP = el("g", {}, HS), rightP = el("g", {}, HS);
+  rosette(el("g", { transform: "translate(450 640)", "clip-path": "url(#halfL)" }, leftP), "paste", 300, { sw: 4 });
+  rosette(el("g", { transform: "translate(450 640)", "clip-path": "url(#halfR)" }, rightP), "paste", 300, { sw: 4 });
+  const HG = grp(HS, "paste");
+  const moon = el("g", {}, HG); crescent(moon, 440, 220, 46); star(moon, 512, 200, 18); dotRing(moon, 450, 220, 86, 20, 4);
+  const stem = el("g", {}, HG); for (let i = 0; i < 6; i++) el("circle", { cx: 450, cy: 990 + i * 14, r: 4, class: "f" }, stem);
 
   /* ---------- 6 · colour ---------- */
-  mandala($("dryMandala"), "stain", 400, { sw: 4.6 });
-  mandala($("wetMandala"), "paste", 400, { sw: 4.6 });
+  rosette($("dryMandala"), "stain", 400, { sw: 4.6 });
+  rosette($("wetMandala"), "paste", 400, { sw: 4.6 });
 
-  /* ---------- 7 · card border ---------- */
+  /* ---------- 7 · card border: a mihrab arch with a chain of stars ---------- */
   { const s = $("cardBorder"), G = grp(s, "stain");
-    el("rect", { x: 14, y: 14, width: 492, height: 792, "stroke-width": 2.4 }, G);
-    el("rect", { x: 24, y: 24, width: 472, height: 772, "stroke-width": 1 }, G);
-    let d = ""; for (let x = 34; x < 490; x += 22) d += `M${x} 34l11 11l11 -11M${x} 786l11 -11l11 11`;
-    for (let y = 56; y < 770; y += 22) d += `M34 ${y}l11 11l-11 11M486 ${y}l-11 11l11 11`;
-    el("path", { d, "stroke-width": 1.4 }, G);
-    [[70, 76, 135], [450, 76, 225], [70, 744, 45], [450, 744, -45]].forEach(([x, y, r]) => paisley(G, `translate(${x} ${y}) rotate(${r}) scale(.36)`, 3.4)); }
+    const outer = "M14 806V250Q14 72 260 14Q506 72 506 250V806Z", inner = "M28 792V256Q28 88 260 30Q492 88 492 256V792Z";
+    el("path", { d: outer, "stroke-width": 2.4 }, G);
+    el("path", { d: inner, "stroke-width": 1 }, G);
+    const tmp = el("path", { d: "M40 780V262Q40 102 260 46Q480 102 480 262V780Z", stroke: "none" }, G), L = tmp.getTotalLength();
+    for (let t = 0, k = 0; t < L; t += 15, k++) { const p = tmp.getPointAtLength(t); if (k % 2) el("circle", { cx: f(p.x), cy: f(p.y), r: 1.6, class: "f" }, G); else khatam(G, p.x, p.y, 4.6, 1); }
+    tmp.remove();
+    khatam(G, 260, 72, 11, 1.6); el("circle", { cx: 260, cy: 72, r: 2.4, class: "f" }, G);
+    [[60, 760], [460, 760]].forEach(([x, y]) => { khatam(G, x, y, 16, 1.6); khatam(G, x, y, 8, 1.2, TAU / 16); }); }
 
-  /* ---------- 8 · finale ---------- */
+  /* ---------- 8 · finale: hanging lanterns ---------- */
   { const G = grp($("tips"), "paste");
-    [130, 370, 630, 870].forEach((x, i) => {
-      const y = i === 0 || i === 3 ? 10 : -20, w = 78;
-      el("path", { d: `M${x - w} ${y - 40}V${y + 70}A${w} ${w} 0 0 0 ${x + w} ${y + 70}V${y - 40}`, "stroke-width": 3.6 }, G);
-      let hd = ""; for (let yy = y - 30; yy < y + 70; yy += 11) hd += `M${x - w + 6} ${yy}L${x + w - 6} ${yy}`;
-      el("path", { d: hd, "stroke-width": 2.4 }, G);
-      el("path", { d: `M${x - w + 10} ${y + 80}A${w - 10} ${w - 14} 0 0 0 ${x + w - 10} ${y + 80}`, "stroke-width": 2.4 }, G);
-      el("circle", { cx: x, cy: y + 112, r: 9, class: "f" }, G);
-      el("path", { d: `M${x - w - 12} ${y + 92}A${w + 12} ${w * .8} 0 0 0 ${x + w + 12} ${y + 92}`, "stroke-width": 3.4 }, G);
-      for (let k = -4; k <= 4; k++) el("circle", { cx: x + k * 18, cy: y + 186 - Math.abs(k) * 4, r: 3.4, class: "f" }, G);
-    }); }
-  mandala($("smallMandala"), "paste", 400, { sw: 6 });
+    [[150, 40, 1.15], [380, 90, .9], [620, 60, 1.05], [850, 110, .85]].forEach(([x, top, s]) => lantern(G, x, top, s, 3.2, top + 20));
+    [[265, 60], [500, 30], [735, 70]].forEach(([x, y]) => khatam(G, x, y, 9, 1.8)); }
+  rosette($("smallMandala"), "paste", 400, { sw: 6 });
 
   /* ---------- countdown + links ---------- */
   const today = new Date(); today.setHours(0, 0, 0, 0);
@@ -553,8 +663,8 @@ const WHATSAPP = "";
 
     // paisleys meet
     const hp2 = ease(clamp(prog($("s-heart")) / .65));
-    leftP.setAttribute("transform", `translate(${f(-(1 - hp2) * 520)} ${f((1 - hp2) * 60)}) rotate(${f(-(1 - hp2) * 30)} 337 640)`);
-    rightP.setAttribute("transform", `translate(${f((1 - hp2) * 520)} ${f((1 - hp2) * 60)}) rotate(${f((1 - hp2) * 30)} 563 640)`);
+    leftP.setAttribute("transform", `translate(${f(-(1 - hp2) * 360)} ${f((1 - hp2) * 40)}) rotate(${f(-(1 - hp2) * 20)} 450 640)`);
+    rightP.setAttribute("transform", `translate(${f((1 - hp2) * 360)} ${f(-(1 - hp2) * 40)}) rotate(${f((1 - hp2) * 20)} 450 640)`);
     moon.style.opacity = clamp((hp2 - .7) * 3.4); stem.style.opacity = clamp((hp2 - .8) * 5);
 
     // paste dries into stain
