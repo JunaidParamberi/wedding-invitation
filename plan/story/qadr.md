@@ -1,5 +1,8 @@
 # Story: Written (Qadr)
 
+**Negative prompt for every image** (or add as "avoid: ..."):
+temple, gopuram, tiered pagoda roof, sloping tiled temple roof, Hindu deity, idol, oil lamp, nilavilakku, temple bell, kolam, rangoli, saffron flags, mandap, kalash, marigold garlands on pillars, people, text
+
 Families arranged it. The story is about qadr: it was written before either of you knew.
 English with Malayalam. Each frame is one full-screen AI image with text over it.
 Images: no faces, no people shown; romance comes from light, places and objects.
@@ -12,7 +15,7 @@ Images: no faces, no people shown; romance comes from light, places and objects.
 > Some things are written long before we know them.
 > ചില കാര്യങ്ങൾ നമ്മൾ അറിയുന്നതിനും മുമ്പേ എഴുതപ്പെട്ടിട്ടുണ്ടാവും.
 
-**Image prompt:** A traditional Kerala wooden mosque with sloping tiled roofs at dawn, soft mist over coconut palms, warm brass lanterns glowing at the entrance, a thin crescent moon fading in a rose-gold sky, cinematic, romantic, painterly light, vertical 9:16, no people.
+**Image prompt:** A white Kerala mosque at dawn with one large white dome and a tall slender minaret topped with a golden crescent moon, pointed Islamic arches along the front, green and white walls, Arabic calligraphy band above the main arch, a still ablution pool reflecting the mosque, coconut palms in soft mist, brass Arabian lanterns glowing at the entrance, thin crescent moon fading in a rose-gold sky, cinematic, romantic, vertical 9:16, no people, no text.
 
 ## 02 · Kundoor
 **Text:**
@@ -20,7 +23,7 @@ Images: no faces, no people shown; romance comes from light, places and objects.
 > ഉമ്മയുടെയും ഉപ്പയുടെയും ദുആകളിൽ വളർന്ന ഒരു മകൻ.
 > **Junaid Raziq**, son of Mohammed Ali
 
-**Image prompt:** An old Kerala Muslim family home with a red tiled roof and wooden pillars among tall coconut palms, early morning golden sunlight, an open carved wooden door, a hanging Arabian lantern on the veranda, jasmine creeper, cinematic, warm and peaceful, vertical 9:16, no people.
+**Image prompt:** An old Kerala Muslim family home with a red tiled roof and wooden pillars among tall coconut palms, early morning golden sunlight, an open carved wooden door, a hanging Arabian lantern on the veranda, green wooden door, a small crescent and star on the gate, an Arabic calligraphy frame on the wall, a prayer mat folded on the veranda, jasmine creeper, cinematic, warm and peaceful, vertical 9:16, no people.
 
 ## 03 · Mattan
 **Text:**
@@ -62,7 +65,7 @@ Images: no faces, no people shown; romance comes from light, places and objects.
 > Sunday · 13 December 2026 · 12:00 PM
 > Zain Auditorium, Kadakkallu
 
-**Image prompt:** An elegant Kerala Muslim wedding stage: a tall pointed arch of white jasmine and deep red roses, golden lanterns, carved Islamic geometric screens, two empty ornate chairs, soft warm lighting, petals on the floor, romantic, luxurious, cinematic, vertical 9:16, no people.
+**Image prompt:** An elegant Kerala Muslim Islamic wedding stage, not a mandap, pointed mihrab-style arch backdrop in white, green and gold, geometric lattice screens: a tall pointed arch of white jasmine and deep red roses, golden lanterns, carved Islamic geometric screens, two empty ornate chairs, soft warm lighting, petals on the floor, romantic, luxurious, cinematic, vertical 9:16, no people.
 
 ## 08 · Be there
 **Text:**
