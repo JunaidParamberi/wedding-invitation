@@ -13,7 +13,9 @@
   --f-ar:"GE SS Two","Amiri","Noto Naskh Arabic",sans-serif;
   --f-name:"Montserrat","Helvetica Neue",Arial,sans-serif;
   --f-title:"Lora",Georgia,"Times New Roman",serif;
+  --f-script:"Transcity","Lora",Georgia,serif;  /* names and headings (demo font: letters only; symbols fall back to Lora) */
   --f-body:"Montserrat","Helvetica Neue",Arial,sans-serif;
   --f-caps:"Montserrat","Helvetica Neue",Arial,sans-serif;
+  --app-w:min(100vw,480px);   /* phone-shaped column on wide screens */
   color-scheme:light;
 }

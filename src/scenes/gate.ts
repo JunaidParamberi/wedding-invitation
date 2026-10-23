@@ -21,7 +21,8 @@ export function initGate(onOpen: () => void) {
 
   // keep the printed text and the seal locked to the cover-scaled artwork
   const fit = () => {
-    const scale = Math.max(innerWidth / ART_W, innerHeight / ART_H);
+    const w = gate.clientWidth || innerWidth;
+    const scale = Math.max(w / ART_W, innerHeight / ART_H);
     const h = ART_H * scale;
     const top = (innerHeight - h) / 2;
     gate.style.setProperty('--seal', `${Math.round(SEAL * scale)}px`);

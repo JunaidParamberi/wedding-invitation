@@ -2,7 +2,7 @@
 html,body{margin:0}
 img{max-width:100%}
 [hidden]{display:none!important}
-html{background:var(--paper)}
+html{background:#e9dccb}
 body{background:var(--paper);color:var(--ink);font-family:var(--f-body);-webkit-font-smoothing:antialiased}
 
 #app{display:contents}
@@ -15,7 +15,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--f-body);-webkit-
 @media (prefers-reduced-motion:reduce){.snd i{animation:none;height:60%}}
 
 /* bar */
-.bar{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;justify-content:space-between;align-items:center;pointer-events:none;
+.bar{position:fixed;top:0;left:50%;width:var(--app-w);transform:translateX(-50%);z-index:20;display:flex;justify-content:space-between;align-items:center;pointer-events:none;
   padding-top:calc(env(safe-area-inset-top,0px) + 10px);padding-left:max(14px,env(safe-area-inset-left,0px));padding-right:max(14px,env(safe-area-inset-right,0px))}
 .bar>*{pointer-events:auto}
 .mono{font:400 1.1rem/1 var(--f-ar);word-spacing:.4em;color:var(--wine);}

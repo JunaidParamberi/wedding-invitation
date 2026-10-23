@@ -65,6 +65,7 @@ export function initJourney() {
     return { el, x: Math.random(), y: Math.random(), vy: 0.0003 + Math.random() * 0.0005, sw: Math.random() * 6.28, r: Math.random() * 360, vr: (Math.random() - 0.5) * 0.7, d: 0.5 + Math.random() };
   });
 
+  const blurNode = document.getElementById('mblurNode')!;
   const copy = COPY.map(([id, a, b, c, d]) => ({ lines: [...$(id).querySelectorAll<HTMLElement>('.ln')], a, b, c, d }));
 
   let introStart: number | null = null;
@@ -77,10 +78,10 @@ export function initJourney() {
   read();
 
   function placeArch(el: HTMLElement, scale: number, opacity: number) {
-    const aw = Math.min(W * 1.1, H * 0.8), ah = aw * 1.3333;
+    const aw = Math.min(W * 1.22, H * 0.82), ah = aw * 1.3333;
     el.style.width = `${aw}px`;
     el.style.height = `${ah}px`;
-    el.style.transform = `translate3d(${(W - aw) / 2}px,${H - ah + aw * 0.03}px,0) scale(${scale})`;
+    el.style.transform = `translate3d(${(W - aw) / 2}px,${H - ah + aw * 0.02}px,0) scale(${scale})`;
     el.style.opacity = String(opacity);
   }
 
@@ -88,6 +89,9 @@ export function initJourney() {
     cur = reduce ? target : cur + (target - cur) * 0.085;
     const p = cur, dv = p - last;
     last = p;
+    // vertical motion blur that follows scroll speed
+    const blur = reduce ? 0 : Math.min(9, Math.abs(dv) * 2600);
+    blurNode.setAttribute('stdDeviation', `0 ${blur.toFixed(2)}`);
     const it = introT();
 
     // backgrounds: golden sky → courtyard seen through the arches (0.22) → candlelit aisle (0.64)
@@ -119,17 +123,21 @@ export function initJourney() {
     couple.style.width = `${cw}px`;
     place(couple, (W - cw) / 2, H - ch * 1.0 + (1 - dIn) * 30 + dOut * H * 0.1, 1, dIn * (1 - dOut));
 
-    // lanterns
-    const f = H * 0.55, hy = H * 0.52, travel = p * 6.2, lOp = 1 - ss(0.62, 0.70, p);
+    // lanterns hang overhead in perspective. A long chain runs up off the top of the screen,
+    // so none of them float. Walking forward they grow, drift outward and rise out of view.
+    const f = H * 0.5, horizon = H * 0.5, travel = p * 6.2, lOp = 1 - ss(0.62, 0.70, p);
     for (const L of lanterns) {
       const z = L.z0 - travel;
-      if (z < 0.32 || lOp <= 0) { L.el.style.opacity = '0'; continue; }
-      const s = f / z, w = s * 0.13, h = w * L.ratio;
-      const sway = reduce ? 0 : Math.sin(t * 0.0011 + L.ph) * 1.6;
+      if (z < 0.35 || lOp <= 0) { L.el.style.opacity = '0'; continue; }
+      const s = f / z, w = s * 0.11, h = w * L.ratio;
+      const sway = reduce ? 0 : Math.sin(t * 0.0011 + L.ph) * 1.2;
       const on = ss(0.18 + L.i * 0.05, 0.45 + L.i * 0.05, it);
+      const x = W / 2 + Math.sign(L.X) * (W * 0.12 + Math.abs(L.X) * s * 0.62) - w / 2;
+      const bottom = horizon - (1.0 - L.drop * 0.6) * s;
       L.el.style.width = `${w}px`;
-      place(L.el, W / 2 + L.X * s * 0.55 - w / 2, hy - (1.15 - L.drop) * s - h * 0.55, 1, lOp * on * clamp((6 - z) / 2) * clamp((z - 0.32) / 0.3), sway);
-      L.el.style.filter = `brightness(${mix(0.5, 1, on)})`;
+      L.el.style.paddingTop = `${H}px`;
+      place(L.el, x, bottom - h - H, 1, lOp * on * clamp((6 - z) / 2) * clamp((z - 0.35) / 0.3), sway);
+      L.el.style.filter = blur > 0.4 ? `url(#mblur) brightness(${mix(0.6, 1, on)})` : `brightness(${mix(0.6, 1, on)})`;
     }
 
     // copy: each line comes into focus in turn
@@ -158,6 +166,7 @@ export function initJourney() {
       if (q.y > 1.06) { q.y = -0.06; q.x = Math.random(); }
       if (q.y < -0.08) { q.y = 1.05; q.x = Math.random(); }
       place(q.el, q.x * W + Math.sin(q.sw) * 22 * q.d, q.y * H, q.d * 0.85, 0.85, q.r);
+      q.el.style.filter = blur > 0.4 ? 'url(#mblur)' : '';
     }
     requestAnimationFrame(frame);
   }

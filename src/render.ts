@@ -76,6 +76,7 @@ function stage() {
   const couple = `${esc(c.groom.name)} <span class="amp">&amp;</span> ${esc(c.bride.name)}`;
   return `
 <div id="stage">
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="mblur" x="-20%" y="-30%" width="140%" height="160%"><feGaussianBlur id="mblurNode" stdDeviation="0 0"/></filter></svg>
   <img class="full" id="night" src="/img/sky.webp" alt="">
   <img class="full" id="court" src="/img/courtyard.webp" alt="">
   <img class="full" id="aisle" src="/img/aisle.webp" alt="">

@@ -45,7 +45,7 @@
 .count b{font-size:1.5rem}
 .ev-p{font-size:1.1rem;font-weight:500}
 #final{justify-content:center;top:0;bottom:0;padding-top:calc(env(safe-area-inset-top,0px) + 48px);padding-bottom:calc(env(safe-area-inset-bottom,0px) + 24px);gap:.8rem}
-#final .name{font-size:clamp(1.85rem,8.4vw,2.4rem)}
+#final .name{font-size:clamp(2.4rem,11vw,3.1rem)}
 .events{padding-block:1.1rem;row-gap:.9rem}
 .count{margin-top:.2rem}
 

@@ -37,8 +37,9 @@ const reveal = () => {
   load.classList.add('done');
   setTimeout(gate.ready, 300);
 };
-const critical = [...document.querySelectorAll<HTMLImageElement>('#gate img, #night, .archimg')];
+// wait for every scene image so nothing pops in during the journey (capped below)
+const critical = [...document.querySelectorAll<HTMLImageElement>('img')];
 Promise.all(critical.map((img) => img.decode().catch(() => undefined)))
   .then(() => document.fonts.ready)
   .finally(reveal);
-setTimeout(reveal, 4500);
+setTimeout(reveal, 8000);

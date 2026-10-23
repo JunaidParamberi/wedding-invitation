@@ -8,7 +8,7 @@
   padding:1.6rem max(20px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 1.4rem) max(20px,env(safe-area-inset-left,0px));
   transform:translateY(100%);transition:transform .45s cubic-bezier(.2,.8,.2,1);box-shadow:none}
 #sheet.open .form{transform:none}
-.form h3{margin:0;text-align:center;font:500 2rem/1.1 var(--f-title);letter-spacing:.04em;color:var(--ink)}
+.form h3{margin:0;text-align:center;font:400 2.6rem/1.1 var(--f-script);letter-spacing:.04em;color:var(--ink)}
 .form .lead{margin:-.4rem 0 0;text-align:center;font:400 1rem/1.4 var(--f-name);color:var(--ink-soft)}
 .field{display:flex;flex-direction:column;gap:.45rem}
 .field > label,.field > span{font:400 .72rem/1 var(--f-caps);letter-spacing:.02em;color:var(--wine)}

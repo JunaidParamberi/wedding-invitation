@@ -1,12 +1,16 @@
 #track{height:820vh}
-#stage{position:fixed;inset:0;overflow:hidden}
+#stage{position:fixed;top:0;bottom:0;left:50%;width:var(--app-w);transform:translateX(-50%);overflow:hidden}
 .full{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;will-change:transform,opacity}
 #court,#aisle{opacity:0}
-.group{position:absolute;left:0;top:0;transform-origin:50% 52%;will-change:transform,opacity}
+.group{position:absolute;left:0;top:0;transform-origin:50% 92%;will-change:transform,opacity}
+/* soften the cut top edge of each arch into the sky */
+.archimg{-webkit-mask-image:linear-gradient(transparent 0,#000 14%);mask-image:linear-gradient(transparent 0,#000 14%)}
 .group > img{position:absolute;pointer-events:none;user-select:none}
 .archimg{left:0;top:0;width:100%;height:100%}
 #lanterns,#petals,#duo{position:absolute;inset:0;pointer-events:none}
 #lanterns img,#petals img,#duo img{position:absolute;left:0;top:0;will-change:transform,opacity}
+/* each lantern carries a thin chain far above it (padding-top is set to the screen height) */
+#lanterns img{box-sizing:content-box;transform-origin:50% 0;background:linear-gradient(#a8844c,#a8844c) center top/1.5px 100% no-repeat}
 #duo img{opacity:0;transform-origin:50% 100%}
 .vignette{display:none}
 
@@ -26,9 +30,9 @@
 .bism{font:400 clamp(1.25rem,5.6vw,1.55rem)/1.8 var(--f-ar);direction:rtl;color:var(--ink-soft)}
 .eyebrow{font:500 .95rem/1.5 var(--f-caps);letter-spacing:.02em;color:var(--wine)}
 .hero-ar{font:400 clamp(1.9rem,8.6vw,2.5rem)/1.5 var(--f-ar);direction:rtl;color:var(--wine)}
-.name{margin:0;font:600 clamp(2rem,9.2vw,2.7rem)/1.15 var(--f-title);letter-spacing:.01em;color:var(--ink);text-wrap:balance}
-.name .amp{font-weight:500;font-style:normal;color:var(--wine)}
-.big{font-size:clamp(2.2rem,10vw,3rem)}
+.name{margin:0;font:400 clamp(2.6rem,12vw,3.5rem)/1.1 var(--f-script);letter-spacing:.01em;color:var(--ink);text-wrap:balance}
+.name .amp{font-family:var(--f-title);font-weight:500;font-size:.7em;font-style:normal;color:var(--wine);vertical-align:.12em}
+.big{font-size:clamp(2.9rem,13vw,3.9rem)}
 .sub{font:400 1.05rem/1.55 var(--f-name);color:var(--ink);text-wrap:balance;max-width:32ch}
 .sub i{font-style:normal;color:var(--ink-soft)}
 .date-line{font:400 1.1rem/1 var(--f-name);letter-spacing:.02em;color:var(--ink)}

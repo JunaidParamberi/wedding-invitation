@@ -4,7 +4,7 @@
 - All guest-facing text and event data belong in `src/content.ts`. Never hardcode names, times or places elsewhere.
 - Markup is generated in `src/render.ts`; motion in `src/scenes/`; behaviour in `src/features/`.
 - The scroll timeline uses progress values 0–1; the map of moments is the comment at the top of `src/scenes/journey.ts`. Keep it updated when timings change.
-- Fonts: Lora (names and headings), Montserrat (everything else, including numbers), GE SS Two (all Arabic, licensed). Keep text easy to read: sentence case, normal letter spacing.
+- Fonts: Transcity demo (script names and headings; letters only), Lora (fallback for symbols and venue names), Montserrat (everything else, including numbers), GE SS Two (all Arabic, licensed). Keep text easy to read: sentence case, normal letter spacing.
 - No shadows on text, figures or edges.
 - Colours and font tokens live in `src/styles/tokens.css`.
 - The bride, groom and couple are illustrations (`public/img/bride.webp`, `groom.webp`, `couple.webp`), cut out from a blue screen.
