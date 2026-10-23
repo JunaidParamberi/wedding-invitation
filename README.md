@@ -42,7 +42,7 @@ The scroll timeline is documented at the top of `src/scenes/journey.ts`. Each mo
 
 ## Music
 
-Put an MP3 at `public/audio/music.mp3`. It fades in when the guest taps the seal; a small icon lets them mute it. With no file, the icon stays hidden.
+`public/audio/music.mp3` is a seamless loop (the end crossfades into the start). It plays through Web Audio so there is no gap, fades in when the guest taps the seal; a small icon lets them mute it. With no file, the icon stays hidden.
 
 ## RSVPs
 

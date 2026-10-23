@@ -188,7 +188,6 @@ export function renderPage(root: HTMLElement) {
   root.innerHTML = `
 <div id="load" aria-hidden="true"></div>
 ${gate()}
-${c.music ? `<audio id="music" src="${c.music}" loop preload="auto"></audio>` : ''}
 ${bar()}
 ${stage()}
 ${sheet()}
