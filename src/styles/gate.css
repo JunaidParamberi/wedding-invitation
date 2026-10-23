@@ -22,20 +22,19 @@ html.locked,html.locked body{overflow:hidden}
 #gate.open .front .shade{opacity:1}
 #gate.open .back .shade{opacity:.15}
 /* text printed on the doors: one layer per door, aligned to the screen so it splits at the seam */
-.print{text-shadow:0 0 6px #f6efe1,0 0 14px #f6efe1,0 0 22px rgba(246,239,225,.9);position:absolute;top:0;bottom:0;width:200%;display:flex;flex-direction:column;align-items:center;pointer-events:none;text-align:center;color:#5a3f1e}
+.print{position:absolute;top:0;bottom:0;width:200%;display:flex;flex-direction:column;align-items:center;pointer-events:none;text-align:center;color:#5a3f1e}
 .door.l .print{left:0}.door.r .print{right:0}
 .p-top{position:absolute;left:0;right:0;top:var(--p-top,24%);display:flex;flex-direction:column;align-items:center;gap:.4rem}
 .p-bot{position:absolute;left:0;right:0;top:var(--p-bot,64%);display:flex;flex-direction:column;align-items:center;gap:.45rem}
 .p-bism{font:300 clamp(1.1rem,5vw,1.45rem)/1.6 var(--f-ar);direction:rtl;color:#6d4c22}
 .p-names{font:500 clamp(1.45rem,6.6vw,1.9rem)/1.1 var(--f-title);color:#3d2a12}
 .p-ar{font:500 clamp(.92rem,4vw,1.1rem)/1.4 var(--f-ar);direction:rtl;color:#6d4c22}
-.p-date{font:400 .84rem/1 var(--f-caps);letter-spacing:.26em;color:#6d4c22}
-.p-tap{margin-top:.5rem;font:400 .76rem/1 var(--f-caps);letter-spacing:.24em;text-transform:uppercase;color:#7a5a2c;display:flex;align-items:center;gap:.6rem;transition:opacity .5s ease}
+.p-date{font:400 .84rem/1 var(--f-caps);letter-spacing:.02em;color:#6d4c22}
+.p-tap{margin-top:.5rem;font:400 .76rem/1 var(--f-caps);letter-spacing:.02em;color:#7a5a2c;display:flex;align-items:center;gap:.6rem;transition:opacity .5s ease}
 .p-tap::before,.p-tap::after{content:"";width:22px;height:1px;background:rgba(122,90,44,.6)}
 #gate.open .p-tap{opacity:0}
 /* the wax seal, split in two halves that ride with each door */
-.seal-half{position:absolute;top:var(--seal-y,50%);width:var(--seal,150px);height:var(--seal,150px);transform:translateY(-50%);pointer-events:none;
-  filter:drop-shadow(0 6px 8px rgba(40,10,5,.45))}
+.seal-half{position:absolute;top:var(--seal-y,50%);width:var(--seal,150px);height:var(--seal,150px);transform:translateY(-50%);pointer-events:none}
 .door.l .seal-half{right:calc(var(--seal,150px) / -2);clip-path:polygon(0 0,50% 0,47% 22%,53% 41%,46% 63%,52% 82%,50% 100%,0 100%)}
 .door.r .seal-half{left:calc(var(--seal,150px) / -2);clip-path:polygon(50% 0,100% 0,100% 100%,50% 100%,52% 82%,46% 63%,53% 41%,47% 22%)}
 .seal-half img{width:100%;height:100%;display:block}

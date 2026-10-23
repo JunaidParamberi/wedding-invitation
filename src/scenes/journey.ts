@@ -1,30 +1,34 @@
 /**
  * The scroll journey. One fixed stage; scroll progress p (0 → 1) drives every layer.
  *
- *   0.00  arrival: arch, Bismillah and names (timed by the opening, not scroll)
- *   0.10  walk through the ivory arch
- *   0.30  the groom in the emerald doorway
- *   0.47  the bride in the same doorway
- *   0.62  pass through into the courtyard
- *   0.72  the couple together, "Two hearts, one Nikah"
- *   0.86  the candlelit aisle; details: date, events, countdown, RSVP
+ *   0.00  arrival: golden sky, ivory arch, Bismillah and names (timed by the opening, not scroll)
+ *   0.10  walk through the ivory arch; the courtyard appears beyond the candle arch (0.22)
+ *   0.28  the groom walks in and stands in the doorway
+ *   0.45  he steps aside as the bride arrives; they stand facing each other
+ *   0.60  walk through the candle arch into the candlelit aisle (they fade as we pass)
+ *   0.70  the couple together, "Two hearts, one Nikah"
+ *   0.86  details: date, events, countdown, RSVP
  *
  * Tweak the timeline by editing the numbers marked in each section.
  */
-import { $, clamp, ease, fade, mix, place, prefersReducedMotion, ss } from '../lib/motion';
+import { $, clamp, ease, mix, place, prefersReducedMotion, ss } from '../lib/motion';
 
 const LANTERN_RATIOS = [4.08, 4.43, 6.97, 5.17, 4.96]; // height / width of lantern0..4.webp
 const LANTERN_X = [-1.15, 1.05, -0.7, 0.8, -1.2, 1.1, -0.6, 0.75, -1.0, 1.2];
-const PETAL_SPRITES = 27;
+const PETAL_SPRITES = 15;
+/** height / width of the figure artwork */
+const GROOM_RATIO = 1475 / 469;
+const BRIDE_RATIO = 1335 / 900;
+const COUPLE_RATIO = 1484 / 961;
 /** How long the arrival (veil lifting, lanterns lighting) takes after opening */
 const INTRO_MS = 4600;
 
 /** Copy blocks: [id, inStart, inEnd, outStart, outEnd]; inStart -1 = timed by the arrival */
 const COPY: [string, number, number, number, number][] = [
   ['intro', -1, 0, 0.06, 0.11],
-  ['nameA', 0.30, 0.37, 0.43, 0.47],
-  ['nameB', 0.47, 0.54, 0.60, 0.65],
-  ['together', 0.75, 0.80, 0.85, 0.88],
+  ['nameA', 0.29, 0.35, 0.43, 0.47],
+  ['nameB', 0.47, 0.53, 0.58, 0.62],
+  ['together', 0.72, 0.78, 0.85, 0.88],
   ['final', 0.88, 0.96, 2, 3],
 ];
 
@@ -86,11 +90,11 @@ export function initJourney() {
     last = p;
     const it = introT();
 
-    // backgrounds: night sky, then the courtyard (0.62–0.72)
+    // backgrounds: golden sky → courtyard seen through the arches (0.22) → candlelit aisle (0.64)
     veil.style.opacity = String(1 - ss(0.05, 0.75, it));
-    place(night, 0, 0, (1.06 + ease(0, 0.66, p) * 0.22) * mix(1.08, 1, ease(0, 1, it)), 1 - ss(0.62, 0.72, p));
-    place(court, 0, 0, mix(1.22, 1.02, ease(0.62, 0.9, p)), ss(0.62, 0.72, p) * (1 - ss(0.86, 0.93, p)));
-    place(aisle, 0, 0, mix(1.12, 1, ease(0.86, 1, p)), ss(0.86, 0.93, p));
+    place(night, 0, 0, (1.06 + ease(0, 0.3, p) * 0.1) * mix(1.08, 1, ease(0, 1, it)), 1 - ss(0.22, 0.30, p));
+    place(court, 0, 0, mix(1.15, 1.02, ease(0.22, 0.6, p)), ss(0.22, 0.30, p) * (1 - ss(0.64, 0.72, p)));
+    place(aisle, 0, 0, mix(1.12, 1, ease(0.64, 1, p)), ss(0.64, 0.72, p));
 
     // arches: through the ivory one (0.10–0.30), then the emerald one (0.62–0.74)
     const o1 = ease(0.10, 0.30, p);
@@ -98,17 +102,22 @@ export function initJourney() {
     const m0 = mix(0.72, 1, ease(0.08, 0.30, p)), m1 = ease(0.62, 0.74, p);
     placeArch(mid, m0 * mix(1, 5, m1 * m1) * mix(1.08, 1, ease(0, 1, it)), 1 - ss(0.69, 0.74, p));
 
-    // groom, then bride, in the emerald doorway
-    pGroom.style.opacity = String(fade(p, 0.29, 0.34, 0.43, 0.47));
-    pGroom.style.transform = `translate(-50%, ${(1 - ss(0.29, 0.36, p)) * 18}px)`;
-    pBride.style.opacity = String(fade(p, 0.46, 0.51, 0.60, 0.65));
-    pBride.style.transform = `translate(-50%, ${(1 - ss(0.46, 0.53, p)) * 18}px)`;
+    // the groom walks in (0.28–0.36), steps aside as the bride arrives (0.45–0.53),
+    // they fade as we walk through the arch (0.58–0.64), then appear together (0.70–0.80)
+    const gIn = ease(0.28, 0.36, p), side = ease(0.45, 0.53, p), pass = ease(0.58, 0.64, p);
+    const gh = H * mix(0.56, 0.5, side), gw = gh / GROOM_RATIO;
+    const gx = mix(-gw, W * 0.5, gIn) + (W * 0.25 - W * 0.5) * side;
+    pGroom.style.width = `${gw}px`;
+    place(pGroom, gx - gw / 2, H - gh * 1.02, mix(1, 1.12, pass), gIn * (1 - pass));
+    const bh = H * 0.47, bw = bh / BRIDE_RATIO;
+    const bx = mix(W + bw, W * 0.7, side);
+    pBride.style.width = `${bw}px`;
+    place(pBride, bx - bw / 2, H - bh * 1.02, mix(1, 1.12, pass), side * (1 - pass));
 
-    // together in the courtyard (0.72–0.82), stepping aside for the details (0.88)
-    const dIn = ease(0.72, 0.82, p), dOut = ease(0.88, 0.96, p);
-    const ch = Math.min(H * 0.66, W * 1.15 * 1.544), cw = ch / 1.544;
+    const dIn = ease(0.70, 0.80, p), dOut = ease(0.88, 0.96, p);
+    const ch = Math.min(H * 0.55, W * 0.95 * COUPLE_RATIO), cw = ch / COUPLE_RATIO;
     couple.style.width = `${cw}px`;
-    place(couple, (W - cw) / 2, H - ch * mix(0.96, 1, dIn) + (1 - dIn) * 40 + dOut * H * 0.1, 1, dIn * (1 - dOut));
+    place(couple, (W - cw) / 2, H - ch * 1.0 + (1 - dIn) * 30 + dOut * H * 0.1, 1, dIn * (1 - dOut));
 
     // lanterns
     const f = H * 0.55, hy = H * 0.52, travel = p * 6.2, lOp = 1 - ss(0.62, 0.70, p);
@@ -120,7 +129,7 @@ export function initJourney() {
       const on = ss(0.18 + L.i * 0.05, 0.45 + L.i * 0.05, it);
       L.el.style.width = `${w}px`;
       place(L.el, W / 2 + L.X * s * 0.55 - w / 2, hy - (1.15 - L.drop) * s - h * 0.55, 1, lOp * on * clamp((6 - z) / 2) * clamp((z - 0.32) / 0.3), sway);
-      L.el.style.filter = `brightness(${mix(0.3, 1, on)}) drop-shadow(0 0 ${on * 18}px rgba(255,190,110,${on * 0.55}))`;
+      L.el.style.filter = `brightness(${mix(0.5, 1, on)})`;
     }
 
     // copy: each line comes into focus in turn
@@ -130,8 +139,7 @@ export function initJourney() {
       lines.forEach((ln, i) => {
         const st = i / (n + 2), loc = clamp(((qIn - st) / (1 - st + 0.001)) * 1.6);
         ln.style.opacity = String(loc * qOut);
-        ln.style.transform = `translateY(${(1 - loc) * 16 - (1 - qOut) * 14}px)`;
-        ln.style.filter = `blur(${(1 - loc) * 7 + (1 - qOut) * 4}px) drop-shadow(0 2px 14px rgba(0,0,0,.65))`;
+        ln.style.transform = `translateY(${(1 - loc) * 12 - (1 - qOut) * 10}px)`;
       });
       scrimO = Math.max(scrimO, qIn * qOut);
     }

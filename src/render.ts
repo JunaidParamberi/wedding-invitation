@@ -80,14 +80,14 @@ function stage() {
   <img class="full" id="court" src="/img/courtyard.webp" alt="">
   <img class="full" id="aisle" src="/img/aisle.webp" alt="">
 
-  <div class="group" id="mid">
-    <img class="person" id="pGroom" src="/img/groom.webp" alt="${esc(c.groom.name)}">
-    <img class="person" id="pBride" src="/img/bride.webp" alt="${esc(c.bride.name)}">
-    <img class="archimg" src="/img/arch-mid.webp" alt="">
-  </div>
+  <div class="group" id="mid"><img class="archimg" src="/img/arch-mid.webp" alt=""></div>
   <div class="group" id="outer"><img class="archimg" src="/img/arch-outer.webp" alt=""></div>
 
-  <div id="duo"><img id="dCouple" src="/img/couple.webp" alt=""></div>
+  <div id="duo">
+    <img id="pGroom" src="/img/groom.webp" alt="${esc(c.groom.name)}">
+    <img id="pBride" src="/img/bride.webp" alt="${esc(c.bride.name)}">
+    <img id="dCouple" src="/img/couple.webp" alt="${esc(c.groom.name)} and ${esc(c.bride.name)}">
+  </div>
   <div id="lanterns"></div>
   <div id="petals"></div>
   <div class="vignette"></div>
