@@ -1,43 +1,43 @@
 /* final: no card, set into the sky */
 #final{gap:.5rem}
-#hint::before{content:"";position:absolute;left:0;right:0;bottom:-40px;height:170px;z-index:-1;background:linear-gradient(transparent,rgba(4,10,22,.85))}
+#hint::before{content:"";position:absolute;left:0;right:0;bottom:-40px;height:170px;z-index:-1;background:linear-gradient(transparent,rgba(250,242,230,.85))}
 #final.live{pointer-events:auto}
 #final .when{display:flex;align-items:center;justify-content:center;gap:1.1rem}
-#final .when span{font:400 .78rem/1.6 var(--f-caps);letter-spacing:.16em;text-transform:uppercase;color:var(--ivory)}
+#final .when span{font:400 .78rem/1.6 var(--f-caps);letter-spacing:.16em;text-transform:uppercase;color:var(--ink)}
 #final .when .l{text-align:right}#final .when .r{text-align:left}
-#final .when b{font:400 3.6rem/1 var(--f-title);color:var(--ivory)}
+#final .when b{font:400 3.6rem/1 var(--f-title);color:var(--ink)}
 #final .when .bar-v{width:1px;height:44px;background:var(--gold-deep)}
 .venue{display:flex;flex-direction:column;gap:.1rem}
-.venue strong{font:500 1.45rem/1.2 var(--f-title);letter-spacing:.02em;color:var(--ivory)}
-.venue span{font:400 1rem/1.5 var(--f-name);color:var(--cream)}
+.venue strong{font:500 1.45rem/1.2 var(--f-title);letter-spacing:.02em;color:var(--ink)}
+.venue span{font:400 1rem/1.5 var(--f-name);color:var(--ink-soft)}
 .count{display:flex;gap:1.4rem;font-variant-numeric:tabular-nums}
 .count div{display:flex;flex-direction:column;align-items:center;gap:.25rem;min-width:2.6rem}
-.count b{font:400 1.75rem/1 var(--f-name);color:var(--ivory)}
-.count small{font:400 .6rem/1 var(--f-caps);letter-spacing:.16em;color:var(--cream);text-transform:uppercase}
+.count b{font:400 1.75rem/1 var(--f-name);color:var(--ink)}
+.count small{font:400 .6rem/1 var(--f-caps);letter-spacing:.16em;color:var(--wine);text-transform:uppercase}
 .actions{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin-top:.2rem;pointer-events:auto}
-.btn{font:400 .76rem/1 var(--f-caps);letter-spacing:.12em;text-transform:uppercase;text-decoration:none;color:var(--ivory);
-  border:1px solid rgba(251,243,228,.5);border-radius:2px;padding:1.05em 1.4em;background:rgba(4,10,22,.35);cursor:pointer;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
-.btn:hover,.btn:focus-visible{border-color:var(--gold);color:var(--ivory);outline:none}
-.btn.solid{background:var(--ivory);color:#0b1626;border-color:var(--ivory)}
-.btn.solid:hover,.btn.solid:focus-visible{background:var(--cream);color:#0b1626}
-.link{font:italic 400 .98rem/1 var(--f-name);color:var(--mist);background:none;border:0;cursor:pointer;text-decoration:underline;text-underline-offset:4px;padding:.4rem;pointer-events:auto}
+.btn{font:400 .76rem/1 var(--f-caps);letter-spacing:.12em;text-transform:uppercase;text-decoration:none;color:var(--ink);
+  border:1px solid var(--edge);border-radius:2px;padding:1.05em 1.4em;background:rgba(250,242,230,.6);cursor:pointer;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.btn:hover,.btn:focus-visible{border-color:var(--wine);color:var(--wine);outline:none}
+.btn.solid{background:var(--wine);color:var(--paper);border-color:var(--wine)}
+.btn.solid:hover,.btn.solid:focus-visible{background:var(--wine-2);color:var(--paper)}
+.link{font:italic 400 .98rem/1 var(--f-name);color:var(--ink-soft);background:none;border:0;cursor:pointer;text-decoration:underline;text-underline-offset:4px;padding:.4rem;pointer-events:auto}
 
 .dateline{display:flex;flex-direction:column;align-items:center;gap:.25rem}
-.dateline span{font:400 .74rem/1 var(--f-caps);letter-spacing:.24em;text-transform:uppercase;color:var(--cream)}
-.dateline b{font:400 clamp(1.7rem,7.6vw,2.1rem)/1.1 var(--f-title);color:var(--ivory);font-weight:400}
+.dateline span{font:400 .74rem/1 var(--f-caps);letter-spacing:.24em;text-transform:uppercase;color:var(--wine)}
+.dateline b{font:400 clamp(1.7rem,7.6vw,2.1rem)/1.1 var(--f-title);color:var(--ink);font-weight:400}
 .events{display:grid;grid-template-columns:1fr auto 1fr;gap:.9rem;width:100%;max-width:380px;pointer-events:auto;
-  border-block:1px solid rgba(251,243,228,.22);padding-block:.95rem}
+  border-block:1px solid var(--edge);padding-block:.95rem}
 .ev{display:flex;flex-direction:column;align-items:center;gap:.28rem;min-width:0}
-.ev-k{font:400 .7rem/1 var(--f-caps);letter-spacing:.24em;text-transform:uppercase;color:var(--cream)}
-.ev-t{font:400 1.75rem/1.1 var(--f-title);color:var(--ivory);font-weight:400}
-.ev-p{font:400 1.12rem/1.2 var(--f-title);color:var(--ivory);font-weight:400}
-.ev-a{font:400 .9rem/1.3 var(--f-body);color:var(--cream)}
-.ev-map{margin-top:.35rem;font:400 .66rem/1 var(--f-caps);letter-spacing:.16em;text-transform:uppercase;color:var(--ivory);text-decoration:none;
-  border-bottom:1px solid rgba(251,243,228,.5);padding-bottom:.3em}
-.ev-map:hover,.ev-map:focus-visible{border-color:var(--ivory);outline:none}
-.ev-div{width:1px;background:rgba(251,243,228,.22)}
+.ev-k{font:400 .7rem/1 var(--f-caps);letter-spacing:.24em;text-transform:uppercase;color:var(--wine)}
+.ev-t{font:400 1.75rem/1.1 var(--f-title);color:var(--ink);font-weight:400}
+.ev-p{font:400 1.12rem/1.2 var(--f-title);color:var(--ink);font-weight:400}
+.ev-a{font:400 .9rem/1.3 var(--f-body);color:var(--ink-soft)}
+.ev-map{margin-top:.35rem;font:400 .66rem/1 var(--f-caps);letter-spacing:.16em;text-transform:uppercase;color:var(--ink);text-decoration:none;
+  border-bottom:1px solid var(--edge);padding-bottom:.3em}
+.ev-map:hover,.ev-map:focus-visible{border-color:var(--ink);outline:none}
+.ev-div{width:1px;background:var(--edge)}
 
-#finalShade{position:absolute;inset:0;pointer-events:none;opacity:0;background:linear-gradient(180deg,rgba(3,8,18,.82),rgba(3,8,18,.7) 55%,rgba(3,8,18,.86))}
+#finalShade{position:absolute;inset:0;pointer-events:none;opacity:0;background:linear-gradient(180deg,rgba(250,242,230,.86),rgba(250,242,230,.66) 55%,rgba(250,242,230,.84))}
 /* numbers use Marcellus: Playfair's old-style figures look uneven at this size */
 .ev-t,.dateline b,.count b,.stepper output,#final .when b{font-family:var(--f-caps) !important;letter-spacing:.02em}
 .ev-t{font-size:1.45rem}

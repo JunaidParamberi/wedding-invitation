@@ -76,8 +76,9 @@ function stage() {
   const couple = `${esc(c.groom.name)} <span class="amp">&amp;</span> ${esc(c.bride.name)}`;
   return `
 <div id="stage">
-  <img class="full" id="night" src="/img/night.webp" alt="">
+  <img class="full" id="night" src="/img/sky.webp" alt="">
   <img class="full" id="court" src="/img/courtyard.webp" alt="">
+  <img class="full" id="aisle" src="/img/aisle.webp" alt="">
 
   <div class="group" id="mid">
     <img class="person" id="pGroom" src="/img/groom.webp" alt="${esc(c.groom.name)}">
@@ -86,10 +87,7 @@ function stage() {
   </div>
   <div class="group" id="outer"><img class="archimg" src="/img/arch-outer.webp" alt=""></div>
 
-  <div id="duo">
-    <img id="dBride" src="/img/bride.webp" alt="">
-    <img id="dGroom" src="/img/groom.webp" alt="">
-  </div>
+  <div id="duo"><img id="dCouple" src="/img/couple.webp" alt=""></div>
   <div id="lanterns"></div>
   <div id="petals"></div>
   <div class="vignette"></div>

@@ -7,7 +7,7 @@
  *   0.47  the bride in the same doorway
  *   0.62  pass through into the courtyard
  *   0.72  the couple together, "Two hearts, one Nikah"
- *   0.88  details: date, events, countdown, RSVP
+ *   0.86  the candlelit aisle; details: date, events, countdown, RSVP
  *
  * Tweak the timeline by editing the numbers marked in each section.
  */
@@ -36,8 +36,8 @@ export function initJourney() {
   measure();
   addEventListener('resize', measure);
 
-  const night = $('night'), court = $('court'), mid = $('mid'), outer = $('outer');
-  const pGroom = $('pGroom'), pBride = $('pBride'), dGroom = $('dGroom'), dBride = $('dBride');
+  const night = $('night'), court = $('court'), aisle = $('aisle'), mid = $('mid'), outer = $('outer');
+  const pGroom = $('pGroom'), pBride = $('pBride'), couple = $('dCouple');
   const veil = $('veil'), scrim = $('scrim'), finalShade = $('finalShade');
   const hint = $('hint'), skip = $('skip'), final = $('final');
 
@@ -89,7 +89,8 @@ export function initJourney() {
     // backgrounds: night sky, then the courtyard (0.62–0.72)
     veil.style.opacity = String(1 - ss(0.05, 0.75, it));
     place(night, 0, 0, (1.06 + ease(0, 0.66, p) * 0.22) * mix(1.08, 1, ease(0, 1, it)), 1 - ss(0.62, 0.72, p));
-    place(court, 0, 0, mix(1.22, 1.02, ease(0.62, 0.9, p)), ss(0.62, 0.72, p));
+    place(court, 0, 0, mix(1.22, 1.02, ease(0.62, 0.9, p)), ss(0.62, 0.72, p) * (1 - ss(0.86, 0.93, p)));
+    place(aisle, 0, 0, mix(1.12, 1, ease(0.86, 1, p)), ss(0.86, 0.93, p));
 
     // arches: through the ivory one (0.10–0.30), then the emerald one (0.62–0.74)
     const o1 = ease(0.10, 0.30, p);
@@ -99,17 +100,15 @@ export function initJourney() {
 
     // groom, then bride, in the emerald doorway
     pGroom.style.opacity = String(fade(p, 0.29, 0.34, 0.43, 0.47));
-    pGroom.style.transform = `translateY(${(1 - ss(0.29, 0.36, p)) * 18}px)`;
+    pGroom.style.transform = `translate(-50%, ${(1 - ss(0.29, 0.36, p)) * 18}px)`;
     pBride.style.opacity = String(fade(p, 0.46, 0.51, 0.60, 0.65));
-    pBride.style.transform = `translateY(${(1 - ss(0.46, 0.53, p)) * 18}px)`;
+    pBride.style.transform = `translate(-50%, ${(1 - ss(0.46, 0.53, p)) * 18}px)`;
 
     // together in the courtyard (0.72–0.82), stepping aside for the details (0.88)
     const dIn = ease(0.72, 0.82, p), dOut = ease(0.88, 0.96, p);
-    const bw = Math.min(W * 0.56, H * 0.37), gw = bw * 1.14;
-    dBride.style.width = `${bw}px`;
-    dGroom.style.width = `${gw}px`;
-    place(dBride, mix(-bw, W * 0.5 - bw * 0.96, dIn), H - bw * 1.53 * 0.92 + dOut * H * 0.08, 1, dIn * (1 - dOut));
-    place(dGroom, mix(W, W * 0.5 - gw * 0.06, dIn), H - gw * 1.41 * 0.9 + dOut * H * 0.08, 1, dIn * (1 - dOut));
+    const ch = Math.min(H * 0.66, W * 1.15 * 1.544), cw = ch / 1.544;
+    couple.style.width = `${cw}px`;
+    place(couple, (W - cw) / 2, H - ch * mix(0.96, 1, dIn) + (1 - dIn) * 40 + dOut * H * 0.1, 1, dIn * (1 - dOut));
 
     // lanterns
     const f = H * 0.55, hy = H * 0.52, travel = p * 6.2, lOp = 1 - ss(0.62, 0.70, p);

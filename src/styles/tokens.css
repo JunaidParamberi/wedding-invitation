@@ -1,17 +1,19 @@
-/* Layout: a tall scroll track drives a fixed stage. The guest walks forward through two arches (true perspective), then into the courtyard. Single night look by choice. */
+/* Layout: a tall scroll track drives a fixed stage. The guest walks forward through two arches (true perspective), then into the courtyard.
+   Palette: warm golden-hour ivory and cream, deep burgundy as the one strong colour, champagne gold for fine detail. */
 :root{
-  --night:#07111f;
-  --gold:#e9c77f;
-  --gold-deep:#b8904a;
-  --ivory:#fbf3e4;
-  --mist:#c9d2d6;
-  --glass:rgba(7,17,31,.68);
-  --edge:rgba(233,199,127,.42);
+  --paper:#f8efe2;        /* page and panels */
+  --paper-2:#f1e3cf;
+  --ink:#3b1a17;          /* main text: deep espresso-burgundy */
+  --ink-soft:#6e4337;     /* secondary text */
+  --wine:#7a1c25;         /* accent: burgundy */
+  --wine-2:#5e141c;
+  --gold:#b98a4a;         /* champagne gold detail */
+  --gold-deep:#9a7036;
+  --edge:rgba(122,28,37,.28);
   --f-ar:"GE SS Two","Amiri","Noto Naskh Arabic",sans-serif;
   --f-name:"Playfair Display","Didot","Bodoni 72",Georgia,serif;
   --f-title:"Playfair Display","Didot","Bodoni 72",Georgia,serif;
-  --cream:#e9dfcd;
   --f-body:"Playfair Display","Didot","Bodoni 72",Georgia,serif;
   --f-caps:"Marcellus","Trajan Pro",Georgia,serif;
-  color-scheme:dark;
+  color-scheme:light;
 }
