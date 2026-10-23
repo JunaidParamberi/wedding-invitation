@@ -1,0 +1,48 @@
+#track{height:820vh}
+#stage{position:fixed;inset:0;overflow:hidden}
+.full{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;will-change:transform,opacity}
+#court{opacity:0}
+.group{position:absolute;left:0;top:0;transform-origin:50% 52%;will-change:transform,opacity}
+.group > img{position:absolute;pointer-events:none;user-select:none}
+.archimg{left:0;top:0;width:100%;height:100%}
+.person{left:22%;width:56%;bottom:9%;opacity:0;
+  -webkit-mask-image:linear-gradient(#000 82%,transparent);mask-image:linear-gradient(#000 82%,transparent);
+  filter:drop-shadow(0 0 18px rgba(233,199,127,.35))}
+#lanterns,#petals,#duo{position:absolute;inset:0;pointer-events:none}
+#lanterns img,#petals img,#duo img{position:absolute;left:0;top:0;will-change:transform,opacity}
+#duo img{-webkit-mask-image:linear-gradient(#000 80%,transparent);mask-image:linear-gradient(#000 80%,transparent);
+  filter:drop-shadow(0 0 22px rgba(233,199,127,.3));opacity:0}
+.vignette{position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 90% at 50% 45%,transparent 55%,rgba(4,10,20,.55))}
+
+/* text: set directly on the artwork */
+.scrim{position:absolute;left:0;right:0;top:0;height:68%;pointer-events:none;opacity:0;
+  background:linear-gradient(180deg,rgba(4,10,22,.92) 0%,rgba(4,10,22,.72) 38%,rgba(4,10,22,.25) 72%,transparent 100%)}
+.grain{position:absolute;inset:-50%;pointer-events:none;opacity:.07;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 1s steps(4) infinite}
+@keyframes grain{25%{transform:translate(-3%,2%)}50%{transform:translate(2%,-3%)}75%{transform:translate(-1%,3%)}}
+.copy{position:absolute;left:0;right:0;display:flex;flex-direction:column;align-items:center;text-align:center;gap:.55rem;pointer-events:none;
+  padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px));
+  top:calc(env(safe-area-inset-top,0px) + 64px)}
+.copy,.print{-webkit-font-smoothing:antialiased}
+.ln{opacity:0;will-change:opacity,transform,filter;filter:drop-shadow(0 2px 14px rgba(0,0,0,.65))}
+.gold{color:var(--ivory)}
+.bism{font:400 clamp(1.25rem,5.6vw,1.55rem)/1.8 var(--f-ar);direction:rtl;color:var(--cream)}
+.eyebrow{font:400 .74rem/1.6 var(--f-caps);letter-spacing:.22em;text-transform:uppercase;color:var(--cream)}
+.hero-ar{font:400 clamp(1.9rem,8.6vw,2.5rem)/1.5 var(--f-ar);direction:rtl;color:var(--cream)}
+.name{margin:0;font:500 clamp(2rem,9.2vw,2.75rem)/1.14 var(--f-title);letter-spacing:.01em;color:var(--ivory);text-wrap:balance}
+.name .amp{font-weight:400;font-style:italic;color:var(--cream)}
+.big{font-size:clamp(2.2rem,10vw,3rem)}
+.sub{font:400 1.02rem/1.55 var(--f-name);color:var(--ivory);text-wrap:balance;max-width:32ch}
+.sub i{font-style:normal;color:var(--cream);opacity:.85}
+.date-line{font:400 1.1rem/1 var(--f-name);letter-spacing:.22em;color:var(--ivory)}
+.orn{width:min(240px,68%);height:auto;margin:.2rem 0}
+.rule{display:flex;align-items:center;gap:.8rem;width:min(300px,86%)}
+.rule::before,.rule::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold-deep))}
+.rule::after{transform:scaleX(-1)}
+.rule span{width:6px;height:6px;transform:rotate(45deg);background:var(--gold)}
+#hint{text-transform:uppercase;position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 26px);display:flex;flex-direction:column;align-items:center;gap:.6rem;pointer-events:none;
+  font:400 .74rem/1 var(--f-caps);letter-spacing:.22em;color:var(--ivory);text-shadow:0 1px 10px rgba(0,0,0,.8)}
+#hint i{width:1px;height:42px;background:linear-gradient(var(--gold),transparent);animation:drip 2s ease-in-out infinite;transform-origin:top}
+@keyframes drip{0%{transform:scaleY(0)}60%{transform:scaleY(1);opacity:1}100%{transform:scaleY(1);opacity:0}}
+

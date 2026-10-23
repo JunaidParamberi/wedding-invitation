@@ -1,0 +1,55 @@
+/* opening */
+html.locked,html.locked body{overflow:hidden}
+#veil{position:absolute;inset:0;background:#02060d;pointer-events:none}
+#gate{position:fixed;inset:0;z-index:35;perspective:1600px;perspective-origin:50% 50%;overflow:hidden;transition:visibility 0s linear 2.6s}
+#gate.gone{visibility:hidden;pointer-events:none}
+.door{position:absolute;top:0;bottom:0;width:50%;transform-style:preserve-3d;transition:transform 2.8s cubic-bezier(.5,0,.25,1)}
+.door.l{left:0;transform-origin:0 50%}
+.door.r{right:0;transform-origin:100% 50%}
+.face{position:absolute;inset:0;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.face.back{transform:rotateY(180deg)}
+.face img.art{position:absolute;top:0;height:100%;width:200%;max-width:none;object-fit:cover}
+.door.l .face.front img.art{left:0}
+.door.r .face.front img.art{right:0}
+.door.l .face.back img.art{right:0}
+.door.r .face.back img.art{left:0}
+.shade{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity 2.8s cubic-bezier(.5,0,.25,1)}
+.door.l .front .shade{background:linear-gradient(90deg,rgba(0,0,0,.05),rgba(0,0,0,.55))}
+.door.r .front .shade{background:linear-gradient(270deg,rgba(0,0,0,.05),rgba(0,0,0,.55))}
+.door.l .front .edge{position:absolute;top:0;bottom:0;right:0;width:10px;background:linear-gradient(90deg,transparent,rgba(60,40,10,.18))}
+.door.r .front .edge{position:absolute;top:0;bottom:0;left:0;width:10px;background:linear-gradient(270deg,transparent,rgba(60,40,10,.18))}
+.door .back .shade{opacity:.5;background:linear-gradient(90deg,rgba(0,0,0,.6),rgba(0,0,0,.1))}
+#gate.open .front .shade{opacity:1}
+#gate.open .back .shade{opacity:.15}
+/* text printed on the doors: one layer per door, aligned to the screen so it splits at the seam */
+.print{text-shadow:0 0 6px #f6efe1,0 0 14px #f6efe1,0 0 22px rgba(246,239,225,.9);position:absolute;top:0;bottom:0;width:200%;display:flex;flex-direction:column;align-items:center;pointer-events:none;text-align:center;color:#5a3f1e}
+.door.l .print{left:0}.door.r .print{right:0}
+.p-top{position:absolute;left:0;right:0;top:var(--p-top,24%);display:flex;flex-direction:column;align-items:center;gap:.4rem}
+.p-bot{position:absolute;left:0;right:0;top:var(--p-bot,64%);display:flex;flex-direction:column;align-items:center;gap:.45rem}
+.p-bism{font:300 clamp(1.1rem,5vw,1.45rem)/1.6 var(--f-ar);direction:rtl;color:#6d4c22}
+.p-names{font:500 clamp(1.45rem,6.6vw,1.9rem)/1.1 var(--f-title);color:#3d2a12}
+.p-ar{font:500 clamp(.92rem,4vw,1.1rem)/1.4 var(--f-ar);direction:rtl;color:#6d4c22}
+.p-date{font:400 .84rem/1 var(--f-caps);letter-spacing:.26em;color:#6d4c22}
+.p-tap{margin-top:.5rem;font:400 .76rem/1 var(--f-caps);letter-spacing:.24em;text-transform:uppercase;color:#7a5a2c;display:flex;align-items:center;gap:.6rem;transition:opacity .5s ease}
+.p-tap::before,.p-tap::after{content:"";width:22px;height:1px;background:rgba(122,90,44,.6)}
+#gate.open .p-tap{opacity:0}
+/* the wax seal, split in two halves that ride with each door */
+.seal-half{position:absolute;top:50%;width:var(--seal,150px);height:var(--seal,150px);transform:translateY(-50%);pointer-events:none;
+  filter:drop-shadow(0 6px 8px rgba(40,10,5,.45))}
+.door.l .seal-half{right:calc(var(--seal,150px) / -2);clip-path:polygon(0 0,50% 0,47% 22%,53% 41%,46% 63%,52% 82%,50% 100%,0 100%)}
+.door.r .seal-half{left:calc(var(--seal,150px) / -2);clip-path:polygon(50% 0,100% 0,100% 100%,50% 100%,52% 82%,46% 63%,53% 41%,47% 22%)}
+.seal-half img{width:100%;height:100%;display:block}
+#openBtn{position:absolute;left:50%;top:50%;width:var(--seal,150px);height:var(--seal,150px);transform:translate(-50%,-50%);border-radius:50%;
+  background:none;border:0;padding:0;cursor:pointer;z-index:5;-webkit-tap-highlight-color:transparent}
+#openBtn:focus-visible{outline:2px solid #fff;outline-offset:6px}
+#gate.ready .door .seal-half{animation:breathe 2.8s ease-in-out 1.5s infinite}
+@keyframes breathe{0%,100%{transform:translateY(-50%) scale(1)}50%{transform:translateY(-50%) scale(1.045)}}
+#gate.crack .door .seal-half{animation:crack .45s ease-out forwards}
+@keyframes crack{0%{transform:translateY(-50%) scale(1.06)}30%{transform:translateY(-50%) scale(.97) rotate(-2deg)}60%{transform:translateY(-50%) scale(1.02) rotate(1.5deg)}100%{transform:translateY(-50%) scale(1)}}
+#gate.crack .door.l{transform:rotateY(-1.5deg)}
+#gate.crack .door.r{transform:rotateY(1.5deg)}
+#gate.crack.open .door.l,#gate.open .door.l{transform:rotateY(-112deg)}
+#gate.crack.open .door.r,#gate.open .door.r{transform:rotateY(112deg)}
+#gate .intro-fade{position:absolute;inset:0;background:#02060d;opacity:1;transition:opacity 1.6s ease;pointer-events:none;z-index:6}
+#gate.ready .intro-fade{opacity:0}
+@media (prefers-reduced-motion:reduce){.door,.shade{transition-duration:.6s}#gate.ready .door .seal-half{animation:none}}

@@ -1,0 +1,17 @@
+/* Layout: a tall scroll track drives a fixed stage. The guest walks forward through two arches (true perspective), then into the courtyard. Single night look by choice. */
+:root{
+  --night:#07111f;
+  --gold:#e9c77f;
+  --gold-deep:#b8904a;
+  --ivory:#fbf3e4;
+  --mist:#c9d2d6;
+  --glass:rgba(7,17,31,.68);
+  --edge:rgba(233,199,127,.42);
+  --f-ar:"GE SS Two","Amiri","Noto Naskh Arabic",sans-serif;
+  --f-name:"Playfair Display","Didot","Bodoni 72",Georgia,serif;
+  --f-title:"Playfair Display","Didot","Bodoni 72",Georgia,serif;
+  --cream:#e9dfcd;
+  --f-body:"Playfair Display","Didot","Bodoni 72",Georgia,serif;
+  --f-caps:"Marcellus","Trajan Pro",Georgia,serif;
+  color-scheme:dark;
+}

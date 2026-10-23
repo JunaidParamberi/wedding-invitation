@@ -1,240 +1,30 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Junaid Raziq & Rafeeda | You Are Invited</title>
-    <meta name="description" content="A story written in the stars. You are cordially invited to the wedding of Junaid Raziq & Rafeeda — December 13, 2026">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600&family=Montserrat:wght@200;300;400;500;600&family=Noto+Sans+Malayalam:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#07111f" />
+    <title>Junaid &amp; Rafeeda · Nikah</title>
+    <meta name="description" content="You are invited to the Nikah of Junaid Raziq &amp; Rafeeda · Sunday, 13 December 2026 · Kundoor, Kerala" />
 
-    <!-- ========== THE DOOR ========== -->
-    <div class="door" id="door">
-        <canvas id="doorParticles"></canvas>
+    <!-- Link preview for WhatsApp, Instagram and others -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Junaid &amp; Rafeeda · Nikah" />
+    <meta property="og:description" content="Sunday, 13 December 2026 · Kundoor, Kerala. Tap to open your invitation." />
+    <meta property="og:image" content="%VITE_SITE_URL%/og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:url" content="%VITE_SITE_URL%/" />
+    <meta name="twitter:card" content="summary_large_image" />
 
-        <!-- Arch Frame -->
-        <div class="door-arch">
-            <div class="arch-inner"></div>
-            <div class="arch-ornament">﷽</div>
-        </div>
-
-        <!-- Door Panels -->
-        <div class="door-panels">
-            <div class="door-panel panel-left" id="panelLeft">
-                <div class="panel-surface">
-                    <div class="p-ornament-top"></div>
-                    <div class="p-star"></div>
-                    <div class="p-star p-star-2"></div>
-                    <div class="p-star p-star-3"></div>
-                    <div class="p-arch"></div>
-                    <div class="p-handle"></div>
-                </div>
-            </div>
-            <div class="door-panel panel-right" id="panelRight">
-                <div class="panel-surface">
-                    <div class="p-ornament-top"></div>
-                    <div class="p-star"></div>
-                    <div class="p-star p-star-2"></div>
-                    <div class="p-star p-star-3"></div>
-                    <div class="p-arch"></div>
-                    <div class="p-handle"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Prompt -->
-        <div class="door-hint" id="doorHint">
-            <span>Tap to open</span>
-        </div>
-    </div>
-
-    <!-- ========== INSIDE THE DOOR ========== -->
-    <div class="inside" id="inside">
-        <!-- Frame around the experience -->
-        <div class="inside-frame">
-            <div class="if-corner if-tl"></div>
-            <div class="if-corner if-tr"></div>
-            <div class="if-corner if-bl"></div>
-            <div class="if-corner if-br"></div>
-        </div>
-
-        <!-- Slides Container -->
-        <div class="slides" id="slides">
-
-            <!-- SLIDE 1: Stars / Opening -->
-            <div class="slide slide-stars active" data-slide="0">
-                <canvas class="slide-canvas" id="starsCanvas"></canvas>
-                <div class="slide-content">
-                    <div class="tw-wrap">
-                        <span class="tw-text" id="tw1"></span><span class="tw-cursor">|</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- SLIDE 2: The Groom -->
-            <div class="slide slide-groom" data-slide="1">
-                <div class="slide-content">
-                    <div class="slide-label">Chapter One</div>
-                    <div class="orbital">
-                        <div class="orb-ring"></div>
-                        <div class="orb-ring orb-ring-2"></div>
-                    </div>
-                    <h2 class="slide-name groom-name">Junaid Raziq</h2>
-                    <div class="slide-line"></div>
-                    <p class="slide-detail">Son of <strong>Mohammed Ali</strong></p>
-                    <p class="slide-location">Raihanath Paramberi, Kundoor</p>
-                </div>
-            </div>
-
-            <!-- SLIDE 3: The Bride -->
-            <div class="slide slide-bride" data-slide="2">
-                <div class="slide-content">
-                    <div class="slide-label">Chapter Two</div>
-                    <div class="orbital">
-                        <div class="orb-ring"></div>
-                        <div class="orb-ring orb-ring-2"></div>
-                    </div>
-                    <h2 class="slide-name bride-name">Rafeeda</h2>
-                    <div class="slide-line"></div>
-                    <p class="slide-detail">Daughter of <strong>Abdul Kareem</strong></p>
-                    <p class="slide-location">Sameeran Harakat Mattan</p>
-                </div>
-            </div>
-
-            <!-- SLIDE 4: The Union -->
-            <div class="slide slide-union" data-slide="3">
-                <canvas class="slide-canvas" id="unionCanvas"></canvas>
-                <div class="slide-content">
-                    <div class="slide-label">Chapter Three</div>
-                    <div class="union-names">
-                        <span class="u-name u-groom">Junaid Raziq</span>
-                        <div class="u-amp"><span>&</span></div>
-                        <span class="u-name u-bride">Rafeeda</span>
-                    </div>
-                    <div class="slide-line"></div>
-                    <p class="slide-verse">"And We created you in pairs."</p>
-                    <p class="slide-verse-ref">— Quran 78:6</p>
-                    <p class="slide-verse-mal">"നിങ്ങളെ ഇണകളായി സൃഷ്ടിച്ചിരിക്കുന്നു."</p>
-                </div>
-            </div>
-
-            <!-- SLIDE 5: The Invitation -->
-            <div class="slide slide-inv" data-slide="4">
-                <div class="slide-content">
-                    <div class="inv-card">
-                        <div class="inv-corners">
-                            <span></span><span></span><span></span><span></span>
-                        </div>
-                        <div class="inv-bismillah">بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ</div>
-                        <p class="inv-sub">In the name of Allah, the Most Gracious, the Most Merciful</p>
-                        <h2 class="inv-title">You Are Cordially Invited</h2>
-                        <p class="inv-title-mal">നിങ്ങൾക്ക് ആദരപൂർവ്വം ക്ഷണം</p>
-                        <div class="inv-div"></div>
-                        <p class="inv-to">to the wedding celebration of</p>
-                        <div class="inv-names">
-                            <span class="inv-n inv-groom">Junaid Raziq</span>
-                            <span class="inv-and">&</span>
-                            <span class="inv-n inv-bride">Rafeeda</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- SLIDE 6: Details -->
-            <div class="slide slide-details" data-slide="5">
-                <div class="slide-content">
-                    <div class="det-cards">
-                        <div class="det-card">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" width="32" height="32"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                            <span class="dc-lbl">Date</span>
-                            <span class="dc-main">Sunday, 13th December</span>
-                            <span class="dc-sub">2026</span>
-                        </div>
-                        <div class="det-card">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" width="32" height="32"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
-                            <span class="dc-lbl">Time</span>
-                            <span class="dc-main">12:00 PM</span>
-                            <span class="dc-sub">Nikah Ceremony</span>
-                        </div>
-                        <div class="det-card">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" width="32" height="32"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                            <span class="dc-lbl">Venue</span>
-                            <span class="dc-main">Zain Auditorium</span>
-                            <span class="dc-sub">Kadakkallu, Kerala</span>
-                        </div>
-                    </div>
-                    <a href="https://www.google.com/maps/search/Zain+Auditorium+Kadakkallu+Kerala" target="_blank" class="det-map-btn">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                        Get Directions
-                    </a>
-                </div>
-            </div>
-
-            <!-- SLIDE 7: Closing -->
-            <div class="slide slide-closing" data-slide="6">
-                <canvas class="slide-canvas" id="closingCanvas"></canvas>
-                <div class="slide-content">
-                    <div class="countdown-ring" id="countdownRing">
-                        <svg viewBox="0 0 200 200" class="cd-svg">
-                            <circle cx="100" cy="100" r="90" class="cd-bg"/>
-                            <circle cx="100" cy="100" r="90" class="cd-progress" id="cdProgress"/>
-                        </svg>
-                        <div class="cd-inner">
-                            <span class="cd-days" id="cdDays">0</span>
-                            <span class="cd-label">days</span>
-                        </div>
-                    </div>
-                    <p class="cd-title">Until Our Special Day</p>
-                    <div class="slide-line"></div>
-                    <p class="closing-dua">May Allah bless this union</p>
-                    <p class="closing-dua-mal">അല്ലാഹ് ഈ ഐക്യത്തെ അനുഗ്രഹിക്കട്ടെ</p>
-                    <div class="closing-footer">
-                        <span>Junaid & Rafeeda</span>
-                        <span class="cf-dot">&bull;</span>
-                        <span>Dec 13, 2026</span>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- Navigation Arrows -->
-        <button class="nav-arrow nav-prev" id="navPrev" aria-label="Previous">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><polyline points="15,18 9,12 15,6"/></svg>
-        </button>
-        <button class="nav-arrow nav-next" id="navNext" aria-label="Next">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="24" height="24"><polyline points="9,6 15,12 9,18"/></svg>
-        </button>
-
-        <!-- Chapter Dots -->
-        <div class="chapter-dots" id="chapterDots">
-            <button class="c-dot active" data-index="0"></button>
-            <button class="c-dot" data-index="1"></button>
-            <button class="c-dot" data-index="2"></button>
-            <button class="c-dot" data-index="3"></button>
-            <button class="c-dot" data-index="4"></button>
-            <button class="c-dot" data-index="5"></button>
-            <button class="c-dot" data-index="6"></button>
-        </div>
-
-        <!-- Music Toggle -->
-        <button class="music-btn" id="musicBtn" aria-label="Toggle Music">
-            <svg class="m-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-            <svg class="m-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" style="display:none"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
-        </button>
-    </div>
-
-    <!-- Audio -->
-    <audio id="bgMusic" loop preload="auto">
-        <source src="https://cdn.pixabay.com/audio/2022/01/18/audio_d0ef98b5d0.mp3" type="audio/mpeg">
-    </audio>
-
-    <!-- GSAP -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="js/main.js"></script>
-</body>
+    <link rel="icon" href="/favicon.png" />
+    <link rel="preload" href="/img/door-front.webp" as="image" />
+    <link rel="preload" href="/fonts/playfair-display.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/ge-ss-two-light.woff2" as="font" type="font/woff2" crossorigin />
+  </head>
+  <body>
+    <div id="app"></div>
+    <noscript>Please turn on JavaScript to open the invitation.</noscript>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
 </html>
