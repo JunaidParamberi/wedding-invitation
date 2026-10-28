@@ -1,4 +1,8 @@
-#track{height:740vh}
+#track{height:740vh;position:relative}
+/* the journey rests at each moment: a flick moves one moment on, never past one */
+html:not(.locked){scroll-snap-type:y mandatory}
+.stop,#details{scroll-snap-align:start;scroll-snap-stop:always}
+.stop{position:absolute;left:0;width:1px;height:1px}
 /* sized to the largest viewport so the scene never resizes while the phone's toolbar slides;
    --bar is the toolbar's height, used to keep bottom content above it */
 #stage{position:fixed;top:0;height:100vh;height:100lvh;left:50%;width:var(--app-w);transform:translateX(-50%);overflow:hidden;--bar:0px}

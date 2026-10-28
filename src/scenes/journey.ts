@@ -9,6 +9,9 @@
  *   0.70  the couple together, "Two hearts, one Nikah"; background softens again (0.70–0.80)
  *   1.00  the details page (#details, normal scrolling) slides up over the couple
  *
+ * Scroll snaps to STOPS (0, 0.12, 0.24, 0.39, 0.555, 0.70, 0.86, 1) and the details page,
+ * so one flick moves one step and never flies past the groom, bride or couple.
+ *
  * Tweak the timeline by editing the numbers marked in each section.
  */
 import { $, clamp, ease, mix, place, prefersReducedMotion, ss } from '../lib/motion';
@@ -30,6 +33,9 @@ const COPY: [string, number, number, number, number][] = [
   ['nameB', 0.47, 0.53, 0.58, 0.62],
   ['together', 0.72, 0.78, 2, 3],
 ];
+/** Resting points about a screen apart, so a short swipe always moves on.
+ *  0.39 the groom, 0.555 the bride and 0.86 the couple sit where their copy is fully shown */
+const STOPS = [0, 0.12, 0.24, 0.39, 0.555, 0.70, 0.86, 1];
 
 export function initJourney() {
   const reduce = prefersReducedMotion();
@@ -48,7 +54,7 @@ export function initJourney() {
   void document.fonts.ready.then(measure);
 
   const night = $('night'), court = $('court'), aisle = $('aisle'), mid = $('mid'), outer = $('outer');
-  const nightSoft = $('nightSoft'), courtSoft = $('courtSoft'), aisleSoft = $('aisleSoft');
+  const nightSoft = [$('nightSoft1'), $('nightSoft')], courtSoft = [$('courtSoft1'), $('courtSoft')], aisleSoft = [$('aisleSoft1'), $('aisleSoft')];
   const pGroom = $('pGroom'), pBride = $('pBride'), couple = $('dCouple');
   const veil = $('veil'), scrim = $('scrim');
   const hint = $('hint'), skip = $('skip'), track = $('track'), details = $('details');
@@ -62,7 +68,7 @@ export function initJourney() {
     el.alt = '';
     el.style.transformOrigin = '50% 0';
     lanternLayer.appendChild(el);
-    return { el, i, X, z0: 1.4 + i * 0.62, drop: 0.25 + ((i * 37) % 5) * 0.08, ph: i * 1.3, ratio: LANTERN_RATIOS[i % 5] };
+    return { el, i, X, z0: 1.4 + i * 0.62, drop: 0.25 + ((i * 37) % 5) * 0.08, ph: i * 1.3, ratio: LANTERN_RATIOS[i % 5], dof: 0 };
   });
 
   const petalCount = reduce ? 0 : innerWidth < 600 ? 12 : 20;
@@ -71,11 +77,14 @@ export function initJourney() {
     el.src = `/img/p${i % PETAL_SPRITES}.webp`;
     el.alt = '';
     el.style.width = `${14 + Math.random() * 24}px`;
+    const d = 0.5 + Math.random();
+    // depth of field: petals near the lens or far behind the focus plane are soft
+    const dof = d > 1.15 ? (d - 1.15) * 5 : d < 0.7 ? (0.7 - d) * 3 : 0;
+    if (dof > 0.2) el.style.filter = `blur(${dof.toFixed(1)}px)`;
     petalLayer.appendChild(el);
-    return { el, x: Math.random(), y: Math.random(), vy: 0.0003 + Math.random() * 0.0005, sw: Math.random() * 6.28, r: Math.random() * 360, vr: (Math.random() - 0.5) * 0.7, d: 0.5 + Math.random() };
+    return { el, x: Math.random(), y: Math.random(), vy: 0.0003 + Math.random() * 0.0005, sw: Math.random() * 6.28, r: Math.random() * 360, vr: (Math.random() - 0.5) * 0.7, d };
   });
 
-  const blurNode = document.getElementById('mblurNode')!;
   const copy = COPY.map(([id, a, b, c, d]) => ({ lines: [...$(id).querySelectorAll<HTMLElement>('.ln')], a, b, c, d }));
 
   let introStart: number | null = null;
@@ -88,6 +97,12 @@ export function initJourney() {
   const read = () => { target = clamp(scrollY / maxScroll()); };
   addEventListener('scroll', read, { passive: true });
   read();
+
+  // scroll snaps to each of these moments (the details page is a stop too, see journey.css)
+  const stops = STOPS.map(() => track.appendChild(Object.assign(document.createElement('div'), { className: 'stop' })));
+  const placeStops = () => stops.forEach((el, i) => { el.style.top = `${Math.round(STOPS[i] * maxScroll())}px`; });
+  placeStops();
+  addEventListener('resize', placeStops);
 
   function placeArch(el: HTMLElement, scale: number, opacity: number) {
     const aw = Math.min(W * 1.22, H * 0.82), ah = aw * 1.3333;
@@ -111,23 +126,22 @@ export function initJourney() {
     cur = reduce ? target : cur + (target - cur) * 0.085;
     const p = cur, dv = p - last;
     last = p;
-    // vertical motion blur that follows scroll speed
-    const blur = reduce ? 0 : Math.min(9, Math.abs(dv) * 2600);
-    blurNode.setAttribute('stdDeviation', `0 ${blur.toFixed(2)}`);
-    const blurFilter = blur > 0.4 ? 'url(#mblur)' : '';
-    if (lanternLayer.style.filter !== blurFilter) lanternLayer.style.filter = blurFilter;
-    if (petalLayer.style.filter !== blurFilter) petalLayer.style.filter = blurFilter;
     const it = introT();
 
     // backgrounds: golden sky → courtyard seen through the arches (0.22) → candlelit aisle (0.64)
-    // focus: the background drops out of focus behind the groom and bride (0.30–0.58),
-    // snaps sharp as we walk through the candle arch, then softens behind the couple (0.70+)
+    // focus: a focus pull, like a camera. The background drops out of focus behind the groom and bride
+    // (0.30–0.38), racks back sharp as we walk through the candle arch (0.57–0.63), then softens behind
+    // the couple (0.70–0.80). Blur grows through two baked lens levels (scripts/lens-blur.py), and the
+    // picture breathes (scales a touch) as focus moves, as real lenses do.
     // gone before the doors part, so they open straight onto the scene
     veil.style.opacity = String(1 - ss(0, 0.2, it));
     const focus = ss(0.30, 0.38, p) * (1 - ss(0.57, 0.63, p)) + ss(0.70, 0.80, p);
-    const bg = (el: HTMLElement, soft: HTMLElement, s: number, o: number) => {
+    const breathe = 1 + focus * 0.014;
+    const bg = (el: HTMLElement, [near, far]: HTMLElement[], s: number, o: number) => {
+      s *= breathe;
       place(el, 0, 0, s, o);
-      place(soft, 0, 0, s, o * focus);
+      place(near, 0, 0, s, o * clamp(focus * 2));
+      place(far, 0, 0, s, o * clamp(focus * 2 - 1));
     };
     bg(night, nightSoft, (1.06 + ease(0, 0.3, p) * 0.1) * mix(1.08, 1, ease(0, 1, it)), 1 - ss(0.22, 0.30, p));
     bg(court, courtSoft, mix(1.15, 1.02, ease(0.22, 0.6, p)), ss(0.22, 0.30, p) * (1 - ss(0.64, 0.72, p)));
@@ -168,6 +182,9 @@ export function initJourney() {
       const on = ss(0.18 + L.i * 0.05, 0.45 + L.i * 0.05, it);
       const x = W / 2 + Math.sign(L.X) * (W * 0.12 + Math.abs(L.X) * s * 0.62) - w / 2;
       const bottom = horizon - (1.0 - L.drop * 0.6) * s;
+      // depth of field: a lantern passing close over the lens goes soft (in 0.5px steps, set only on change)
+      const dof = reduce ? 0 : Math.round(clamp((1.3 - z) * 4, 0, 3.5) * 2) / 2;
+      if (dof !== L.dof) { L.dof = dof; L.el.style.filter = dof ? `blur(${dof}px)` : ''; }
       L.el.style.width = `${w}px`;
       L.el.style.paddingTop = `${H}px`;
       place(L.el, x, bottom - h - H, 1, lOp * on * clamp((6 - z) / 2) * clamp((z - 0.35) / 0.3), sway);

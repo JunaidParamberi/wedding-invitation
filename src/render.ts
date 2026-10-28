@@ -62,8 +62,8 @@ function person(id: string, label: string, p: typeof c.groom | typeof c.bride) {
 }
 
 function event(e: (typeof c.events)[number]) {
-  // t=h: satellite with road and place labels
-  const embed = `https://maps.google.com/maps?q=${encodeURIComponent(e.coords)}&t=h&z=17&output=embed`;
+  // t=m: the plain road map, not satellite
+  const embed = `https://maps.google.com/maps?q=${encodeURIComponent(e.coords)}&t=m&z=16&output=embed`;
   return `
     <article class="ev">
       <span class="eyebrow">${esc(e.label)}</span>
@@ -89,7 +89,7 @@ function details() {
 <main id="details" aria-label="Wedding details">
   <section class="d-sec">
     <div class="bism" lang="ar">${c.bismillah}</div>
-    <span class="eyebrow">We invite you to the Nikah of</span>
+    <span class="eyebrow">We invite you to the wedding of</span>
     <h2 class="name">${esc(c.groom.name)}<br><span class="amp">&amp;</span> ${esc(c.bride.name)}</h2>
     <img class="orn" src="/img/ornament.webp" alt="">
     <div class="dateline"><span>${c.date.weekday}</span><b>${longDate()}</b></div>
@@ -131,12 +131,14 @@ function details() {
 function stage() {
   return `
 <div id="stage">
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="mblur" x="-20%" y="-30%" width="140%" height="160%"><feGaussianBlur id="mblurNode" stdDeviation="0 0"/></filter></svg>
   <img class="full" id="night" src="/img/sky.webp" alt="">
+  <img class="full soft" id="nightSoft1" src="/img/sky-soft1.webp" alt="">
   <img class="full soft" id="nightSoft" src="/img/sky-soft.webp" alt="">
   <img class="full" id="court" src="/img/courtyard.webp" alt="">
+  <img class="full soft" id="courtSoft1" src="/img/courtyard-soft1.webp" alt="">
   <img class="full soft" id="courtSoft" src="/img/courtyard-soft.webp" alt="">
   <img class="full" id="aisle" src="/img/aisle.webp" alt="">
+  <img class="full soft" id="aisleSoft1" src="/img/aisle-soft1.webp" alt="">
   <img class="full soft" id="aisleSoft" src="/img/aisle-soft.webp" alt="">
 
   <div class="group" id="mid"><img class="archimg" src="/img/arch-mid.webp" alt=""></div>

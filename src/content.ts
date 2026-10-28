@@ -51,7 +51,7 @@ export const content = {
   events: [
     {
       label: 'Nikah',
-      time: '10:00',
+      time: '09:00',
       place: 'Kundoor Gousiya',
       area: 'Kundoor, Nannambra',
       mapUrl:
