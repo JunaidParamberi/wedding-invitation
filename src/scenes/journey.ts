@@ -1,7 +1,7 @@
 /**
  * The scroll journey. One fixed stage; scroll progress p (0 → 1) drives every layer.
  *
- *   0.00  arrival: golden sky, ivory arch, Bismillah and names (timed by the opening, not scroll)
+ *   0.00  arrival: golden sky, ivory arch, Bismillah and names (timed by the opening, not scroll: text in by ~2s)
  *   0.10  walk through the ivory arch; the courtyard appears beyond the candle arch (0.22)
  *   0.28  the groom walks in and stands in the doorway; background drops out of focus (0.30–0.38)
  *   0.45  he steps aside as the bride arrives; they stand facing each other
@@ -193,7 +193,8 @@ export function initJourney() {
     // copy: each line comes into focus in turn
     let scrimO = 0;
     for (const { lines, a, b, c, d } of copy) {
-      const qIn = a < 0 ? ss(0.4, 1, it) : ss(a, b, p), qOut = 1 - ss(c, d, p), n = lines.length;
+      // the opening lines arrive as the doors part (≈0.3–1.9s after they start), so the screen never looks empty
+      const qIn = a < 0 ? ss(0.06, 0.42, it) : ss(a, b, p), qOut = 1 - ss(c, d, p), n = lines.length;
       lines.forEach((ln, i) => {
         const st = i / (n + 2), loc = clamp(((qIn - st) / (1 - st + 0.001)) * 1.6);
         ln.style.opacity = String(loc * qOut);
@@ -202,8 +203,8 @@ export function initJourney() {
       scrimO = Math.max(scrimO, qIn * qOut);
     }
     scrim.style.opacity = String(scrimO);
-    hint.style.opacity = String(ss(0.85, 1, it) * (1 - ss(0.01, 0.05, p)));
-    skip.style.opacity = String(ss(0.6, 1, it) * (1 - ss(0.9, 0.97, p)));
+    hint.style.opacity = String(ss(0.4, 0.55, it) * (1 - ss(0.01, 0.05, p)));
+    skip.style.opacity = String(ss(0.35, 0.55, it) * (1 - ss(0.9, 0.97, p)));
     skip.style.pointerEvents = p > 0.95 ? 'none' : 'auto';
 
     for (const q of petals) {
