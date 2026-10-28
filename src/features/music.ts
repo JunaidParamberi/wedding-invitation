@@ -16,9 +16,17 @@ export function createMusic() {
   let source: AudioBufferSourceNode | null = null;
   let playing = false;
 
-  // download early so the first tap can start the sound immediately
-  const data: Promise<ArrayBuffer | null> = src && AC
-    ? fetch(src).then((r) => (r.ok ? r.arrayBuffer() : null)).catch(() => null)
+  // download and decode before the tap: decoding at the tap stalls the door animation on phones.
+  // A context made before a gesture starts suspended; the tap resumes it.
+  const decoded: Promise<AudioBuffer | null> = src && AC
+    ? fetch(src)
+        .then((r) => (r.ok ? r.arrayBuffer() : null))
+        .then((bytes) => {
+          if (!bytes) return null;
+          ctx = ctx ?? new AC();
+          return ctx.decodeAudioData(bytes);
+        })
+        .catch(() => null)
     : Promise.resolve(null);
 
   const fadeTo = (value: number, seconds: number) => {
@@ -34,9 +42,8 @@ export function createMusic() {
     // create and resume inside the tap so mobile browsers allow sound
     ctx = ctx ?? new AC();
     void ctx.resume();
-    const bytes = await data;
-    if (!bytes) return;
-    const buffer = await ctx.decodeAudioData(bytes.slice(0));
+    const buffer = await decoded;
+    if (!buffer) return;
     gain = ctx.createGain();
     gain.gain.value = 0;
     gain.connect(ctx.destination);

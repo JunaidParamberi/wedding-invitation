@@ -74,7 +74,8 @@ export function initJourney() {
   const introT = () => (introStart === null ? 0 : reduce ? 1 : clamp((performance.now() - introStart) / INTRO_MS));
 
   let target = 0, cur = 0, last = 0;
-  const maxScroll = () => Math.max(1, document.documentElement.scrollHeight - innerHeight);
+  // H, not innerHeight: innerHeight changes as the phone's toolbar slides, which would make the scene jump
+  const maxScroll = () => Math.max(1, document.documentElement.scrollHeight - H);
   const read = () => { target = clamp(scrollY / maxScroll()); };
   addEventListener('scroll', read, { passive: true });
   read();
@@ -149,7 +150,6 @@ export function initJourney() {
       L.el.style.width = `${w}px`;
       L.el.style.paddingTop = `${H}px`;
       place(L.el, x, bottom - h - H, 1, lOp * on * clamp((6 - z) / 2) * clamp((z - 0.35) / 0.3), sway);
-      L.el.style.filter = `brightness(${mix(0.6, 1, on)})`;
     }
 
     // copy: each line comes into focus in turn
