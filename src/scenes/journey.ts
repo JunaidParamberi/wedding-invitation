@@ -5,7 +5,7 @@
  *   0.10  walk through the ivory arch; the courtyard appears beyond the candle arch (0.22)
  *   0.28  the groom walks in and stands in the doorway; background drops out of focus (0.30–0.38)
  *   0.45  he steps aside as the bride arrives; they stand facing each other
- *   0.60  walk through the candle arch into the candlelit aisle (they fade as we pass; focus snaps back 0.57–0.63)
+ *   0.60  walk through the candle arch into the candlelit aisle (they part out of frame as we pass; focus snaps back 0.57–0.63)
  *   0.70  the couple together, "Two hearts, one Nikah"; background softens again (0.70–0.80)
  *   0.86  details: date, events, countdown, RSVP
  *
@@ -36,9 +36,17 @@ export function initJourney() {
   const reduce = prefersReducedMotion();
   const stage = $('stage');
   let W = 0, H = 0;
-  const measure = () => { W = stage.clientWidth; H = stage.clientHeight; };
+  // where each text block ends, so figures are sized to stand below it on any phone
+  let figTop = 0, coupleTop = 0;
+  const textBottom = (id: string) => { const el = $(id); return el.offsetTop + el.offsetHeight; };
+  const measure = () => {
+    W = stage.clientWidth; H = stage.clientHeight;
+    figTop = Math.max(textBottom('nameA'), textBottom('nameB')) + 14;
+    coupleTop = textBottom('together') + 14;
+  };
   measure();
   addEventListener('resize', measure);
+  void document.fonts.ready.then(measure);
 
   const night = $('night'), court = $('court'), aisle = $('aisle'), mid = $('mid'), outer = $('outer');
   const nightSoft = $('nightSoft'), courtSoft = $('courtSoft'), aisleSoft = $('aisleSoft');
@@ -103,7 +111,8 @@ export function initJourney() {
     // backgrounds: golden sky → courtyard seen through the arches (0.22) → candlelit aisle (0.64)
     // focus: the background drops out of focus behind the groom and bride (0.30–0.58),
     // snaps sharp as we walk through the candle arch, then softens behind the couple (0.70+)
-    veil.style.opacity = String(1 - ss(0.05, 0.75, it));
+    // gone before the doors part, so they open straight onto the scene
+    veil.style.opacity = String(1 - ss(0, 0.2, it));
     const focus = ss(0.30, 0.38, p) * (1 - ss(0.57, 0.63, p)) + ss(0.70, 0.80, p);
     const bg = (el: HTMLElement, soft: HTMLElement, s: number, o: number) => {
       place(el, 0, 0, s, o);
@@ -120,19 +129,20 @@ export function initJourney() {
     placeArch(mid, m0 * mix(1, 5, m1 * m1) * mix(1.08, 1, ease(0, 1, it)), 1 - ss(0.69, 0.74, p));
 
     // the groom walks in (0.28–0.36), steps aside as the bride arrives (0.45–0.53),
-    // they fade as we walk through the arch (0.58–0.64), then appear together (0.70–0.80)
+    // we walk between them through the arch as they part out of frame (0.58–0.64), then appear together (0.70–0.80)
     const gIn = ease(0.28, 0.36, p), side = ease(0.45, 0.53, p), pass = ease(0.58, 0.64, p);
-    const gh = H * mix(0.56, 0.5, side), gw = gh / GROOM_RATIO;
-    const gx = mix(-gw, W * 0.5, gIn) + (W * 0.25 - W * 0.5) * side;
+    const figMax = (H - figTop) / 1.02, gone = 1 - ss(0.6, 1, pass);
+    const gh = Math.min(H * mix(0.56, 0.5, side), figMax), gw = gh / GROOM_RATIO;
+    const gx = mix(-gw, W * 0.5, gIn) + (W * 0.25 - W * 0.5) * side - W * 0.75 * pass;
     pGroom.style.width = `${gw}px`;
-    place(pGroom, gx - gw / 2, H - gh * 1.02, mix(1, 1.12, pass), gIn * (1 - pass));
-    const bh = H * 0.47, bw = bh / BRIDE_RATIO;
-    const bx = mix(W + bw, W * 0.7, side);
+    place(pGroom, gx - gw / 2, H - gh * 1.02, mix(1, 1.12, pass), gIn * gone);
+    const bh = Math.min(H * 0.47, figMax), bw = bh / BRIDE_RATIO;
+    const bx = mix(W + bw, W * 0.7, side) + W * 0.75 * pass;
     pBride.style.width = `${bw}px`;
-    place(pBride, bx - bw / 2, H - bh * 1.02, mix(1, 1.12, pass), side * (1 - pass));
+    place(pBride, bx - bw / 2, H - bh * 1.02, mix(1, 1.12, pass), side * gone);
 
     const dIn = ease(0.70, 0.80, p), dOut = ease(0.88, 0.96, p);
-    const ch = Math.min(H * 0.55, W * 0.95 * COUPLE_RATIO), cw = ch / COUPLE_RATIO;
+    const ch = Math.max(H * 0.4, Math.min(H * 0.55, W * 0.95 * COUPLE_RATIO, H - coupleTop)), cw = ch / COUPLE_RATIO;
     couple.style.width = `${cw}px`;
     place(couple, (W - cw) / 2, H - ch * 1.0 + (1 - dIn) * 30 + dOut * H * 0.1, 1, dIn * (1 - dOut));
 
