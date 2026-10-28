@@ -34,7 +34,7 @@ src/
     supabase.ts       ← saves RSVPs (optional)
   styles/             ← one stylesheet per part of the page; colours/fonts in tokens.css
 public/
-  img/  fonts/  audio/   og.jpg (WhatsApp link preview)
+  img/  fonts/  audio/   og-v2.jpg (WhatsApp link preview; bump the name when it changes)
 supabase/migrations/  ← database schema for RSVPs
 ```
 

@@ -30,16 +30,16 @@ export const content = {
     name: 'Junaid Raziq',
     nameAr: 'جنيد رازق',
     relation: 'son',
-    parents: 'Mohammed Ali & Raihanath',
-    home: 'Paramberi, Kundoor',
+    parents: 'Mohammed Ali & Raihanath Beegam',
+    home: 'Paramberi House, Kundoor',
   } satisfies Person,
 
   bride: {
     name: 'Rafeeda',
     nameAr: 'رفيدة',
     relation: 'daughter',
-    parents: 'Abdul Kareem & Sameeran',
-    home: 'Harakat Mattan',
+    parents: 'Abdul Kareem & Sameera',
+    home: 'Nharakat Mattan, Pookkipparambu',
   } satisfies Person,
 
   /** Wedding day, in India Standard Time */

@@ -1,7 +1,7 @@
 #track{height:820vh}
 #stage{position:fixed;top:0;bottom:0;left:50%;width:var(--app-w);transform:translateX(-50%);overflow:hidden}
 .full{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;will-change:transform,opacity}
-#court,#aisle{opacity:0}
+#court,#aisle,.soft{opacity:0}
 .group{position:absolute;left:0;top:0;transform-origin:50% 92%;will-change:transform,opacity}
 /* soften the cut top edge of each arch into the sky */
 .archimg{-webkit-mask-image:linear-gradient(transparent 0,#000 14%);mask-image:linear-gradient(transparent 0,#000 14%)}
