@@ -62,18 +62,73 @@ function person(id: string, label: string, p: typeof c.groom | typeof c.bride) {
 }
 
 function event(e: (typeof c.events)[number]) {
+  // t=h: satellite with road and place labels
+  const embed = `https://maps.google.com/maps?q=${encodeURIComponent(e.coords)}&t=h&z=17&output=embed`;
   return `
-      <div class="ev">
-        <span class="ev-k">${esc(e.label)}</span>
-        <b class="ev-t">${displayTime(e.time)}</b>
-        <strong class="ev-p">${esc(e.place)}</strong>
-        <span class="ev-a">${esc(e.area)}</span>
-        <a class="ev-map" target="_blank" rel="noopener" href="${esc(e.mapUrl)}">Directions</a>
+    <article class="ev">
+      <span class="eyebrow">${esc(e.label)}</span>
+      <b class="ev-t">${displayTime(e.time)}</b>
+      <strong class="ev-p">${esc(e.place)}</strong>
+      <span class="ev-a">${esc(e.area)}</span>
+      <iframe class="ev-frame" src="${esc(embed)}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Map to ${esc(e.place)}"></iframe>
+      <a class="btn ev-go" target="_blank" rel="noopener" href="${esc(e.mapUrl)}">Get directions</a>
+    </article>`;
+}
+
+function family(label: string, p: typeof c.groom | typeof c.bride) {
+  return `
+      <div class="fam">
+        <span class="eyebrow">${label}</span>
+        <h3 class="fam-n">${esc(p.name)}</h3>
+        <p class="sub">${p.relation} of ${esc(p.parents)}<br><i>${esc(p.home)}</i></p>
       </div>`;
 }
 
+function details() {
+  return `
+<main id="details" aria-label="Wedding details">
+  <section class="d-sec">
+    <div class="bism" lang="ar">${c.bismillah}</div>
+    <span class="eyebrow">We invite you to the Nikah of</span>
+    <h2 class="name">${esc(c.groom.name)}<br><span class="amp">&amp;</span> ${esc(c.bride.name)}</h2>
+    <img class="orn" src="/img/ornament.webp" alt="">
+    <div class="dateline"><span>${c.date.weekday}</span><b>${longDate()}</b></div>
+    <div class="count" aria-live="polite">
+      <div><b data-cd="d">00</b><small>Days</small></div>
+      <div><b data-cd="h">00</b><small>Hours</small></div>
+      <div><b data-cd="m">00</b><small>Min</small></div>
+      <div><b data-cd="s">00</b><small>Sec</small></div>
+    </div>
+  </section>
+
+  <section class="d-sec">
+    ${family('The groom', c.groom)}
+    <div class="rule"><span></span></div>
+    ${family('The bride', c.bride)}
+  </section>
+
+  <section class="d-sec d-events">
+    ${c.events.map(event).join('')}
+  </section>
+
+  <section class="d-sec">
+    <p class="d-quote">“${esc(c.quote.text)}”<br><span>${esc(c.quote.source)}</span></p>
+    <img class="orn" src="/img/ornament.webp" alt="">
+    <span class="eyebrow">Kindly let us know if you can join us</span>
+    <div class="actions">
+      <button class="btn solid" id="openRsvp" type="button">RSVP</button>
+      <a class="btn" target="_blank" rel="noopener" href="${esc(calendarUrl())}">Add to calendar</a>
+    </div>
+  </section>
+
+  <footer class="d-sec d-foot">
+    <div class="hero-ar" lang="ar">${c.coupleAr}</div>
+    <button class="link" id="replay" type="button">Walk through again</button>
+  </footer>
+</main>`;
+}
+
 function stage() {
-  const couple = `${esc(c.groom.name)} <span class="amp">&amp;</span> ${esc(c.bride.name)}`;
   return `
 <div id="stage">
   <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="mblur" x="-20%" y="-30%" width="140%" height="160%"><feGaussianBlur id="mblurNode" stdDeviation="0 0"/></filter></svg>
@@ -96,7 +151,6 @@ function stage() {
   <div id="petals"></div>
   <div class="vignette"></div>
   <div id="veil"></div>
-  <div id="finalShade"></div>
   <div class="scrim" id="scrim"></div>
 
   <div class="copy" id="intro">
@@ -118,26 +172,6 @@ function stage() {
     <span class="ln sub"><i>“${esc(c.quote.text)}”</i><br>${esc(c.quote.source)}</span>
   </div>
 
-  <div class="copy" id="final" role="region" aria-label="Wedding details">
-    <span class="ln eyebrow">We invite you to the Nikah of</span>
-    <h2 class="ln name">${couple}</h2>
-    <img class="ln orn" src="/img/ornament.webp" alt="">
-    <div class="ln dateline"><span>${c.date.weekday}</span><b>${longDate()}</b></div>
-    <div class="ln events">
-      ${c.events.map(event).join('<span class="ev-div" aria-hidden="true"></span>')}
-    </div>
-    <div class="ln count" aria-live="polite">
-      <div><b data-cd="d">00</b><small>Days</small></div>
-      <div><b data-cd="h">00</b><small>Hours</small></div>
-      <div><b data-cd="m">00</b><small>Min</small></div>
-      <div><b data-cd="s">00</b><small>Sec</small></div>
-    </div>
-    <div class="ln actions">
-      <button class="btn solid" id="openRsvp" type="button">RSVP</button>
-      <a class="btn" target="_blank" rel="noopener" href="${esc(calendarUrl())}">Add to calendar</a>
-    </div>
-    <button class="ln link" id="replay" type="button">Walk through again</button>
-  </div>
   <div class="grain"></div>
 </div>`;
 }
@@ -192,6 +226,7 @@ export function renderPage(root: HTMLElement) {
 ${gate()}
 ${bar()}
 ${stage()}
-${sheet()}
-<div id="track" aria-hidden="true"></div>`;
+<div id="track" aria-hidden="true"></div>
+${details()}
+${sheet()}`;
 }

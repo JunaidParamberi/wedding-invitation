@@ -7,7 +7,7 @@
  *   0.45  he steps aside as the bride arrives; they stand facing each other
  *   0.60  walk through the candle arch into the candlelit aisle (they part out of frame as we pass; focus snaps back 0.57–0.63)
  *   0.70  the couple together, "Two hearts, one Nikah"; background softens again (0.70–0.80)
- *   0.86  details: date, events, countdown, RSVP
+ *   1.00  the details page (#details, normal scrolling) slides up over the couple
  *
  * Tweak the timeline by editing the numbers marked in each section.
  */
@@ -28,8 +28,7 @@ const COPY: [string, number, number, number, number][] = [
   ['intro', -1, 0, 0.06, 0.11],
   ['nameA', 0.29, 0.35, 0.43, 0.47],
   ['nameB', 0.47, 0.53, 0.58, 0.62],
-  ['together', 0.72, 0.78, 0.85, 0.88],
-  ['final', 0.88, 0.96, 2, 3],
+  ['together', 0.72, 0.78, 2, 3],
 ];
 
 export function initJourney() {
@@ -51,8 +50,9 @@ export function initJourney() {
   const night = $('night'), court = $('court'), aisle = $('aisle'), mid = $('mid'), outer = $('outer');
   const nightSoft = $('nightSoft'), courtSoft = $('courtSoft'), aisleSoft = $('aisleSoft');
   const pGroom = $('pGroom'), pBride = $('pBride'), couple = $('dCouple');
-  const veil = $('veil'), scrim = $('scrim'), finalShade = $('finalShade');
-  const hint = $('hint'), skip = $('skip'), final = $('final');
+  const veil = $('veil'), scrim = $('scrim');
+  const hint = $('hint'), skip = $('skip'), track = $('track'), details = $('details');
+  const bar = document.querySelector<HTMLElement>('.bar')!;
 
   // lanterns hang overhead in perspective; the guest walks beneath them
   const lanternLayer = $('lanterns'), petalLayer = $('petals');
@@ -82,8 +82,9 @@ export function initJourney() {
   const introT = () => (introStart === null ? 0 : reduce ? 1 : clamp((performance.now() - introStart) / INTRO_MS));
 
   let target = 0, cur = 0, last = 0;
+  // the journey spans the track only; the details page follows it.
   // H, not innerHeight: innerHeight changes as the phone's toolbar slides, which would make the scene jump
-  const maxScroll = () => Math.max(1, document.documentElement.scrollHeight - H);
+  const maxScroll = () => Math.max(1, track.offsetHeight - H);
   const read = () => { target = clamp(scrollY / maxScroll()); };
   addEventListener('scroll', read, { passive: true });
   read();
@@ -96,7 +97,17 @@ export function initJourney() {
     el.style.opacity = String(opacity);
   }
 
+  let covered = false;
   function frame(t: number) {
+    // once the details page covers the scene, stop drawing it
+    const detailsTop = details.offsetTop - scrollY;
+    bar.classList.toggle('solid', detailsTop < 60);
+    if ((detailsTop <= 0) !== covered) {
+      covered = detailsTop <= 0;
+      stage.style.visibility = skip.style.visibility = covered ? 'hidden' : '';
+    }
+    if (covered) { requestAnimationFrame(frame); return; }
+
     cur = reduce ? target : cur + (target - cur) * 0.085;
     const p = cur, dv = p - last;
     last = p;
@@ -141,10 +152,10 @@ export function initJourney() {
     pBride.style.width = `${bw}px`;
     place(pBride, bx - bw / 2, H - bh * 1.02, mix(1, 1.12, pass), side * gone);
 
-    const dIn = ease(0.70, 0.80, p), dOut = ease(0.88, 0.96, p);
+    const dIn = ease(0.70, 0.80, p);
     const ch = Math.max(H * 0.4, Math.min(H * 0.55, W * 0.95 * COUPLE_RATIO, H - coupleTop)), cw = ch / COUPLE_RATIO;
     couple.style.width = `${cw}px`;
-    place(couple, (W - cw) / 2, H - ch * 1.0 + (1 - dIn) * 30 + dOut * H * 0.1, 1, dIn * (1 - dOut));
+    place(couple, (W - cw) / 2, H - ch + (1 - dIn) * 30, 1, dIn);
 
     // lanterns hang overhead in perspective. A long chain runs up off the top of the screen,
     // so none of them float. Walking forward they grow, drift outward and rise out of view.
@@ -174,12 +185,9 @@ export function initJourney() {
       scrimO = Math.max(scrimO, qIn * qOut);
     }
     scrim.style.opacity = String(scrimO);
-    scrim.style.height = `${mix(68, 100, ss(0.88, 0.95, p))}%`;
-    finalShade.style.opacity = String(ss(0.87, 0.95, p));
-    final.classList.toggle('live', ss(0.9, 0.96, p) > 0.6);
     hint.style.opacity = String(ss(0.85, 1, it) * (1 - ss(0.01, 0.05, p)));
-    skip.style.opacity = String(ss(0.6, 1, it) * (1 - ss(0.86, 0.93, p)));
-    skip.style.pointerEvents = p > 0.9 ? 'none' : 'auto';
+    skip.style.opacity = String(ss(0.6, 1, it) * (1 - ss(0.9, 0.97, p)));
+    skip.style.pointerEvents = p > 0.95 ? 'none' : 'auto';
 
     for (const q of petals) {
       q.y += q.vy * q.d + dv * 1.1 * q.d;
@@ -193,7 +201,7 @@ export function initJourney() {
   }
   requestAnimationFrame(frame);
 
-  skip.addEventListener('click', () => scrollTo({ top: maxScroll(), behavior: 'auto' }));
+  skip.addEventListener('click', () => scrollTo({ top: details.offsetTop, behavior: 'auto' }));
   $('replay').addEventListener('click', () => scrollTo({ top: 0, behavior: 'auto' }));
 
   return {

@@ -19,6 +19,8 @@ export interface WeddingEvent {
   area: string;
   /** Google Maps link for the Directions button */
   mapUrl: string;
+  /** "lat,lng" of the venue, for the embedded map */
+  coords: string;
 }
 
 export const content = {
@@ -54,6 +56,7 @@ export const content = {
       area: 'Kundoor, Nannambra',
       mapUrl:
         'https://www.google.com/maps/search/?api=1&query=11.0150443,75.9227056&query_place_id=ChIJy_pzC0pNpjsRFJr2CFX6vEo',
+      coords: '11.0150443,75.9227056',
     },
     {
       label: 'Reception',
@@ -62,6 +65,7 @@ export const content = {
       area: 'Kodakkallu',
       mapUrl:
         'https://www.google.com/maps/search/?api=1&query=11.0142552,75.9320994&query_place_id=ChIJafwmXgBNpjsRbhGrhPs9sAM',
+      coords: '11.0142552,75.9320994',
     },
   ] satisfies WeddingEvent[],
 
