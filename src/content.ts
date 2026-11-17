@@ -32,7 +32,7 @@ export const content = {
     name: 'Junaid Raziq',
     nameAr: 'جنيد رازق',
     relation: 'son',
-    parents: 'Mohammed Ali & Raihanath Beegam',
+    parents: 'Mohammed Ali & Raihanath',
     home: 'Paramberi House, Kundoor',
   } satisfies Person,
 
@@ -41,7 +41,7 @@ export const content = {
     nameAr: 'رفيدة',
     relation: 'daughter',
     parents: 'Abdul Kareem & Sameera',
-    home: 'Nharakat Mattan, Pookkipparambu',
+    home: 'Nharakat Mattan, Pookkipparamba',
   } satisfies Person,
 
   /** Wedding day, in India Standard Time */

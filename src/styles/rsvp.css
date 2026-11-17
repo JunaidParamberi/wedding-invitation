@@ -1,6 +1,6 @@
 /* rsvp sheet */
-#sheet{position:fixed;inset:0;z-index:40;display:flex;align-items:flex-end;justify-content:center;visibility:hidden;pointer-events:none}
-#sheet.open{visibility:visible;pointer-events:auto}
+#sheet{position:fixed;inset:0;z-index:40;display:flex;align-items:flex-end;justify-content:center;visibility:hidden;pointer-events:none;transition:visibility 0s .45s}
+#sheet.open{visibility:visible;pointer-events:auto;transition-delay:0s}
 #sheet .shade{position:absolute;inset:0;background:rgba(60,26,20,.35);opacity:0;transition:opacity .35s ease}
 #sheet.open .shade{opacity:1}
 .form{position:relative;width:100%;max-width:440px;display:flex;flex-direction:column;gap:1rem;
@@ -33,3 +33,6 @@
 .closex{position:absolute;top:.8rem;right:max(14px,env(safe-area-inset-right,0px));width:40px;height:40px;border-radius:50%;border:1px solid var(--edge);
   background:none;color:var(--wine);font:400 1.3rem/1 var(--f-name);cursor:pointer}
 
+
+.form{max-height:92vh;max-height:92dvh;overflow-y:auto;overscroll-behavior:contain}
+@media (prefers-reduced-motion:reduce){.form,#sheet .shade{transition:none}#sheet{transition:none}}

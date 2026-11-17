@@ -33,7 +33,10 @@ initRsvp();
 
 // reveal the envelope once the first images and fonts are ready
 const load = document.getElementById('load')!;
+let revealed = false;
 const reveal = () => {
+  if (revealed) return;
+  revealed = true;
   load.classList.add('done');
   setTimeout(gate.ready, 300);
 };

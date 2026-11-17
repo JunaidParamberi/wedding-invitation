@@ -2,7 +2,7 @@
  * Builds the page markup from content.ts.
  * Structure only; motion lives in scenes/, behaviour in features/.
  */
-import { content as c } from './content';
+import { content as c, type Person } from './content';
 import { calendarUrl, displayTime, esc, longDate, shortDate } from './lib/format';
 
 const first = (full: string) => full.split(' ')[0];
@@ -57,8 +57,12 @@ function person(id: string, label: string, p: typeof c.groom | typeof c.bride) {
     <div class="ln hero-ar" lang="ar">${p.nameAr}</div>
     <h2 class="ln name big">${esc(p.name)}</h2>
     <div class="ln rule"><span></span></div>
-    <span class="ln sub">${p.relation} of ${esc(p.parents)}<br><i>${esc(p.home)}</i></span>
+    <span class="ln sub">${relation(p.relation)} of ${esc(p.parents)}<br><i>${esc(p.home)}</i></span>
   </div>`;
+}
+
+function relation(value: Person['relation']) {
+  return `${value[0].toUpperCase()}${value.slice(1)}`;
 }
 
 function event(e: (typeof c.events)[number]) {
@@ -80,7 +84,7 @@ function family(label: string, p: typeof c.groom | typeof c.bride) {
       <div class="fam">
         <span class="eyebrow">${label}</span>
         <h3 class="fam-n">${esc(p.name)}</h3>
-        <p class="sub">${p.relation} of ${esc(p.parents)}<br><i>${esc(p.home)}</i></p>
+        <p class="sub">${relation(p.relation)} of ${esc(p.parents)}<br><i>${esc(p.home)}</i></p>
       </div>`;
 }
 
@@ -224,7 +228,7 @@ function sheet() {
 
 export function renderPage(root: HTMLElement) {
   root.innerHTML = `
-<div id="load" aria-hidden="true"></div>
+<div id="load" aria-hidden="true"><span lang="ar">${c.monogramAr}</span></div>
 ${gate()}
 ${bar()}
 ${stage()}

@@ -13,12 +13,16 @@ export function initRsvp() {
   let attending = true;
   let guests = 1;
 
+  let previousOverflow = '';
   const open = () => {
+    previousOverflow = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = 'hidden';
     sheet.classList.add('open');
     sheet.setAttribute('aria-hidden', 'false');
     setTimeout(() => nameEl.focus({ preventScroll: true }), 350);
   };
   const close = () => {
+    document.documentElement.style.overflow = previousOverflow;
     sheet.classList.remove('open');
     sheet.setAttribute('aria-hidden', 'true');
     $('openRsvp').focus({ preventScroll: true });
@@ -73,9 +77,19 @@ export function initRsvp() {
       : name ? 'This opens WhatsApp with your reply ready to send' : 'Add your name to send';
   }
 
+  $('rsvp').addEventListener('submit', (e) => e.preventDefault());
+  sheet.addEventListener('keydown', (e) => {
+    if (e.key !== 'Tab') return;
+    const items = [...sheet.querySelectorAll<HTMLElement>('button, input, textarea, a[href]')]
+      .filter((el) => el.getClientRects().length && el.getAttribute('aria-disabled') !== 'true');
+    const first = items[0], last = items[items.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last?.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first?.focus(); }
+  });
+
   // Save a copy of the reply as WhatsApp opens; never blocks the guest
-  send.addEventListener('click', () => {
-    if (send.getAttribute('aria-disabled') === 'true') return;
+  send.addEventListener('click', (e) => {
+    if (send.getAttribute('aria-disabled') === 'true') { e.preventDefault(); return; }
     const { name, from, msg } = values();
     void saveRsvp({
       name,

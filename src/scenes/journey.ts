@@ -9,8 +9,8 @@
  *   0.70  the couple together, "Two hearts, one Nikah"; background softens again (0.70–0.80)
  *   1.00  the details page (#details, normal scrolling) slides up over the couple
  *
- * Scroll snaps to STOPS (0, 0.12, 0.24, 0.39, 0.555, 0.70, 0.86, 1) and the details page,
- * so one flick moves one step and never flies past the groom, bride or couple.
+ * Scroll gently settles near STOPS (0, 0.12, 0.24, 0.39, 0.555, 0.70, 0.86, 1) and the details page,
+ * without trapping a deliberate swipe between scenes.
  *
  * Tweak the timeline by editing the numbers marked in each section.
  */
@@ -113,7 +113,13 @@ export function initJourney() {
   }
 
   let covered = false;
+  let previousTime = 0;
+  let frameId = 0;
   function frame(t: number) {
+    if (document.hidden) { previousTime = 0; return; }
+    const dt = Math.min(50, previousTime ? t - previousTime : 1000 / 60);
+    previousTime = t;
+    const frameScale = dt / (1000 / 60);
     // once the details page covers the scene, stop drawing it
     const detailsTop = details.offsetTop - scrollY;
     bar.classList.toggle('solid', detailsTop < 60);
@@ -121,9 +127,9 @@ export function initJourney() {
       covered = detailsTop <= 0;
       stage.style.visibility = skip.style.visibility = covered ? 'hidden' : '';
     }
-    if (covered) { requestAnimationFrame(frame); return; }
+    if (covered) { frameId = requestAnimationFrame(frame); return; }
 
-    cur = reduce ? target : cur + (target - cur) * 0.085;
+    cur = reduce ? target : cur + (target - cur) * (1 - Math.exp(-dt / 110));
     const p = cur, dv = p - last;
     last = p;
     const it = introT();
@@ -147,7 +153,7 @@ export function initJourney() {
     bg(court, courtSoft, mix(1.15, 1.02, ease(0.22, 0.6, p)), ss(0.22, 0.30, p) * (1 - ss(0.64, 0.72, p)));
     bg(aisle, aisleSoft, mix(1.12, 1, ease(0.64, 1, p)), ss(0.64, 0.72, p));
 
-    // arches: through the ivory one (0.10–0.30), then the emerald one (0.62–0.74)
+    // arches: through the ivory one (0.10–0.30), then the candlelit one (0.62–0.74)
     const o1 = ease(0.10, 0.30, p);
     placeArch(outer, mix(1, 5, o1 * o1) * mix(1.14, 1, ease(0, 1, it)), 1 - ss(0.25, 0.30, p));
     const m0 = mix(0.72, 1, ease(0.08, 0.30, p)), m1 = ease(0.62, 0.74, p);
@@ -208,19 +214,24 @@ export function initJourney() {
     skip.style.pointerEvents = p > 0.95 ? 'none' : 'auto';
 
     for (const q of petals) {
-      q.y += q.vy * q.d + dv * 1.1 * q.d;
-      q.r += q.vr;
-      q.sw += 0.01;
+      q.y += q.vy * q.d * frameScale + dv * 1.1 * q.d;
+      q.r += q.vr * frameScale;
+      q.sw += 0.01 * frameScale;
       if (q.y > 1.06) { q.y = -0.06; q.x = Math.random(); }
       if (q.y < -0.08) { q.y = 1.05; q.x = Math.random(); }
       place(q.el, q.x * W + Math.sin(q.sw) * 22 * q.d, q.y * H, q.d * 0.85, 0.85, q.r);
     }
-    requestAnimationFrame(frame);
+    frameId = requestAnimationFrame(frame);
   }
-  requestAnimationFrame(frame);
+  frameId = requestAnimationFrame(frame);
+  document.addEventListener('visibilitychange', () => {
+    cancelAnimationFrame(frameId);
+    previousTime = 0;
+    if (!document.hidden) frameId = requestAnimationFrame(frame);
+  });
 
-  skip.addEventListener('click', () => scrollTo({ top: details.offsetTop, behavior: 'auto' }));
-  $('replay').addEventListener('click', () => scrollTo({ top: 0, behavior: 'auto' }));
+  skip.addEventListener('click', () => scrollTo({ top: details.offsetTop, behavior: reduce ? 'auto' : 'smooth' }));
+  $('replay').addEventListener('click', () => scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }));
 
   return {
     /** Start the arrival: veil lifts, lanterns light, names appear */

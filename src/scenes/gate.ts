@@ -37,9 +37,9 @@ export function initGate(onOpen: () => void) {
     if (opened) return;
     opened = true;
     gate.classList.add('crack');
+    onOpen();
     setTimeout(() => {
       gate.classList.add('open', 'gone');
-      onOpen();
       setTimeout(() => (gate.style.display = 'none'), 2900);
     }, reduce ? 0 : 480);
   });
