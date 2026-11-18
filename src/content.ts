@@ -24,7 +24,7 @@ export interface WeddingEvent {
 }
 
 export const content = {
-  bismillah: 'بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ',
+  bismillah: '﷽',
   monogramAr: 'ج و ر',
   coupleAr: 'جنيد و رفيدة',
 

@@ -26,7 +26,7 @@ html.locked,html.locked body{overflow:hidden}
 .door.l .print{left:0}.door.r .print{right:0}
 .p-top{position:absolute;left:0;right:0;top:var(--p-top,24%);display:flex;flex-direction:column;align-items:center;gap:.4rem}
 .p-bot{position:absolute;left:0;right:0;top:var(--p-bot,64%);display:flex;flex-direction:column;align-items:center;gap:.45rem}
-.p-bism{font:300 clamp(1.1rem,5vw,1.45rem)/1.6 var(--f-ar);direction:rtl;color:#6d4c22}
+.p-bism{font:400 clamp(1.1rem,5vw,1.45rem)/1.6 "Bismillah",var(--f-ar);direction:rtl;color:#6d4c22}
 .p-names{font:400 clamp(2rem,9vw,2.6rem)/1.1 var(--f-script);color:#3d2a12}
 .p-ar{font:500 clamp(.92rem,4vw,1.1rem)/1.4 var(--f-ar);direction:rtl;color:#6d4c22}
 .p-date{font:400 .84rem/1 var(--f-caps);letter-spacing:.02em;color:#6d4c22}

@@ -34,7 +34,7 @@ html:not(.locked){scroll-snap-type:y proximity}
 .copy,.print{-webkit-font-smoothing:antialiased}
 .ln{opacity:0;will-change:opacity,transform}
 
-.bism{font:400 clamp(1.25rem,5.6vw,1.55rem)/1.8 var(--f-ar);direction:rtl;color:var(--ink-soft)}
+.bism{font:400 clamp(1.3rem,6vw,1.7rem)/1.6 "Bismillah",var(--f-ar);direction:rtl;color:var(--ink-soft)}
 .eyebrow{font:500 .95rem/1.5 var(--f-caps);letter-spacing:.02em;color:var(--wine)}
 .hero-ar{font:400 clamp(1.9rem,8.6vw,2.5rem)/1.5 var(--f-ar);direction:rtl;color:var(--wine)}
 .name{margin:0;font:400 clamp(2.6rem,12vw,3.5rem)/1.1 var(--f-script);letter-spacing:.01em;color:var(--ink);text-wrap:balance}
