@@ -51,7 +51,7 @@ export const content = {
   events: [
     {
       label: 'Nikah',
-      time: '09:00',
+      time: '09:30',
       place: 'Kundoor Gousiya',
       area: 'Kundoor, Nannambra',
       mapUrl:
@@ -60,7 +60,7 @@ export const content = {
     },
     {
       label: 'Reception',
-      time: '12:00',
+      time: '11:00',
       place: 'Zain Auditorium',
       area: 'Kodakkallu',
       mapUrl:
