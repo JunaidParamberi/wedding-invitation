@@ -7,10 +7,10 @@
  *   0.45  he steps aside as the bride arrives; they stand facing each other
  *   0.60  walk through the candle arch into the candlelit aisle (they part out of frame as we pass; focus snaps back 0.57–0.63)
  *   0.70  the couple together, "Two hearts, one Nikah"; background softens again (0.70–0.80)
- *   1.00  the details page (#details, normal scrolling) slides up over the couple
+ *   0.86  hold the couple while the details page slides up over them
  *
- * Scroll gently settles near STOPS (0, 0.12, 0.24, 0.39, 0.555, 0.70, 0.86, 1) and the details page,
- * without trapping a deliberate swipe between scenes.
+ * Four viewport-height chapters settle on the welcome, groom, bride and couple.
+ * Between chapters, native scroll position drives the artwork through the timeline.
  *
  * Tweak the timeline by editing the numbers marked in each section.
  */
@@ -33,9 +33,8 @@ const COPY: [string, number, number, number, number][] = [
   ['nameB', 0.47, 0.53, 0.58, 0.62],
   ['together', 0.72, 0.78, 2, 3],
 ];
-/** Resting points about a screen apart, so a short swipe always moves on.
- *  0.39 the groom, 0.555 the bride and 0.86 the couple sit where their copy is fully shown */
-const STOPS = [0, 0.12, 0.24, 0.39, 0.555, 0.70, 0.86, 1];
+/** Timeline positions where each chapter’s text and artwork are fully visible. */
+const CHAPTERS = [0, 0.39, 0.555, 0.86];
 
 export function initJourney() {
   const reduce = prefersReducedMotion();
@@ -90,19 +89,28 @@ export function initJourney() {
   let introStart: number | null = null;
   const introT = () => (introStart === null ? 0 : reduce ? 1 : clamp((performance.now() - introStart) / INTRO_MS));
 
-  let target = 0, cur = 0, last = 0;
-  // the journey spans the track only; the details page follows it.
-  // H, not innerHeight: innerHeight changes as the phone's toolbar slides, which would make the scene jump
-  const maxScroll = () => Math.max(1, track.offsetHeight - H);
-  const read = () => { target = clamp(scrollY / maxScroll()); };
-  addEventListener('scroll', read, { passive: true });
-  read();
+  for (const _ of CHAPTERS) {
+    const chapter = document.createElement('div');
+    chapter.className = 'stop';
+    track.appendChild(chapter);
+  }
 
-  // scroll snaps to each of these moments (the details page is a stop too, see journey.css)
-  const stops = STOPS.map(() => track.appendChild(Object.assign(document.createElement('div'), { className: 'stop' })));
-  const placeStops = () => stops.forEach((el, i) => { el.style.top = `${Math.round(STOPS[i] * maxScroll())}px`; });
-  placeStops();
-  addEventListener('resize', placeStops);
+  let p = 0, last = 0;
+  let chapterHeight = 1, detailsStart = 0;
+  const read = () => {
+    const end = CHAPTERS.length - 1;
+    const position = clamp(scrollY / chapterHeight, 0, end);
+    const index = Math.min(Math.floor(position), end - 1);
+    p = mix(CHAPTERS[index], CHAPTERS[index + 1], position - index);
+  };
+  const measureTrack = () => {
+    chapterHeight = track.offsetHeight / CHAPTERS.length;
+    detailsStart = details.offsetTop;
+    read();
+  };
+  measureTrack();
+  addEventListener('resize', measureTrack);
+  addEventListener('scroll', read, { passive: true });
 
   function placeArch(el: HTMLElement, scale: number, opacity: number) {
     const aw = Math.min(W * 1.22, H * 0.82), ah = aw * 1.3333;
@@ -121,7 +129,7 @@ export function initJourney() {
     previousTime = t;
     const frameScale = dt / (1000 / 60);
     // once the details page covers the scene, stop drawing it
-    const detailsTop = details.offsetTop - scrollY;
+    const detailsTop = detailsStart - scrollY;
     bar.classList.toggle('solid', detailsTop < 60);
     if ((detailsTop <= 0) !== covered) {
       covered = detailsTop <= 0;
@@ -129,8 +137,7 @@ export function initJourney() {
     }
     if (covered) { frameId = requestAnimationFrame(frame); return; }
 
-    cur = reduce ? target : cur + (target - cur) * (1 - Math.exp(-dt / 110));
-    const p = cur, dv = p - last;
+    const dv = p - last;
     last = p;
     const it = introT();
 
@@ -210,8 +217,8 @@ export function initJourney() {
     }
     scrim.style.opacity = String(scrimO);
     hint.style.opacity = String(ss(0.4, 0.55, it) * (1 - ss(0.01, 0.05, p)));
-    skip.style.opacity = String(ss(0.35, 0.55, it) * (1 - ss(0.9, 0.97, p)));
-    skip.style.pointerEvents = p > 0.95 ? 'none' : 'auto';
+    skip.style.opacity = String(ss(0.35, 0.55, it) * (1 - ss(0, 1, 1 - detailsTop / H)));
+    skip.style.pointerEvents = detailsTop < H * 0.1 ? 'none' : 'auto';
 
     for (const q of petals) {
       q.y += q.vy * q.d * frameScale + dv * 1.1 * q.d;
