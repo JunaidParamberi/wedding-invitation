@@ -3,14 +3,14 @@
  *
  *   0.00  arrival: golden sky, ivory arch, Bismillah and names (timed by the opening, not scroll: text in by ~2s)
  *   0.10  walk through the ivory arch; the courtyard appears beyond the candle arch (0.22)
- *   0.28  the groom walks in and stands in the doorway; background drops out of focus (0.30–0.38)
+ *   0.20  the groom walks in and stands in the doorway; background drops out of focus (0.30–0.38)
  *   0.45  he steps aside as the bride arrives; they stand facing each other
  *   0.60  walk through the candle arch into the candlelit aisle (they part out of frame as we pass; focus snaps back 0.57–0.63)
  *   0.70  the couple together, "Two hearts, one Nikah"; background softens again (0.70–0.80)
  *   0.86  hold the couple while the details page slides up over them
  *
  * Four viewport-height chapters settle on the welcome, groom, bride and couple.
- * Between chapters, native scroll position drives the artwork through the timeline.
+ * Slow gestures scrub directly. Fast swipes play through the artwork at a measured pace.
  *
  * Tweak the timeline by editing the numbers marked in each section.
  */
@@ -25,13 +25,15 @@ const BRIDE_RATIO = 1335 / 900;
 const COUPLE_RATIO = 1484 / 961;
 /** How long the arrival (veil lifting, lanterns lighting) takes after opening */
 const INTRO_MS = 4600;
+/** Minimum time for the artwork to travel one complete chapter after a flick. */
+const CHAPTER_TRAVEL_MS = 1800;
 
 /** Copy blocks: [id, inStart, inEnd, outStart, outEnd]; inStart -1 = timed by the arrival */
 const COPY: [string, number, number, number, number][] = [
-  ['intro', -1, 0, 0.06, 0.11],
-  ['nameA', 0.29, 0.35, 0.43, 0.47],
-  ['nameB', 0.47, 0.53, 0.58, 0.62],
-  ['together', 0.72, 0.78, 2, 3],
+  ['intro', -1, 0, 0.08, 0.17],
+  ['nameA', 0.18, 0.37, 0.40, 0.45],
+  ['nameB', 0.45, 0.54, 0.575, 0.645],
+  ['together', 0.68, 0.825, 2, 3],
 ];
 /** Timeline positions where each chapter’s text and artwork are fully visible. */
 const CHAPTERS = [0, 0.39, 0.555, 0.86];
@@ -95,13 +97,11 @@ export function initJourney() {
     track.appendChild(chapter);
   }
 
-  let p = 0, last = 0;
+  const finalChapter = CHAPTERS.length - 1;
+  let targetChapter = 0, shownChapter = 0, last = 0;
   let chapterHeight = 1, detailsStart = 0;
   const read = () => {
-    const end = CHAPTERS.length - 1;
-    const position = clamp(scrollY / chapterHeight, 0, end);
-    const index = Math.min(Math.floor(position), end - 1);
-    p = mix(CHAPTERS[index], CHAPTERS[index + 1], position - index);
+    targetChapter = clamp(scrollY / chapterHeight, 0, finalChapter);
   };
   const measureTrack = () => {
     chapterHeight = track.offsetHeight / CHAPTERS.length;
@@ -135,7 +135,19 @@ export function initJourney() {
       covered = detailsTop <= 0;
       stage.style.visibility = skip.style.visibility = covered ? 'hidden' : '';
     }
-    if (covered) { frameId = requestAnimationFrame(frame); return; }
+    if (covered) {
+      shownChapter = finalChapter;
+      last = CHAPTERS[finalChapter];
+      frameId = requestAnimationFrame(frame);
+      return;
+    }
+
+    // Limit speed in chapters per second so even the long first arch passage has
+    // time to unfold. Reversing a gesture immediately retargets the same playhead.
+    const maxStep = dt / CHAPTER_TRAVEL_MS;
+    shownChapter += reduce ? targetChapter - shownChapter : clamp(targetChapter - shownChapter, -maxStep, maxStep);
+    const index = Math.min(Math.floor(shownChapter), finalChapter - 1);
+    const p = mix(CHAPTERS[index], CHAPTERS[index + 1], shownChapter - index);
 
     const dv = p - last;
     last = p;
@@ -166,9 +178,9 @@ export function initJourney() {
     const m0 = mix(0.72, 1, ease(0.08, 0.30, p)), m1 = ease(0.62, 0.74, p);
     placeArch(mid, m0 * mix(1, 5, m1 * m1) * mix(1.08, 1, ease(0, 1, it)), 1 - ss(0.69, 0.74, p));
 
-    // the groom walks in (0.28–0.36), steps aside as the bride arrives (0.45–0.53),
+    // the groom walks in (0.20–0.37), steps aside as the bride arrives (0.45–0.53),
     // we walk between them through the arch as they part out of frame (0.58–0.64), then appear together (0.70–0.80)
-    const gIn = ease(0.28, 0.36, p), side = ease(0.45, 0.53, p), pass = ease(0.58, 0.64, p);
+    const gIn = ss(0.20, 0.37, p), side = ease(0.45, 0.53, p), pass = ease(0.58, 0.64, p);
     const figMax = (H - figTop) / 1.02, gone = 1 - ss(0.6, 1, pass);
     const gh = Math.min(H * mix(0.56, 0.5, side), figMax), gw = gh / GROOM_RATIO;
     const gx = mix(-gw, W * 0.5, gIn) + (W * 0.25 - W * 0.5) * side - W * 0.75 * pass;
@@ -209,7 +221,8 @@ export function initJourney() {
       // the opening lines arrive as the doors part (≈0.3–1.9s after they start), so the screen never looks empty
       const qIn = a < 0 ? ss(0.06, 0.42, it) : ss(a, b, p), qOut = 1 - ss(c, d, p), n = lines.length;
       lines.forEach((ln, i) => {
-        const st = i / (n + 2), loc = clamp(((qIn - st) / (1 - st + 0.001)) * 1.6);
+        const st = i / n * 0.30;
+        const loc = clamp((qIn - st) / (1 - st));
         ln.style.opacity = String(loc * qOut);
         ln.style.transform = `translateY(${(1 - loc) * 12 - (1 - qOut) * 10}px)`;
       });
@@ -238,7 +251,13 @@ export function initJourney() {
   });
 
   skip.addEventListener('click', () => scrollTo({ top: details.offsetTop, behavior: reduce ? 'auto' : 'smooth' }));
-  $('replay').addEventListener('click', () => scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }));
+  $('replay').addEventListener('click', () => {
+    // Return directly to the welcome rather than playing every chapter in reverse.
+    scrollTo({ top: 0, behavior: 'instant' });
+    read();
+    shownChapter = targetChapter;
+    last = CHAPTERS[0];
+  });
 
   return {
     /** Start the arrival: veil lifts, lanterns light, names appear */
