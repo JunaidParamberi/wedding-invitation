@@ -1,15 +1,16 @@
 /**
  * The scroll journey. One fixed stage; scroll progress p (0 → 1) drives every layer.
  *
- *   0.00  arrival: golden sky, ivory arch, Bismillah and names
+ *   0.00  arrival: golden sky, ivory arch, Bismillah and names (timed by the opening, not scroll: text in by ~2s)
  *   0.10  walk through the ivory arch; the courtyard appears beyond the candle arch (0.22)
- *   0.20  the groom walks in and stands in the doorway; background drops out of focus (0.30–0.38)
+ *   0.28  the groom walks in and stands in the doorway; background drops out of focus (0.30–0.38)
  *   0.45  he steps aside as the bride arrives; they stand facing each other
  *   0.60  walk through the candle arch into the candlelit aisle (they part out of frame as we pass; focus snaps back 0.57–0.63)
  *   0.70  the couple together, "Two hearts, one Nikah"; background softens again (0.70–0.80)
- *   0.86  hold the couple while the details page slides up over them
+ *   1.00  the details page (#details, normal scrolling) slides up over the couple
  *
- * The text lives in ordinary document sections. Only the background artwork uses this timeline.
+ * Scroll gently settles near STOPS (0, 0.12, 0.24, 0.39, 0.555, 0.70, 0.86, 1) and the details page,
+ * without trapping a deliberate swipe between scenes.
  *
  * Tweak the timeline by editing the numbers marked in each section.
  */
@@ -24,8 +25,17 @@ const BRIDE_RATIO = 1335 / 900;
 const COUPLE_RATIO = 1484 / 961;
 /** How long the arrival (veil lifting, lanterns lighting) takes after opening */
 const INTRO_MS = 4600;
-/** Artwork positions at the start of each text section. */
-const CHAPTERS = [0, 0.39, 0.555, 0.86];
+
+/** Copy blocks: [id, inStart, inEnd, outStart, outEnd]; inStart -1 = timed by the arrival */
+const COPY: [string, number, number, number, number][] = [
+  ['intro', -1, 0, 0.06, 0.11],
+  ['nameA', 0.29, 0.35, 0.43, 0.47],
+  ['nameB', 0.47, 0.53, 0.58, 0.62],
+  ['together', 0.72, 0.78, 2, 3],
+];
+/** Resting points about a screen apart, so a short swipe always moves on.
+ *  0.39 the groom, 0.555 the bride and 0.86 the couple sit where their copy is fully shown */
+const STOPS = [0, 0.12, 0.24, 0.39, 0.555, 0.70, 0.86, 1];
 
 export function initJourney() {
   const reduce = prefersReducedMotion();
@@ -46,8 +56,8 @@ export function initJourney() {
   const night = $('night'), court = $('court'), aisle = $('aisle'), mid = $('mid'), outer = $('outer');
   const nightSoft = [$('nightSoft1'), $('nightSoft')], courtSoft = [$('courtSoft1'), $('courtSoft')], aisleSoft = [$('aisleSoft1'), $('aisleSoft')];
   const pGroom = $('pGroom'), pBride = $('pBride'), couple = $('dCouple');
-  const veil = $('veil');
-  const skip = $('skip'), track = $('track'), details = $('details');
+  const veil = $('veil'), scrim = $('scrim');
+  const hint = $('hint'), skip = $('skip'), track = $('track'), details = $('details');
   const bar = document.querySelector<HTMLElement>('.bar')!;
 
   // lanterns hang overhead in perspective; the guest walks beneath them
@@ -75,19 +85,24 @@ export function initJourney() {
     return { el, x: Math.random(), y: Math.random(), vy: 0.0003 + Math.random() * 0.0005, sw: Math.random() * 6.28, r: Math.random() * 360, vr: (Math.random() - 0.5) * 0.7, d };
   });
 
+  const copy = COPY.map(([id, a, b, c, d]) => ({ lines: [...$(id).querySelectorAll<HTMLElement>('.ln')], a, b, c, d }));
+
   let introStart: number | null = null;
   const introT = () => (introStart === null ? 0 : reduce ? 1 : clamp((performance.now() - introStart) / INTRO_MS));
 
-  const sections = Array.from(track.querySelectorAll<HTMLElement>('.story-section'));
-  let offsets: number[] = [], detailsStart = 0, last = 0;
-  const measureTrack = () => {
-    offsets = sections.map(section => section.offsetTop);
-    detailsStart = details.offsetTop;
-    measure();
-  };
-  measureTrack();
-  const observer = new ResizeObserver(measureTrack);
-  sections.forEach(section => observer.observe(section));
+  let target = 0, cur = 0, last = 0;
+  // the journey spans the track only; the details page follows it.
+  // H, not innerHeight: innerHeight changes as the phone's toolbar slides, which would make the scene jump
+  const maxScroll = () => Math.max(1, track.offsetHeight - H);
+  const read = () => { target = clamp(scrollY / maxScroll()); };
+  addEventListener('scroll', read, { passive: true });
+  read();
+
+  // scroll snaps to each of these moments (the details page is a stop too, see journey.css)
+  const stops = STOPS.map(() => track.appendChild(Object.assign(document.createElement('div'), { className: 'stop' })));
+  const placeStops = () => stops.forEach((el, i) => { el.style.top = `${Math.round(STOPS[i] * maxScroll())}px`; });
+  placeStops();
+  addEventListener('resize', placeStops);
 
   function placeArch(el: HTMLElement, scale: number, opacity: number) {
     const aw = Math.min(W * 1.22, H * 0.82), ah = aw * 1.3333;
@@ -95,16 +110,6 @@ export function initJourney() {
     el.style.height = `${ah}px`;
     el.style.transform = `translate3d(${(W - aw) / 2}px,${H - ah + aw * 0.02}px,0) scale(${scale})`;
     el.style.opacity = String(opacity);
-  }
-
-  function artworkProgress(y: number) {
-    for (let i = 1; i < offsets.length; i++) {
-      if (y < offsets[i]) {
-        const fraction = clamp((y - offsets[i - 1]) / (offsets[i] - offsets[i - 1]));
-        return mix(CHAPTERS[i - 1], CHAPTERS[i], fraction);
-      }
-    }
-    return CHAPTERS[CHAPTERS.length - 1];
   }
 
   let covered = false;
@@ -116,20 +121,16 @@ export function initJourney() {
     previousTime = t;
     const frameScale = dt / (1000 / 60);
     // once the details page covers the scene, stop drawing it
-    const detailsTop = detailsStart - scrollY;
+    const detailsTop = details.offsetTop - scrollY;
     bar.classList.toggle('solid', detailsTop < 60);
     if ((detailsTop <= 0) !== covered) {
       covered = detailsTop <= 0;
       stage.style.visibility = skip.style.visibility = covered ? 'hidden' : '';
     }
-    if (covered) {
-      last = CHAPTERS[CHAPTERS.length - 1];
-      frameId = requestAnimationFrame(frame);
-      return;
-    }
+    if (covered) { frameId = requestAnimationFrame(frame); return; }
 
-    const p = artworkProgress(scrollY);
-    const dv = p - last;
+    cur = reduce ? target : cur + (target - cur) * (1 - Math.exp(-dt / 110));
+    const p = cur, dv = p - last;
     last = p;
     const it = introT();
 
@@ -158,9 +159,9 @@ export function initJourney() {
     const m0 = mix(0.72, 1, ease(0.08, 0.30, p)), m1 = ease(0.62, 0.74, p);
     placeArch(mid, m0 * mix(1, 5, m1 * m1) * mix(1.08, 1, ease(0, 1, it)), 1 - ss(0.69, 0.74, p));
 
-    // the groom walks in (0.20–0.37), steps aside as the bride arrives (0.45–0.53),
+    // the groom walks in (0.28–0.36), steps aside as the bride arrives (0.45–0.53),
     // we walk between them through the arch as they part out of frame (0.58–0.64), then appear together (0.70–0.80)
-    const gIn = ss(0.20, 0.37, p), side = ease(0.45, 0.53, p), pass = ease(0.58, 0.64, p);
+    const gIn = ease(0.28, 0.36, p), side = ease(0.45, 0.53, p), pass = ease(0.58, 0.64, p);
     const figMax = (H - figTop) / 1.02, gone = 1 - ss(0.6, 1, pass);
     const gh = Math.min(H * mix(0.56, 0.5, side), figMax), gw = gh / GROOM_RATIO;
     const gx = mix(-gw, W * 0.5, gIn) + (W * 0.25 - W * 0.5) * side - W * 0.75 * pass;
@@ -195,8 +196,22 @@ export function initJourney() {
       place(L.el, x, bottom - h - H, 1, lOp * on * clamp((6 - z) / 2) * clamp((z - 0.35) / 0.3), sway);
     }
 
-    skip.style.opacity = String(ss(0.35, 0.55, it) * (1 - ss(0, 1, 1 - detailsTop / H)));
-    skip.style.pointerEvents = detailsTop < H * 0.1 ? 'none' : 'auto';
+    // copy: each line comes into focus in turn
+    let scrimO = 0;
+    for (const { lines, a, b, c, d } of copy) {
+      // the opening lines arrive as the doors part (≈0.3–1.9s after they start), so the screen never looks empty
+      const qIn = a < 0 ? ss(0.06, 0.42, it) : ss(a, b, p), qOut = 1 - ss(c, d, p), n = lines.length;
+      lines.forEach((ln, i) => {
+        const st = i / (n + 2), loc = clamp(((qIn - st) / (1 - st + 0.001)) * 1.6);
+        ln.style.opacity = String(loc * qOut);
+        ln.style.transform = `translateY(${(1 - loc) * 12 - (1 - qOut) * 10}px)`;
+      });
+      scrimO = Math.max(scrimO, qIn * qOut);
+    }
+    scrim.style.opacity = String(scrimO);
+    hint.style.opacity = String(ss(0.4, 0.55, it) * (1 - ss(0.01, 0.05, p)));
+    skip.style.opacity = String(ss(0.35, 0.55, it) * (1 - ss(0.9, 0.97, p)));
+    skip.style.pointerEvents = p > 0.95 ? 'none' : 'auto';
 
     for (const q of petals) {
       q.y += q.vy * q.d * frameScale + dv * 1.1 * q.d;
@@ -216,11 +231,7 @@ export function initJourney() {
   });
 
   skip.addEventListener('click', () => scrollTo({ top: details.offsetTop, behavior: reduce ? 'auto' : 'smooth' }));
-  $('replay').addEventListener('click', () => {
-    // Return directly to the welcome rather than playing every chapter in reverse.
-    scrollTo({ top: 0, behavior: 'instant' });
-    last = CHAPTERS[0];
-  });
+  $('replay').addEventListener('click', () => scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }));
 
   return {
     /** Start the arrival: veil lifts, lanterns light, names appear */

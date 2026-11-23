@@ -53,11 +53,11 @@ function bar() {
 function person(id: string, label: string, p: typeof c.groom | typeof c.bride) {
   return `
   <div class="copy" id="${id}">
-    <span class="eyebrow">${label}</span>
-    <div class="hero-ar" lang="ar">${p.nameAr}</div>
-    <h2 class="name big">${esc(p.name)}</h2>
-    <div class="rule"><span></span></div>
-    <span class="sub">${relation(p.relation)} of ${esc(p.parents)}<br><i>${esc(p.home)}</i></span>
+    <span class="ln eyebrow">${label}</span>
+    <div class="ln hero-ar" lang="ar">${p.nameAr}</div>
+    <h2 class="ln name big">${esc(p.name)}</h2>
+    <div class="ln rule"><span></span></div>
+    <span class="ln sub">${relation(p.relation)} of ${esc(p.parents)}<br><i>${esc(p.home)}</i></span>
   </div>`;
 }
 
@@ -134,7 +134,7 @@ function details() {
 
 function stage() {
   return `
-<div id="stage" aria-hidden="true">
+<div id="stage">
   <img class="full" id="night" src="/img/sky.webp" alt="">
   <img class="full soft" id="nightSoft1" src="/img/sky-soft1.webp" alt="">
   <img class="full soft" id="nightSoft" src="/img/sky-soft.webp" alt="">
@@ -157,29 +157,28 @@ function stage() {
   <div id="petals"></div>
   <div class="vignette"></div>
   <div id="veil"></div>
+  <div class="scrim" id="scrim"></div>
+
+  <div class="copy" id="intro">
+    <div class="ln bism" lang="ar">${c.bismillah}</div>
+    <div class="ln rule"><span></span></div>
+    <span class="ln eyebrow">Together with our families</span>
+    <div class="ln hero-ar" lang="ar">${c.coupleAr}</div>
+    <h1 class="ln name">${esc(first(c.groom.name))} <span class="amp">&amp;</span> ${esc(c.bride.name)}</h1>
+  </div>
+  <div id="hint"><span>Scroll to enter</span><i></i></div>
+
+  ${person('nameA', 'The Groom', c.groom)}
+  ${person('nameB', 'The Bride', c.bride)}
+
+  <div class="copy" id="together">
+    <span class="ln eyebrow">By the will of Allah</span>
+    <h2 class="ln name big">Two hearts,<br>one Nikah</h2>
+    <img class="ln orn" src="/img/ornament.webp" alt="">
+    <span class="ln sub"><i>“${esc(c.quote.text)}”</i><br>${esc(c.quote.source)}</span>
+  </div>
+
   <div class="grain"></div>
-</div>
-<div id="track">
-  <section class="story-section">
-    <div class="copy" id="intro">
-      <div class="bism" lang="ar">${c.bismillah}</div>
-      <div class="rule"><span></span></div>
-      <span class="eyebrow">Together with our families</span>
-      <div class="hero-ar" lang="ar">${c.coupleAr}</div>
-      <h1 class="name">${esc(first(c.groom.name))} <span class="amp">&amp;</span> ${esc(c.bride.name)}</h1>
-    </div>
-    <div id="hint"><span>Scroll to enter</span><i></i></div>
-  </section>
-  <section class="story-section">${person('nameA', 'The Groom', c.groom)}</section>
-  <section class="story-section">${person('nameB', 'The Bride', c.bride)}</section>
-  <section class="story-section">
-    <div class="copy" id="together">
-      <span class="eyebrow">By the will of Allah</span>
-      <h2 class="name big">Two hearts,<br>one Nikah</h2>
-      <img class="orn" src="/img/ornament.webp" alt="">
-      <span class="sub"><i>“${esc(c.quote.text)}”</i><br>${esc(c.quote.source)}</span>
-    </div>
-  </section>
 </div>`;
 }
 
@@ -233,6 +232,7 @@ export function renderPage(root: HTMLElement) {
 ${gate()}
 ${bar()}
 ${stage()}
+<div id="track" aria-hidden="true"></div>
 ${details()}
 ${sheet()}`;
 }
