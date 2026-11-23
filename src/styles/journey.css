@@ -17,9 +17,15 @@
 .vignette{display:none}
 
 /* The text moves with the document, over its own backing wherever it is read. */
-#track{position:relative;width:var(--app-w);margin:auto}
+#track{position:relative;width:var(--app-w);margin:auto;--reading-top:calc(env(safe-area-inset-top,0px) + 64px)}
 .story-section{position:relative;min-height:100vh;min-height:100lvh;
-  padding-top:calc(env(safe-area-inset-top,0px) + 64px);padding-bottom:3rem}
+  padding-top:var(--reading-top);padding-bottom:3rem}
+@media (prefers-reduced-motion:no-preference){
+  html:not(.locked){scroll-snap-type:y mandatory}
+  .story-section>.copy{scroll-snap-align:start;scroll-margin-top:var(--reading-top)}
+  /* The details form one tall snap area so guests can scroll freely within it. */
+  #details{scroll-snap-align:start}
+}
 .grain{position:absolute;inset:-10%;pointer-events:none;opacity:.045;will-change:transform;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   animation:grain 1s steps(4) infinite}
