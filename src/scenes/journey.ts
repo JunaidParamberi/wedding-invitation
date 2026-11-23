@@ -1,7 +1,7 @@
 /**
  * The scroll journey. One fixed stage; scroll progress p (0 → 1) drives every layer.
  *
- *   0.00  arrival: golden sky, ivory arch, Bismillah and names (timed by the opening, not scroll: text in by ~2s)
+ *   0.00  arrival: golden sky, ivory arch, Bismillah and names
  *   0.10  walk through the ivory arch; the courtyard appears beyond the candle arch (0.22)
  *   0.20  the groom walks in and stands in the doorway; background drops out of focus (0.30–0.38)
  *   0.45  he steps aside as the bride arrives; they stand facing each other
@@ -9,8 +9,7 @@
  *   0.70  the couple together, "Two hearts, one Nikah"; background softens again (0.70–0.80)
  *   0.86  hold the couple while the details page slides up over them
  *
- * Four viewport-height chapters settle on the welcome, groom, bride and couple.
- * Slow gestures scrub directly. Fast swipes play through the artwork at a measured pace.
+ * The text lives in ordinary document sections. Only the background artwork uses this timeline.
  *
  * Tweak the timeline by editing the numbers marked in each section.
  */
@@ -25,17 +24,7 @@ const BRIDE_RATIO = 1335 / 900;
 const COUPLE_RATIO = 1484 / 961;
 /** How long the arrival (veil lifting, lanterns lighting) takes after opening */
 const INTRO_MS = 4600;
-/** Minimum time for the artwork to travel one complete chapter after a flick. */
-const CHAPTER_TRAVEL_MS = 1800;
-
-/** Copy blocks: [id, inStart, inEnd, outStart, outEnd]; inStart -1 = timed by the arrival */
-const COPY: [string, number, number, number, number][] = [
-  ['intro', -1, 0, 0.08, 0.17],
-  ['nameA', 0.18, 0.37, 0.40, 0.45],
-  ['nameB', 0.45, 0.54, 0.575, 0.645],
-  ['together', 0.68, 0.825, 2, 3],
-];
-/** Timeline positions where each chapter’s text and artwork are fully visible. */
+/** Artwork positions at the start of each text section. */
 const CHAPTERS = [0, 0.39, 0.555, 0.86];
 
 export function initJourney() {
@@ -57,8 +46,8 @@ export function initJourney() {
   const night = $('night'), court = $('court'), aisle = $('aisle'), mid = $('mid'), outer = $('outer');
   const nightSoft = [$('nightSoft1'), $('nightSoft')], courtSoft = [$('courtSoft1'), $('courtSoft')], aisleSoft = [$('aisleSoft1'), $('aisleSoft')];
   const pGroom = $('pGroom'), pBride = $('pBride'), couple = $('dCouple');
-  const veil = $('veil'), scrim = $('scrim');
-  const hint = $('hint'), skip = $('skip'), track = $('track'), details = $('details');
+  const veil = $('veil');
+  const skip = $('skip'), track = $('track'), details = $('details');
   const bar = document.querySelector<HTMLElement>('.bar')!;
 
   // lanterns hang overhead in perspective; the guest walks beneath them
@@ -86,31 +75,19 @@ export function initJourney() {
     return { el, x: Math.random(), y: Math.random(), vy: 0.0003 + Math.random() * 0.0005, sw: Math.random() * 6.28, r: Math.random() * 360, vr: (Math.random() - 0.5) * 0.7, d };
   });
 
-  const copy = COPY.map(([id, a, b, c, d]) => ({ lines: [...$(id).querySelectorAll<HTMLElement>('.ln')], a, b, c, d }));
-
   let introStart: number | null = null;
   const introT = () => (introStart === null ? 0 : reduce ? 1 : clamp((performance.now() - introStart) / INTRO_MS));
 
-  for (const _ of CHAPTERS) {
-    const chapter = document.createElement('div');
-    chapter.className = 'stop';
-    track.appendChild(chapter);
-  }
-
-  const finalChapter = CHAPTERS.length - 1;
-  let targetChapter = 0, shownChapter = 0, last = 0;
-  let chapterHeight = 1, detailsStart = 0;
-  const read = () => {
-    targetChapter = clamp(scrollY / chapterHeight, 0, finalChapter);
-  };
+  const sections = Array.from(track.querySelectorAll<HTMLElement>('.story-section'));
+  let offsets: number[] = [], detailsStart = 0, last = 0;
   const measureTrack = () => {
-    chapterHeight = track.offsetHeight / CHAPTERS.length;
+    offsets = sections.map(section => section.offsetTop);
     detailsStart = details.offsetTop;
-    read();
+    measure();
   };
   measureTrack();
-  addEventListener('resize', measureTrack);
-  addEventListener('scroll', read, { passive: true });
+  const observer = new ResizeObserver(measureTrack);
+  sections.forEach(section => observer.observe(section));
 
   function placeArch(el: HTMLElement, scale: number, opacity: number) {
     const aw = Math.min(W * 1.22, H * 0.82), ah = aw * 1.3333;
@@ -118,6 +95,16 @@ export function initJourney() {
     el.style.height = `${ah}px`;
     el.style.transform = `translate3d(${(W - aw) / 2}px,${H - ah + aw * 0.02}px,0) scale(${scale})`;
     el.style.opacity = String(opacity);
+  }
+
+  function artworkProgress(y: number) {
+    for (let i = 1; i < offsets.length; i++) {
+      if (y < offsets[i]) {
+        const fraction = clamp((y - offsets[i - 1]) / (offsets[i] - offsets[i - 1]));
+        return mix(CHAPTERS[i - 1], CHAPTERS[i], fraction);
+      }
+    }
+    return CHAPTERS[CHAPTERS.length - 1];
   }
 
   let covered = false;
@@ -136,19 +123,12 @@ export function initJourney() {
       stage.style.visibility = skip.style.visibility = covered ? 'hidden' : '';
     }
     if (covered) {
-      shownChapter = finalChapter;
-      last = CHAPTERS[finalChapter];
+      last = CHAPTERS[CHAPTERS.length - 1];
       frameId = requestAnimationFrame(frame);
       return;
     }
 
-    // Limit speed in chapters per second so even the long first arch passage has
-    // time to unfold. Reversing a gesture immediately retargets the same playhead.
-    const maxStep = dt / CHAPTER_TRAVEL_MS;
-    shownChapter += reduce ? targetChapter - shownChapter : clamp(targetChapter - shownChapter, -maxStep, maxStep);
-    const index = Math.min(Math.floor(shownChapter), finalChapter - 1);
-    const p = mix(CHAPTERS[index], CHAPTERS[index + 1], shownChapter - index);
-
+    const p = artworkProgress(scrollY);
     const dv = p - last;
     last = p;
     const it = introT();
@@ -215,21 +195,6 @@ export function initJourney() {
       place(L.el, x, bottom - h - H, 1, lOp * on * clamp((6 - z) / 2) * clamp((z - 0.35) / 0.3), sway);
     }
 
-    // copy: each line comes into focus in turn
-    let scrimO = 0;
-    for (const { lines, a, b, c, d } of copy) {
-      // the opening lines arrive as the doors part (≈0.3–1.9s after they start), so the screen never looks empty
-      const qIn = a < 0 ? ss(0.06, 0.42, it) : ss(a, b, p), qOut = 1 - ss(c, d, p), n = lines.length;
-      lines.forEach((ln, i) => {
-        const st = i / n * 0.30;
-        const loc = clamp((qIn - st) / (1 - st));
-        ln.style.opacity = String(loc * qOut);
-        ln.style.transform = `translateY(${(1 - loc) * 12 - (1 - qOut) * 10}px)`;
-      });
-      scrimO = Math.max(scrimO, qIn * qOut);
-    }
-    scrim.style.opacity = String(scrimO);
-    hint.style.opacity = String(ss(0.4, 0.55, it) * (1 - ss(0.01, 0.05, p)));
     skip.style.opacity = String(ss(0.35, 0.55, it) * (1 - ss(0, 1, 1 - detailsTop / H)));
     skip.style.pointerEvents = detailsTop < H * 0.1 ? 'none' : 'auto';
 
@@ -254,8 +219,6 @@ export function initJourney() {
   $('replay').addEventListener('click', () => {
     // Return directly to the welcome rather than playing every chapter in reverse.
     scrollTo({ top: 0, behavior: 'instant' });
-    read();
-    shownChapter = targetChapter;
     last = CHAPTERS[0];
   });
 

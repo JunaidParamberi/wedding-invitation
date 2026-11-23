@@ -1,12 +1,7 @@
-/* Each screen of the story is a chapter. The taller details section scrolls freely
-   inside its snap area once it fills the viewport. */
-html:not(.locked){scroll-snap-type:y mandatory}
-.stop,#details{scroll-snap-align:start;scroll-snap-stop:always}
-.stop{height:100vh;height:100lvh;pointer-events:none}
 /* sized to the largest viewport so the scene never resizes while the phone's toolbar slides;
    --bar is the toolbar's height, used to keep bottom content above it */
 #stage{position:fixed;top:0;height:100vh;height:100lvh;left:50%;width:var(--app-w);transform:translateX(-50%);overflow:hidden;--bar:0px}
-@supports (height:100svh){#stage{--bar:calc(100lvh - 100svh)}}
+@supports (height:100svh){#track{--bar:calc(100lvh - 100svh)}}
 .full{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;will-change:transform,opacity}
 #court,#aisle,.soft{opacity:0}
 .group{position:absolute;left:0;top:0;transform-origin:50% 92%;will-change:transform,opacity}
@@ -21,18 +16,19 @@ html:not(.locked){scroll-snap-type:y mandatory}
 #duo img{opacity:0;transform-origin:50% 100%}
 .vignette{display:none}
 
-/* text: set directly on the artwork */
-.scrim{position:absolute;left:0;right:0;top:0;height:68%;pointer-events:none;opacity:0;
-  background:linear-gradient(180deg,rgba(250,242,230,.94) 0%,rgba(250,242,230,.8) 40%,rgba(250,242,230,.3) 74%,transparent 100%)}
+/* The text moves with the document, over its own backing wherever it is read. */
+#track{position:relative;width:var(--app-w);margin:auto}
+.story-section{position:relative;min-height:100vh;min-height:100lvh;
+  padding-top:calc(env(safe-area-inset-top,0px) + 64px);padding-bottom:3rem}
 .grain{position:absolute;inset:-10%;pointer-events:none;opacity:.045;will-change:transform;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   animation:grain 1s steps(4) infinite}
 @keyframes grain{25%{transform:translate(-3%,2%)}50%{transform:translate(2%,-3%)}75%{transform:translate(-1%,3%)}}
-.copy{position:absolute;left:0;right:0;display:flex;flex-direction:column;align-items:center;text-align:center;gap:.55rem;pointer-events:none;
-  padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px));
-  top:calc(env(safe-area-inset-top,0px) + 64px)}
+.copy{position:relative;isolation:isolate;display:flex;flex-direction:column;align-items:center;text-align:center;gap:.55rem;
+  padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.copy::before{content:"";position:absolute;inset:-64px 0 -36px;z-index:-1;pointer-events:none;
+  background:linear-gradient(transparent,rgba(250,242,230,.94) 18%,rgba(250,242,230,.92) 84%,transparent)}
 .copy,.print{-webkit-font-smoothing:antialiased}
-.ln{opacity:0;will-change:opacity,transform}
 
 .bism{font:400 clamp(1.3rem,6vw,1.7rem)/1.6 "Bismillah",var(--f-ar);direction:rtl;color:var(--ink-soft)}
 .eyebrow{font:500 .95rem/1.5 var(--f-caps);letter-spacing:.02em;color:var(--wine)}
@@ -48,10 +44,7 @@ html:not(.locked){scroll-snap-type:y mandatory}
 .rule::before,.rule::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--gold-deep))}
 .rule::after{transform:scaleX(-1)}
 .rule span{width:6px;height:6px;transform:rotate(45deg);background:var(--gold)}
-#hint{position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 26px + var(--bar));display:flex;flex-direction:column;align-items:center;gap:.6rem;pointer-events:none;
+#hint{position:absolute;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 26px + var(--bar,0px));display:flex;flex-direction:column;align-items:center;gap:.6rem;pointer-events:none;
   font:400 .74rem/1 var(--f-caps);letter-spacing:.02em;color:var(--ink);}
 #hint i{width:1px;height:42px;background:linear-gradient(var(--gold),transparent);animation:drip 2s ease-in-out infinite;transform-origin:top}
 @keyframes drip{0%{transform:scaleY(0)}60%{transform:scaleY(1);opacity:1}100%{transform:scaleY(1);opacity:0}}
-
-
-@media (prefers-reduced-motion:reduce){html:not(.locked){scroll-snap-type:none}}
